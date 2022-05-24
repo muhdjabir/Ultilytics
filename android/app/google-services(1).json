@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "939271587670",
+    "project_id": "orbital-ultilytics",
+    "storage_bucket": "orbital-ultilytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939271587670:android:022eb1f8e8dece4c7638f7",
+        "android_client_info": {
+          "package_name": "com.example.orbital_ultylitics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939271587670-skqgtmjhiu1u4tcmmdn6pi188t9pkmvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-wpd07dP0v8DryYBBuBrS_QqtF9dt4dA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939271587670-skqgtmjhiu1u4tcmmdn6pi188t9pkmvm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "939271587670-s2lo5fvup93mp6l73fo8pj8r47g9e856.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ultylitics"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
