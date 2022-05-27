@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/profilescreen.dart';
+import 'package:orbital_ultylitics/screens/profilescreen.dart';
+import 'package:orbital_ultylitics/screens/Signupscreen.dart';
 //import 'firebase_options.dart'; // generated via `flutterfire` CLI
 
 Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -160,12 +162,25 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(
           height: 12.0,
         ),
-        const Text(
-          "Don't remember your password?", 
-          style: TextStyle(color: Colors.blue),
-        ),
+        /* Dont remember your password text
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Don't remember your password?", 
+            textAlign: TextAlign.left,
+            style: TextStyle(color: Colors.blue),
+            ),
+          ),*/
+        Align(
+        alignment: Alignment.centerLeft,
+        child: TextButton(
+          child: const Text("Create new account!", textAlign: TextAlign.left,),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupScreen()),);
+          }
+        ),),
         const SizedBox(
-          height: 88.0,
+          height: 75.0,
         ),
         Container(
           width: double.infinity,
