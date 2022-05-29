@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/authservices.dart';
-import 'package:orbital_ultylitics/main.dart';
+//import 'package:orbital_ultylitics/main.dart';
+import 'package:orbital_ultylitics/screens/HomePage.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -33,7 +34,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
-                  FirebaseAuth.instance.signOut(); //https://www.google.com/search?client=firefox-b-d&q=logout+button+flutter+firebase#kpvalbx=_S0mQYoCtDaaRseMPt8iD4A416
+                  FirebaseAuth.instance
+                      .signOut(); //https://www.google.com/search?client=firefox-b-d&q=logout+button+flutter+firebase#kpvalbx=_S0mQYoCtDaaRseMPt8iD4A416
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomePage()));
                 },

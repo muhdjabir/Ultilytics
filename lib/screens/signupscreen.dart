@@ -4,8 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:orbital_ultylitics/main.dart';
-import 'package:orbital_ultylitics/screens/profilescreen.dart';
-
+import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
 import '../authservices.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -92,10 +91,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
-                  
                   auth.createUserWithEmailAndPassword(
                       email: _email, password: _password);
-                  await userSetup(_emailController.text,);
+                  await userSetup(
+                    _emailController.text,
+                  );
                   //await users.add({'name': _email, });
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => ProfileScreen()));
