@@ -1,11 +1,15 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+//import 'package:flutter/src/foundation/key.dart';
+//import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:orbital_ultylitics/main.dart';
-import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
-import '../authservices.dart';
+//import 'package:orbital_ultylitics/main.dart';
+import 'package:orbital_ultylitics/screens/profilescreen.dart';
+//import 'package:firebase_database/firebase_database.dart';
+
+//import 'package:firebase/auth.dart';
+
+//import '../authservices.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -16,12 +20,13 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final auth = FirebaseAuth.instance;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference usersCollectionRef =
+      FirebaseFirestore.instance.collection('users');
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _email = '';
   String _password = '';
-  //userSetup _user = userSetup() ;
+  //Authservices _user;
   final controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -91,14 +96,66 @@ class _SignupScreenState extends State<SignupScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
-                  auth.createUserWithEmailAndPassword(
-                      email: _email, password: _password);
-                  await userSetup(
-                    _emailController.text,
-                  );
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                          email: _email,
+                          password: _password,
+                        )
+                        .then((Null) => {
+                              FirebaseAuth.instance
+                                  .authStateChanges()
+                                  .listen((User? user) {
+                                if (user != null) {
+                                  print(user.uid);
+                                  usersCollectionRef.doc(''+user.uid);
+                                  usersCollectionRef
+                                  .add({"email": _email, "uid": user.uid}); //this works very well
+                                  /*print(user.uid);
+                                  usersCollectionRef
+                                  .add({"email": _email, "uid": user.uid});*/ //works kinda
+                                  usersCollectionRef.doc(''+user.uid);
+                                
+
+                                }
+                              }),
+                            });
+                  }
+
+                  /*FirebaseAuth.instance
+                        .authStateChanges()
+                        .listen((User? user) {
+                      if (user == null)
+                        ;
+                      else
+                      String uid;
+                        CollectionReference users =
+                            FirebaseFirestore.instance.collection('users');
+                      DocumentReference<Map<String, dynamic>> users =
+                          FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(uid);
+                      users.set({'displayName': email, 'uid': uid});
+                      ;
+                    });
+                  }*/
+                  on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+
+                  //print(user);
+                  //String uid = FirebaseAuth.instance.currentUser?.uid;
+
+                  //await _user.userSetup(_emailController.text,);
                   //await users.add({'name': _email, });
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
+                      MaterialPageRoute(builder: (context) => ProfileScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",
