@@ -1,12 +1,12 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:flutter/src/foundation/key.dart';
+//import 'package:flutter/src/widgets/framework.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:orbital_ultylitics/main.dart';
 import 'package:orbital_ultylitics/screens/SignupScreen.dart';
-import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
-import '../authservices.dart';
+import 'package:orbital_ultylitics/screens/profilescreen.dart';
+//import '../authservices.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 print(user);
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
+                      MaterialPageRoute(builder: (context) => const ProfileScreen(index: 0)));
                 }
               },
               child: const Text(
