@@ -1,15 +1,7 @@
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:orbital_ultylitics/main.dart';
 import 'package:orbital_ultylitics/screens/profilescreen.dart';
-//import 'package:firebase_database/firebase_database.dart';
-
-//import 'package:firebase/auth.dart';
-
-//import '../authservices.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -105,17 +97,18 @@ class _SignupScreenState extends State<SignupScreen> {
                         .then((Null) => {
                               FirebaseAuth.instance
                                   .authStateChanges()
-                                  .listen((User? user) {
+                                  .listen((User? user) async {
                                 if (user != null) {
                                   print(user.uid);
-                                  usersCollectionRef.doc(''+user.uid);
-                                  usersCollectionRef
-                                  .add({"email": _email, "uid": user.uid}); //this works very well
+                                  usersCollectionRef.doc(user.uid).set({
+                                    "email": _email,
+                                    "uid": user.uid
+                                  }); //this works very well
                                   /*print(user.uid);
                                   usersCollectionRef
                                   .add({"email": _email, "uid": user.uid});*/ //works kinda
-                                  usersCollectionRef.doc(''+user.uid);
-                                
+                                  //usersCollectionRef.doc(''+user.uid);
+                                  //String id= (await usersCollectionRef.doc(ID).toString) as String;
 
                                 }
                               }),
@@ -154,8 +147,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   //await _user.userSetup(_emailController.text,);
                   //await users.add({'name': _email, });
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ProfileScreen(index: 2)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ProfileScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",

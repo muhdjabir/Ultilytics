@@ -3,6 +3,7 @@
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:orbital_ultylitics/screens/newgamescreen.dart';
 import 'package:orbital_ultylitics/screens/teamsdisplayscreen.dart';
 //import 'package:orbital_ultylitics/authservices.dart';
 //import 'package:orbital_ultylitics/main.dart';
@@ -33,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final screens = const [
     Center(child: Text("history", style: TextStyle(fontSize:72, color: Colors.white60))),
     TeamsDisplayScreen(),
-    Center(child: Text("new game", style: TextStyle(fontSize:72, color: Colors.white60))),
+    newGameScreen(),
     SettingsScreen(),
   ];
   @override
