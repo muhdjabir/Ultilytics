@@ -6,7 +6,6 @@
 //comments weather/wind...
 //starting on O or D
 //type of game
-
 //lineup page
 
 import 'dart:developer';
@@ -16,7 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/newLineScreen.dart';
+import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
 
 class newGameScreen extends StatefulWidget {
   const newGameScreen({Key? key}) : super(key: key);
@@ -24,6 +23,7 @@ class newGameScreen extends StatefulWidget {
   @override
   State<newGameScreen> createState() => _newGameScreenState();
 }
+
 var numPlayers = 0;
 Future<void> insertPlayerData(
     final gameName, final newPlayerName, final uid) async {
@@ -52,20 +52,20 @@ Future<void> insertPlayerData(
 }
 
 Future<void> getNumPlayers(final uid, final myTeam) async {
-    //var numPlayers;
-    numPlayers = 0;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('teams')
-        .doc(myTeam)
-        .collection('players')
-        .get()
-        .then((snapshot) => (snapshot.docs.forEach((document) {
-              numPlayers+=1;
-            })));
-    //numPlayers = myPlayers.length;
-  }
+  //var numPlayers;
+  numPlayers = 0;
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('teams')
+      .doc(myTeam)
+      .collection('players')
+      .get()
+      .then((snapshot) => (snapshot.docs.forEach((document) {
+            numPlayers += 1;
+          })));
+  //numPlayers = myPlayers.length;
+}
 
 Future<void> createGameData(
     final uid,
@@ -90,7 +90,7 @@ Future<void> createGameData(
     "Teams": FieldValue.arrayUnion([newTeamName]), "My Score": 0, "Opponent Score": 0 
   }, SetOptions(merge: true));*/
   List<String> myPlayers = [];
- // = getPlayerNames(uid, myTeam, myPlayers);
+  // = getPlayerNames(uid, myTeam, myPlayers);
   Future getPlayerNames(final uid, final myTeam) async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -113,8 +113,6 @@ Future<void> createGameData(
   });
 }
 
-
-
 // ignore: camel_case_types
 class _newGameScreenState extends State<newGameScreen> {
   //final Globalkey<FormState> _formkeyValue=new
@@ -131,7 +129,6 @@ class _newGameScreenState extends State<newGameScreen> {
   String? myTeamSelect;
   String? myStartState;
   String? myGameType;
-  
 
   @override
   void initState() {
@@ -140,7 +137,9 @@ class _newGameScreenState extends State<newGameScreen> {
     controllerTournamentName = TextEditingController();
     controllerGameDetails = TextEditingController();
     controllerGameName = TextEditingController();
-    _opponentName = PageStorage.of(context)?.readState(context, identifier: ValueKey("storeOpponentName")) ?? "";
+    _opponentName = PageStorage.of(context)
+            ?.readState(context, identifier: ValueKey("storeOpponentName")) ??
+        "";
   }
 
   /*Future getTeamDocs(String uid) async {
@@ -168,7 +167,7 @@ class _newGameScreenState extends State<newGameScreen> {
   Widget build(BuildContext context) {
     final User? user = auth.currentUser;
     final uid = user!.uid;
-    
+
     //late var myTeams;
     //var teamsData = getTeamDocs(uid);
     /*(value) {
@@ -196,10 +195,10 @@ class _newGameScreenState extends State<newGameScreen> {
           //autovalidateMode:true,
           //child:
           ListView(
-            key: PageStorageKey<String>('newGameScreen'),
+        key: PageStorageKey<String>('newGameScreen'),
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         children: <Widget>[
-          Container(height:15),
+          Container(height: 15),
           TextFormField(
             cursorColor: Colors.grey,
             controller: controllerGameName,
@@ -266,7 +265,6 @@ class _newGameScreenState extends State<newGameScreen> {
                         style: const TextStyle(color: Colors.grey),
                         items: teamItems,
                         onChanged: (myTeamSelect) => setState(() {
-                          
                           this.myTeamSelect = myTeamSelect;
                           getNumPlayers(uid, myTeamSelect);
                         }),
@@ -318,7 +316,8 @@ class _newGameScreenState extends State<newGameScreen> {
             onChanged: (val) {
               setState(() {
                 _opponentName = val;
-                PageStorage.of(context)?.writeState(context,_opponentName,identifier:ValueKey("storeOpponentName"));
+                PageStorage.of(context)?.writeState(context, _opponentName,
+                    identifier: ValueKey("storeOpponentName"));
               });
             },
           ),
@@ -420,14 +419,16 @@ class _newGameScreenState extends State<newGameScreen> {
 
 //INCLUDE THE BELOW 2 LINES TO SAVE GAME DATA
               createGameData(uid, _gameName, myTeamSelect, _opponentName,
-              myStartState, _gameDetails, myGameType);
+                  myStartState, _gameDetails, myGameType);
               //numPlayers = snapshot.data!.docs.length;
               print("i have $numPlayers many players in the newgamescreen");
               await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => newLineScreen(gameName: _gameName,numPlayers: numPlayers, uid: uid),),);
-
+                context,
+                MaterialPageRoute(
+                  builder: (context) => newLineScreen(
+                      gameName: _gameName, numPlayers: numPlayers, uid: uid),
+                ),
+              );
 
               /*insertTeamData(newTeamName, uid, _playerList.length);
                   FirebaseFirestore.instance

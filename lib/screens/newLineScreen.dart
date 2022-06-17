@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/newgamescreen.dart';
-import 'package:orbital_ultylitics/screens/profilescreen.dart';
-import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
+import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
+import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 
 class newLineScreen extends StatefulWidget {
   //List<String> myPlayers;

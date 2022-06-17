@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '939271587670',
     projectId: 'orbital-ultilytics',
     storageBucket: 'orbital-ultilytics.appspot.com',
-    iosClientId: '939271587670-rkuh7j4sknm9g6bq55fbgkcqrsg1nc0q.apps.googleusercontent.com',
+    iosClientId:
+        '939271587670-rkuh7j4sknm9g6bq55fbgkcqrsg1nc0q.apps.googleusercontent.com',
     iosBundleId: 'com.example.orbitalUltylitics',
   );
 }

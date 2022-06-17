@@ -8,8 +8,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/namewidget.dart';
 import 'package:orbital_ultylitics/screens/settingscreen.dart';
-
-import 'profileScreen.dart';
+import 'ProfileScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;
@@ -102,11 +101,11 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
           .doc(newTeamName)
           .update({"Number of Players": teamSize});
       FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(uid)
-                          .collection('teams')
-                          .doc(newTeamName)
-                          .update({"Players": _playerList});
+          .collection('users')
+          .doc(uid)
+          .collection('teams')
+          .doc(newTeamName)
+          .update({"Players": _playerList});
     });
   }
 
@@ -298,7 +297,8 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               ElevatedButton(
                 child: Text('Done'),
                 onPressed: () async {
-                  getTeamSize(newTeamName, uid);/*.then(
+                  getTeamSize(newTeamName,
+                      uid); /*.then(
                     (value) {
                       FirebaseFirestore.instance
                           .collection('users')
@@ -306,7 +306,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                           .collection('teams')
                           .doc(newTeamName)
                           .update({"Players": _playerList});*/
-                    //},
+                  //},
                   //);
                   await Navigator.push(
                     context,

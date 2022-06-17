@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/customWidget/offenseThrowerWidget.dart';
-
 import 'customWidget/offenseReceiverWidget.dart';
 import 'customWidget/offenseStartingWidget.dart';
 
@@ -40,7 +39,6 @@ class _statTrackingScreenState extends State<statTrackingScreen> {
   @override
   _statTrackingScreenState({required this.myPlayers, required this.uid});
   var playerStatus = {};
-  
 
   void setPlayersStatus(final myPlayers) {
     for (var i = 0; i < myPlayers.length; i += 1) {
@@ -51,7 +49,6 @@ class _statTrackingScreenState extends State<statTrackingScreen> {
   void initState() {
     super.initState();
     setPlayersStatus(myPlayers);
-    
   }
 
   Widget build(BuildContext context) {
@@ -102,6 +99,7 @@ class _statTrackingScreenState extends State<statTrackingScreen> {
       ),
     );
   }
+
   callback(playerName, uniqueStatus, othersStatus) {
     setState(() {
       playerStatus.keys.forEach((k) {

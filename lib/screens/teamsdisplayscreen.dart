@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/src/foundation/key.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'package:orbital_ultylitics/screens/HomePage.dart';
-import 'package:orbital_ultylitics/screens/createteamscreen.dart';
+import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
 import 'package:orbital_ultylitics/screens/customWidget/teamnamewidget.dart';
 //import 'package:orbital_ultylitics/screens/profilescreen.dart';
 //import 'package:flutter/src/widgets/framework.dart';
