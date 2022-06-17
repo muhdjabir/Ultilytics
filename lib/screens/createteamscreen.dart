@@ -1,9 +1,8 @@
-//add players
-//show list of players
-//store data of each player
-//dropdown menu
+//implement themedata
+//fix the view for this page refer to this video https://www.youtube.com/watch?v=k1LxTsmAURU
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,80 +12,245 @@ import 'package:orbital_ultylitics/screens/settingscreen.dart';
 import 'profileScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
-  const CreateTeamScreen({Key? key}) : super(key: key);
-
+  final String newTeamName;
+  const CreateTeamScreen({Key? key, required this.newTeamName})
+      : super(key: key);
   @override
-  State<CreateTeamScreen> createState() => _CreateTeamScreenState();
+  State<CreateTeamScreen> createState() =>
+      _CreateTeamScreenState(newTeamName: this.newTeamName);
 }
 
-Future<void> insertData(final player) async {
+Future<void> insertPlayerData(
+    final newTeamName, final newPlayerName, final uid) async {
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
+  usersCollectionRef.doc(uid).collection('teams').doc(newTeamName).set({
+    "Players": FieldValue.arrayUnion([newPlayerName])
+    //"Number of Players": FieldValue.increment(1),
+  }, SetOptions(merge: true));
+  usersCollectionRef
+      .doc(uid)
+      .collection('teams')
+      .doc(newTeamName)
+      .collection('players')
+      .doc(newPlayerName)
+      .set({
+    "Player Name": newPlayerName,
+    "Catch": 0,
+    "Assists": 0,
+    "Throwaways": 0,
+    "Goals Scored": 0,
+    "Breakside Throws": 0,
+    "Openside Throws": 0,
+    "Interception": 0,
+  });
 }
 
 enum Menu { removePlayer, editName }
 
 class _CreateTeamScreenState extends State<CreateTeamScreen> {
+  List<String> _playerList = [];
+  String newTeamName;
   //PlayersRecord playerName;
-  late TextEditingController newPlayerName;
-  late TextEditingController newTeamName;
+  _CreateTeamScreenState({required this.newTeamName});
+  late TextEditingController controllerPlayerName;
+  String _newPlayerName = "";
+  //late String newTeamName;
+  //late TextEditingController controllerTeamName;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  //String removeName = 'Remove Name', editName = 'Edit Name';
-  //enum Menu {removeName, editName}
-  String _selectedMenu = '';
-  @override
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  //String _selectedMenu = '';
   void initState() {
     super.initState();
-    newTeamName = TextEditingController();
-    newPlayerName = TextEditingController();
+    //controllerTeamName = TextEditingController();
+    controllerPlayerName = TextEditingController();
   }
 
+  Future<void> getTeamSize(final newTeamName, final uid) async {
+    var teamSize = 0;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(newTeamName)
+        .collection('players')
+        .get()
+        .then(
+          (snapshot) => {
+            snapshot.docs.forEach(
+              (document) {
+                _playerList.add(document.reference.id);
+                print(document.reference.id);
+                //teamSize += 1;
+              },
+
+              //teamSize = _playerList.length
+            )
+          },
+        )
+        .then((value) {
+      teamSize = _playerList.length;
+      print('$teamSize size of team');
+      CollectionReference usersCollectionRef =
+          FirebaseFirestore.instance.collection('users');
+      usersCollectionRef.doc(uid).set({
+        "Teams": FieldValue.arrayUnion([newTeamName])
+      }, SetOptions(merge: true));
+      usersCollectionRef
+          .doc(uid)
+          .collection('teams')
+          .doc(newTeamName)
+          .update({"Number of Players": teamSize});
+      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('teams')
+                          .doc(newTeamName)
+                          .update({"Players": _playerList});
+    });
+  }
+
+  Future<void> insertTeamData(final newTeamName, final uid, teamSize) async {
+    getTeamSize(newTeamName, uid).then((value) {
+      //teamSize = _playerList.length;
+      print('$teamSize size of team');
+      CollectionReference usersCollectionRef =
+          FirebaseFirestore.instance.collection('users');
+      usersCollectionRef.doc(uid).set({
+        "Teams": FieldValue.arrayUnion([newTeamName])
+      }, SetOptions(merge: true));
+      usersCollectionRef
+          .doc(uid)
+          .collection('teams')
+          .doc(newTeamName)
+          .update({"Number of Players": teamSize});
+    });
+  }
+
+  //List<String> _playerList = [];
+// USE BELOW FOR WHEN EDITING AN EXISTING TEAM (To get back the list of players to be edited)
+  //Future<Map<String, dynamic>?> _playerList = FirebaseFirestore.instance.collection('users').doc(uid).collection('teams').doc(newTeamName).get().then((value) => value.data(););
+
+/*  getPlayerList(int teamSize, DocumentReference<Map<String, dynamic>> currTeam) async{
+    for (int i = 0; i < teamSize; i += 1){
+      _playerList.add(currTeam.collection('Players').doc().id);
+    }
+  }*/
   @override
   Widget build(BuildContext context) {
+    final User? user = auth.currentUser;
+    final uid = user!.uid;
     return Scaffold(
       key: scaffoldKey,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          newTeamName,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontSize: 20.0,
+              color: Color.fromARGB(255, 110, 148, 252),
+              fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Color.fromARGB(255, 4, 36, 52),
+      ),
       backgroundColor: Colors.black45,
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  width: 100,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 4, 36, 52),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
+        child: SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Column(
+            children: [
+              StreamBuilder<QuerySnapshot>(
+                  //https://www.youtube.com/watch?v=HDy0RKCj40Q
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(uid)
+                      .collection('teams')
+                      .doc(newTeamName)
+                      .collection('players')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      //print("hasdata");
+                      //print(snapshot.data!.docs.length);
+
+                      return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: ((context, index) {
+                            QueryDocumentSnapshot<Object?>? documentSnapshot =
+                                snapshot.data?.docs[index];
+                            //return Dismissible(
+                            return ListTile(
+                                // this is likely the problem for why it doesnt scroll properly
+                                title: Text(
+                                    (documentSnapshot != null)
+                                        ? (documentSnapshot["Player Name"])
+                                        : "",
+                                    style: TextStyle(color: Colors.grey)),
+                                //color: ,
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  color: Colors.grey,
+                                  onPressed: () {
+                                    final currTeam = FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .collection('teams')
+                                        .doc(newTeamName);
+                                    //String _playerToDelete = currTeam.collection('Players').doc()[index]
+                                    _playerList.remove(
+                                        (documentSnapshot != null)
+                                            ? (documentSnapshot["Player Name"])
+                                            : "");
+                                    currTeam
+                                        .collection('players')
+                                        .doc((documentSnapshot != null)
+                                            ? (documentSnapshot["Player Name"])
+                                            : "")
+                                        .delete();
+                                  },
+                                ));
+                          }));
+                    } else {
+                      return Text("something is wrong",
+                          style: TextStyle(color: Colors.amber));
+                    }
+                  }),
+              Container(
+                //width: 100,
+                height: 70,
+                color: Colors.grey[400],
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: TextFormField(
                           style: const TextStyle(
                               fontSize: 20.0,
-                              color: Color.fromARGB(255, 110, 148, 252),
-                              fontWeight: FontWeight.w700),
-                          textAlign: TextAlign.center,
-                          controller: newTeamName,
-                          /*onChanged: (_) => EasyDebounce.debounce(
-                            'newTeamName',
-                            Duration(milliseconds: 2000),
-                            () => setState(() {}),
-                          ),*/
+                              color: Color.fromARGB(255, 10, 48, 70),
+                              fontWeight: FontWeight.w500),
+                          controller: controllerPlayerName,
+                          onChanged: (val) {
+                            setState(() {
+                              _newPlayerName = val;
+                            });
+                          },
                           autofocus: true,
                           obscureText: false,
                           decoration: const InputDecoration(
-                            hintText: 'Insert New Team Name',
+                            hintText: 'Input name of new player',
                             hintStyle: TextStyle(
                                 fontSize: 20.0,
-                                color: Color.fromARGB(255, 56, 75, 128),
-                                fontWeight: FontWeight.w700),
-                            /*enabledBorder: UnderlineInputBorder(
+                                color: Color.fromARGB(255, 16, 75,
+                                    109) /*Color.fromARGB(255, 56, 75, 128)*/,
+                                fontWeight: FontWeight.w500),
+                            enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(0, 233, 236, 240),
+                                color: Color(0x00000000),
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.only(
@@ -103,277 +267,65 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                 topLeft: Radius.circular(4.0),
                                 topRight: Radius.circular(4.0),
                               ),
-                            ),*/
-                          ),
-                          /*style:
-                              FlutterFlowTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                  ),*/
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[700],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                        child: Container(
-                          color: Colors.grey[700],
-                          child: const Text(
-                            'Player name 1',
-                            style: TextStyle(
-                                fontSize: 40.0,
-                                color: Color.fromARGB(255, 29, 132, 192),
-                                fontWeight: FontWeight.w500),
-                            /*style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: 'Poppins',
-                                  color:
-                                      FlutterFlowTheme.of(context).secondaryText,
-                                ),*/
-                          ),
-                        ),
-                      ),
-                      PopupMenuButton<Menu>(
-                        color: const Color.fromARGB(255, 212, 212, 212),
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(80, 0, 0, 0),
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Color.fromARGB(255, 66, 66, 66),
-                          size: 30,
-                        ),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<Menu>>[
-                          const PopupMenuItem<Menu>(
-                            value: Menu.removePlayer,
-                            child: Text('Remove Player'),
-                          ),
-                          const PopupMenuItem<Menu>(
-                            value: Menu.editName,
-                            child: Text('Edit Name'),
-                          ),
-                        ],
-                        onSelected: (Menu item) {
-                          setState(
-                            () {
-                              _selectedMenu = item.name;
-                              if (_selectedMenu == 'removePlayer') {}
-                              if (_selectedMenu == 'editName') {}
-                            },
-                          );
-                        },
-                        /*onSelected: (Menu item){
-                          setState((){
-                            //insert function to do depending on newValue received upon selection
-                            if(newValue == removeName){
-
-                            }
-                            if(newValue == editName){
-
-                            }
-                          });
-                        },*/
-                      ),
-                      /*IconButton(
-                        alignment: Alignment(13.5, 0.0),
-                        color: Color.fromARGB(255, 212, 212, 212),
-                        splashRadius: 30,
-                        //padding = const EdgeInsets.all(1.0),
-                        iconSize: 40,
-                        icon: const Icon(
-                          Icons.more_vert,
-                          //color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 30,
-                        ),
-                        //color: Colors.amber,
-                        onPressed: () {
-                          print('vertical dots menu pressed');
-                        },
-                      ),*/
-                      /*Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(200, 0, 0, 0),
-                          child: IconButton(
-                            color: Color.fromARGB(0, 175, 113, 113),
-                            splashRadius: 30,
-                            //padding = const EdgeInsets.all(1.0),
-                            iconSize: 40,
-                            icon: const Icon(
-                              Icons.more_vert,
-                              //color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 30,
                             ),
-                            onPressed: () {
-                              print('vertical dots menu pressed');
-                            },
-                          ),
-                        ),
-                      ),*/
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey[400],
-                  //decoration: ,
-                  /*decoration: BoxDecoration(
-                    color: Color(0xFFEEEEEE),
-                  ),*/
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
-                          child: TextFormField(
-                            style: const TextStyle(
-                                fontSize: 20.0,
-                                color: Color.fromARGB(255, 92, 123, 207),
-                                fontWeight: FontWeight.w500),
-                            controller: newPlayerName,
-                            /*onChanged: (_) => EasyDebounce.debounce(
-                              'newPlayerName',
-                              Duration(milliseconds: 2000),
-                              () => setState(() {}),
-                            ),*/
-                            autofocus: true,
-                            obscureText: false,
-                            decoration: const InputDecoration(
-                              hintText: 'Input name of new player',
-                              hintStyle: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Color.fromARGB(255, 56, 75, 128),
-                                  fontWeight: FontWeight.w500),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                            ),
-                            /*style:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                    ),*/
                           ),
                         ),
                       ),
-                      IconButton(
-                        color: Color.fromARGB(0, 198, 113, 113),
-                        splashRadius: 30,
-                        //borderWidth: 1,
-                        iconSize: 40,
-                        icon: const Icon(
-                          Icons.add_box_outlined,
-                          color: Color.fromARGB(255, 66, 66, 66), //FlutterFlowTheme.of(context).secondaryText,
-                          size: 30,
-                        ),
-                        onPressed: () async {
-                          /*final playersCreateData = createPlayersRecordData();
-                          var playersRecordReference =
-                              PlayersRecord.collection.doc();
-                          await playersRecordReference.set(playersCreateData);
-                          playerName = PlayersRecord.getDocumentFromData(
-                              playersCreateData, playersRecordReference);
-
-                          setState(() {});*/
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  child: Text('Create Team'),
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileScreen(index: 3),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith(
-                        (Set<MaterialState> states) {
-                      return Colors.blue;
-                    }),
-                  ),
-                  /*options: FFButtonOptions(
-                    width: 130,
-                    height: 40,
-                    color: FlutterFlowTheme.of(context).primaryColor,
-                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
                     ),
-                    borderRadius: 12,*/
-                  //),
+                    IconButton(
+                      color: Color.fromARGB(0, 198, 113, 113),
+                      splashRadius: 30,
+                      //borderWidth: 1,
+                      iconSize: 40,
+                      icon: const Icon(
+                        Icons.add_box_outlined,
+                        color: Color.fromARGB(255, 66, 66,
+                            66), //FlutterFlowTheme.of(context).secondaryText,
+                        size: 30,
+                      ),
+                      onPressed: () async {
+                        final User? user = auth.currentUser;
+                        final uid = user!.uid;
+                        _playerList.add(_newPlayerName);
+                        print(_playerList);
+                        insertPlayerData(newTeamName, _newPlayerName, uid);
+                        controllerPlayerName.clear();
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              ElevatedButton(
+                child: Text('Done'),
+                onPressed: () async {
+                  getTeamSize(newTeamName, uid);/*.then(
+                    (value) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('teams')
+                          .doc(newTeamName)
+                          .update({"Players": _playerList});*/
+                    //},
+                  //);
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(index: 1),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (Set<MaterialState> states) {
+                    return Colors.blue;
+                  }),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-/*class _CreateTeamScreenState extends State<CreateTeamScreen> {
-  var names = ['Linus', 'Jabir', 'Ryan', 'Bolte', 'Cat', 'Cheryl', 'Jo'];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height:250,
-            child: Wrap(
-              direction: Axis.vertical,
-              children: (
-                child: ListView(
-                  children: List.generate(
-                /*length*/ names.length,
-                (index) {
-                  return NameWidget(inputText: names[index]);
-                },
-              ),)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}*/

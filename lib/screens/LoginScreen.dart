@@ -15,6 +15,24 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+ThemeData _lightTheme = ThemeData(
+  //brightness: Brightness.light,
+  primaryColor: Color.fromARGB(255, 36, 101, 155), 
+  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)), 
+  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  );
+
+ThemeData _darkTheme = ThemeData(
+  //textTheme: ,
+  //brightness: Colors.blue,
+  primaryColor: Color.fromARGB(255, 36, 101, 155), 
+  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)), 
+  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  );
+
+//ool _light = true; //https://www.youtube.com/watch?v=aFei1SwczS4
+
+//class DarkLightTheme extends
 class _LoginScreenState extends State<LoginScreen> {
   //login function
   static Future<User?> loginUsingEmailPassword(
@@ -41,7 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
     //create the textfiled controller
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
-    return Padding(
+    return MaterialApp(
+      //theme: _light ? _lightTheme: _darkTheme,
+      home: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
           const Text(
             "Become the ultimate athlete",
             style: TextStyle(
+              inherit: false,
               color: Color.fromARGB(255, 79, 149, 184),
               fontSize: 44.0,
               fontWeight: FontWeight.bold,
@@ -158,6 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
           )
         ],
       ),
+    ),
     );
   }
 }

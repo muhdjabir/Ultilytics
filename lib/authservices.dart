@@ -14,11 +14,11 @@ Future<void> userSetup(String displayName) async {
 
 //https://www.youtube.com/watch?v=v3sY3RWciNw
 Future signOut() async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   //var currentUser = FirebaseAuth.instance.currentUser;
   //String uid = _auth!.uid;
   try {
-    return await _auth.signOut();
+    return await auth.signOut();
   } catch (e) {
     print(e.toString());
     return null;
