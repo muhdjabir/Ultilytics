@@ -1,3 +1,11 @@
+/* Things To Include
+Games
+Team Name
+Opponent Name
+Game Type
+Score
+*/
+
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:flutter/src/foundation/key.dart';
 //import 'package:flutter/src/widgets/framework.dart';
@@ -33,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _ProfileScreenState({required this.index});
   final screens = const [
     Center(
-        child: Text("history",
+        child: Text("Games History",
             style: TextStyle(fontSize: 72, color: Colors.white60))),
     TeamsDisplayScreen(),
     newGameScreen(key: PageStorageKey("newGameScreen")),

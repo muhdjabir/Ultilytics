@@ -8,7 +8,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/namewidget.dart';
 import 'package:orbital_ultylitics/screens/settingscreen.dart';
-import 'profilescreen.dart';
+import 'ProfileScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;

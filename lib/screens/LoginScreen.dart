@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:orbital_ultylitics/main.dart';
 import 'package:orbital_ultylitics/screens/SignupScreen.dart';
-import 'package:orbital_ultylitics/screens/profilescreen.dart';
+import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
 //import '../authservices.dart';
 
 class LoginScreen extends StatefulWidget {

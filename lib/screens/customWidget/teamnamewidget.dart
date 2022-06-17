@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/createteamscreen.dart';
+import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
 
 class nameContainerWidget extends StatelessWidget {
   const nameContainerWidget({Key? key, required this.child}) : super(key: key);
@@ -13,12 +13,15 @@ class nameContainerWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
         height: 100,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Color.fromARGB(255, 10, 52, 87),),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Color.fromARGB(255, 10, 52, 87),
+        ),
         child: Row(
           children: [
             Container(
-              width:220, 
-              padding:EdgeInsets.fromLTRB(20, 0, 0,0 ),
+              width: 220,
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(child,
                   style: const TextStyle(
                     fontSize: 30,
