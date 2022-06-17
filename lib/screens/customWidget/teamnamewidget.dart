@@ -26,7 +26,7 @@ class nameContainerWidget extends StatelessWidget {
                   )),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(100, 0, 20,10 ),
+              padding: EdgeInsets.fromLTRB(100, 0, 20, 10),
               child: IconButton(
                 icon: const Icon(
                   Icons.keyboard_arrow_right_sharp,
