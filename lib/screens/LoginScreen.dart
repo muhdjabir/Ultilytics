@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:orbital_ultylitics/main.dart';
 import 'package:orbital_ultylitics/screens/SignupScreen.dart';
-import 'package:orbital_ultylitics/screens/profilescreen.dart';
+import 'package:orbital_ultylitics/screens/HistoryScreen.dart';
 //import '../authservices.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -143,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     context: context);
                 print(user);
                 if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const ProfileScreen(index: 0)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HistoryScreen(index: 0)));
                 }
               },
               child: const Text(

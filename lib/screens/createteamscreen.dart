@@ -9,7 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/namewidget.dart';
 import 'package:orbital_ultylitics/screens/settingscreen.dart';
 
-import 'profileScreen.dart';
+import 'HistoryScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;
@@ -22,10 +22,11 @@ class CreateTeamScreen extends StatefulWidget {
 
 Future<void> insertTeamData(
     final newTeamName, final uid, final teamSize) async {
-      
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
-  usersCollectionRef.doc(uid).set({"Teams":FieldValue.arrayUnion([newTeamName])}, SetOptions(merge: true));
+  usersCollectionRef.doc(uid).set({
+    "Teams": FieldValue.arrayUnion([newTeamName])
+  }, SetOptions(merge: true));
   usersCollectionRef
       .doc(uid)
       .collection('teams')
@@ -122,14 +123,15 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       //print(snapshot.data!.docs.length);
 
                       return ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: ((context, index) {
                             QueryDocumentSnapshot<Object?>? documentSnapshot =
                                 snapshot.data?.docs[index];
                             //return Dismissible(
-                            return ListTile( // this is likely the problem for why it doesnt scroll properly
+                            return ListTile(
+                                // this is likely the problem for why it doesnt scroll properly
                                 title: Text(
                                     (documentSnapshot != null)
                                         ? (documentSnapshot["Player Name"])
@@ -254,7 +256,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(index: 3),
+                      builder: (context) => const HistoryScreen(index: 3),
                     ),
                   );
                 },
