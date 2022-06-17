@@ -13,9 +13,9 @@ import 'settingscreen.dart';
 class ProfileScreen extends StatefulWidget {
   final int index;
   const ProfileScreen({Key? key, this.index = 0}) : super(key: key);
-  
+
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState( index: this.index);
+  State<ProfileScreen> createState() => _ProfileScreenState(index: this.index);
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -28,54 +28,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
   .snapshots();
   .map((snapshot)=(snapshot) => snapshot.docs.map((doc) => User.fromJson(doc.data()).toList());*/
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  
+
   int index;
   _ProfileScreenState({required this.index});
   final screens = const [
-    Center(child: Text("history", style: TextStyle(fontSize:72, color: Colors.white60))),
+    Center(
+        child: Text("history",
+            style: TextStyle(fontSize: 72, color: Colors.white60))),
     TeamsDisplayScreen(),
-    newGameScreen(),
+    newGameScreen(key: PageStorageKey("newGameScreen")),
     SettingsScreen(),
   ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index], 
-      bottomNavigationBar: NavigationBarTheme( //navigation bar implmentation video https://www.youtube.com/watch?v=2emB2VFrRnA
-        data:NavigationBarThemeData(
+      resizeToAvoidBottomInset: false,
+      body: screens[index],
+      bottomNavigationBar: NavigationBarTheme(
+        //navigation bar implmentation video https://www.youtube.com/watch?v=2emB2VFrRnA
+        data: NavigationBarThemeData(
           indicatorColor: Colors.blue.shade100,
           labelTextStyle: MaterialStateProperty.all(
             const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),
-        child: NavigationBar(
-          height: 60,
-          backgroundColor: Colors.blueGrey,
-          selectedIndex: index,
-          onDestinationSelected: (index) =>
-          setState(() => this.index = index),
-        destinations: const [
-          NavigationDestination(
-              icon: Icon(Icons.history_outlined), 
-              selectedIcon: Icon(Icons.history),
-              label: "History"),
-          NavigationDestination(
-              icon: Icon(Icons.group_outlined), 
-              selectedIcon: Icon(Icons.group),
-              label: "Teams"),
-          NavigationDestination(
-              icon: Icon(Icons.library_add_outlined),
-              selectedIcon: Icon(Icons.library_add),
-              label: "New Game"),
-          NavigationDestination(
-              icon: Icon(Icons.settings_outlined), 
-              selectedIcon: Icon(Icons.settings),
-              label: "Settings"),
-        ],
+        child: PageStorage(
+          bucket: bucket,
+          child: NavigationBar(
+            height: 60,
+            backgroundColor: Colors.blueGrey,
+            selectedIndex: index,
+            onDestinationSelected: (index) =>
+                setState(() => this.index = index),
+            destinations: const [
+              NavigationDestination(
+                  icon: Icon(Icons.history_outlined),
+                  selectedIcon: Icon(Icons.history),
+                  label: "History"),
+              NavigationDestination(
+                  icon: Icon(Icons.group_outlined),
+                  selectedIcon: Icon(Icons.group),
+                  label: "Teams"),
+              NavigationDestination(
+                  icon: Icon(Icons.library_add_outlined),
+                  selectedIcon: Icon(Icons.library_add),
+                  label: "New Game"),
+              NavigationDestination(
+                  icon: Icon(Icons.settings_outlined),
+                  selectedIcon: Icon(Icons.settings),
+                  label: "Settings"),
+            ],
+          ),
         ),
       ),
-      resizeToAvoidBottomInset: false,
-      
+
       //remove screens[]... to
       /*body:Padding(
         padding: const EdgeInsets.all(16.0),

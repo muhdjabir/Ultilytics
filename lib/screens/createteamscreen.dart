@@ -20,19 +20,6 @@ class CreateTeamScreen extends StatefulWidget {
       _CreateTeamScreenState(newTeamName: this.newTeamName);
 }
 
-Future<void> insertTeamData(
-    final newTeamName, final uid, final teamSize) async {
-      
-  CollectionReference usersCollectionRef =
-      FirebaseFirestore.instance.collection('users');
-  usersCollectionRef.doc(uid).set({"Teams":FieldValue.arrayUnion([newTeamName])}, SetOptions(merge: true));
-  usersCollectionRef
-      .doc(uid)
-      .collection('teams')
-      .doc(newTeamName)
-      .update({"Number of Players": teamSize});
-}
-
 Future<void> insertPlayerData(
     final newTeamName, final newPlayerName, final uid) async {
   CollectionReference usersCollectionRef =
@@ -45,20 +32,24 @@ Future<void> insertPlayerData(
       .doc(uid)
       .collection('teams')
       .doc(newTeamName)
-      .collection('Players')
+      .collection('players')
       .doc(newPlayerName)
       .set({
     "Player Name": newPlayerName,
-    "Wins": 0,
-    "Loses": 0,
-    "Scores": 0,
-    "Assists": 0
+    "Catch": 0,
+    "Assists": 0,
+    "Throwaways": 0,
+    "Goals Scored": 0,
+    "Breakside Throws": 0,
+    "Openside Throws": 0,
+    "Interception": 0,
   });
 }
 
 enum Menu { removePlayer, editName }
 
 class _CreateTeamScreenState extends State<CreateTeamScreen> {
+  List<String> _playerList = [];
   String newTeamName;
   //PlayersRecord playerName;
   _CreateTeamScreenState({required this.newTeamName});
@@ -75,7 +66,68 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     controllerPlayerName = TextEditingController();
   }
 
-  List<String> _playerList = [];
+  Future<void> getTeamSize(final newTeamName, final uid) async {
+    var teamSize = 0;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(newTeamName)
+        .collection('players')
+        .get()
+        .then(
+          (snapshot) => {
+            snapshot.docs.forEach(
+              (document) {
+                _playerList.add(document.reference.id);
+                print(document.reference.id);
+                //teamSize += 1;
+              },
+
+              //teamSize = _playerList.length
+            )
+          },
+        )
+        .then((value) {
+      teamSize = _playerList.length;
+      print('$teamSize size of team');
+      CollectionReference usersCollectionRef =
+          FirebaseFirestore.instance.collection('users');
+      usersCollectionRef.doc(uid).set({
+        "Teams": FieldValue.arrayUnion([newTeamName])
+      }, SetOptions(merge: true));
+      usersCollectionRef
+          .doc(uid)
+          .collection('teams')
+          .doc(newTeamName)
+          .update({"Number of Players": teamSize});
+      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('teams')
+                          .doc(newTeamName)
+                          .update({"Players": _playerList});
+    });
+  }
+
+  Future<void> insertTeamData(final newTeamName, final uid, teamSize) async {
+    getTeamSize(newTeamName, uid).then((value) {
+      //teamSize = _playerList.length;
+      print('$teamSize size of team');
+      CollectionReference usersCollectionRef =
+          FirebaseFirestore.instance.collection('users');
+      usersCollectionRef.doc(uid).set({
+        "Teams": FieldValue.arrayUnion([newTeamName])
+      }, SetOptions(merge: true));
+      usersCollectionRef
+          .doc(uid)
+          .collection('teams')
+          .doc(newTeamName)
+          .update({"Number of Players": teamSize});
+    });
+  }
+
+  //List<String> _playerList = [];
 // USE BELOW FOR WHEN EDITING AN EXISTING TEAM (To get back the list of players to be edited)
   //Future<Map<String, dynamic>?> _playerList = FirebaseFirestore.instance.collection('users').doc(uid).collection('teams').doc(newTeamName).get().then((value) => value.data(););
 
@@ -91,6 +143,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           newTeamName,
           textAlign: TextAlign.center,
@@ -104,7 +157,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
       backgroundColor: Colors.black45,
       body: SafeArea(
         child: SingleChildScrollView(
-          //physics: const AlwaysScrollableScrollPhysics(),
+          physics: ScrollPhysics(),
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
@@ -114,7 +167,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       .doc(uid)
                       .collection('teams')
                       .doc(newTeamName)
-                      .collection('Players')
+                      .collection('players')
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -122,14 +175,15 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       //print(snapshot.data!.docs.length);
 
                       return ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: ((context, index) {
                             QueryDocumentSnapshot<Object?>? documentSnapshot =
                                 snapshot.data?.docs[index];
                             //return Dismissible(
-                            return ListTile( // this is likely the problem for why it doesnt scroll properly
+                            return ListTile(
+                                // this is likely the problem for why it doesnt scroll properly
                                 title: Text(
                                     (documentSnapshot != null)
                                         ? (documentSnapshot["Player Name"])
@@ -151,7 +205,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                             ? (documentSnapshot["Player Name"])
                                             : "");
                                     currTeam
-                                        .collection('Players')
+                                        .collection('players')
                                         .doc((documentSnapshot != null)
                                             ? (documentSnapshot["Player Name"])
                                             : "")
@@ -242,19 +296,22 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                 ),
               ),
               ElevatedButton(
-                child: Text('Create Team'),
+                child: Text('Done'),
                 onPressed: () async {
-                  insertTeamData(newTeamName, uid, _playerList.length);
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(uid)
-                      .collection('teams')
-                      .doc(newTeamName)
-                      .update({"Players": _playerList});
+                  getTeamSize(newTeamName, uid);/*.then(
+                    (value) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('teams')
+                          .doc(newTeamName)
+                          .update({"Players": _playerList});*/
+                    //},
+                  //);
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(index: 3),
+                      builder: (context) => const ProfileScreen(index: 1),
                     ),
                   );
                 },
