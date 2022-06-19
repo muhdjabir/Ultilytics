@@ -425,7 +425,7 @@ class _newGameScreenState extends State<newGameScreen> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => newLineScreen(
+                  builder: (context) => NewLineScreen(
                       gameName: _gameName, numPlayers: numPlayers, uid: uid),
                 ),
               );

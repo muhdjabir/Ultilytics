@@ -8,12 +8,12 @@ import 'package:orbital_ultylitics/screens/newgamescreen.dart';
 import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
 import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 
-class newLineScreen extends StatefulWidget {
+class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
   String gameName;
   String uid;
   var numPlayers;
-  newLineScreen(
+  NewLineScreen(
       {Key? key,
       required this.gameName,
       required this.numPlayers,
@@ -22,11 +22,11 @@ class newLineScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<newLineScreen> createState() => _newLineScreenState(
+  State<NewLineScreen> createState() => _NewLineScreenState(
       gameName: this.gameName, numPlayers: this.numPlayers, uid: this.uid);
 }
 
-class _newLineScreenState extends State<newLineScreen> {
+class _NewLineScreenState extends State<NewLineScreen> {
   var numPlayers;
   bool? _isChecked = false;
   //List<String> myPlayers;
@@ -73,7 +73,7 @@ class _newLineScreenState extends State<newLineScreen> {
   }
 
   @override
-  _newLineScreenState(
+  _NewLineScreenState(
       {required this.gameName,
       required this.numPlayers,
       /*required this.myPlayers,*/ required this.uid});

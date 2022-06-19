@@ -4,8 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
 
-class nameContainerWidget extends StatelessWidget {
-  const nameContainerWidget({Key? key, required this.child}) : super(key: key);
+class NameContainerWidget extends StatelessWidget {
+  const NameContainerWidget({Key? key, required this.child}) : super(key: key);
   final String child;
   @override
   Widget build(BuildContext context) {
