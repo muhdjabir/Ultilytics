@@ -10,7 +10,10 @@ Score
 //import 'package:flutter/src/foundation/key.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:orbital_ultylitics/models/Game.dart';
+import 'package:orbital_ultylitics/screens/GameHistoryScreen.dart';
 import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
 //import 'package:orbital_ultylitics/authservices.dart';
@@ -18,15 +21,16 @@ import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
 //import 'HomePage.dart';
 import 'settingscreen.dart';
 
-class HistoryScreen extends StatefulWidget {
+class NavigationBarScreen extends StatefulWidget {
   final int index;
-  const HistoryScreen({Key? key, this.index = 0}) : super(key: key);
+  const NavigationBarScreen({Key? key, this.index = 0}) : super(key: key);
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState(index: this.index);
+  State<NavigationBarScreen> createState() =>
+      _NavigationBarScreenState(index: index);
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _NavigationBarScreenState extends State<NavigationBarScreen> {
   /*User fromJson(Map<String, dynamic>  json) => User(
     email:json['email'],
     uid:json['uid']
@@ -38,11 +42,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
-  _HistoryScreenState({required this.index});
+  List<Object> _historyList = [];
+  _NavigationBarScreenState({required this.index});
   final screens = const [
-    Center(
+    /*Center(
         child: Text("Games History",
-            style: TextStyle(fontSize: 72, color: Colors.white60))),
+            style: TextStyle(fontSize: 72, color: Colors.white60))),*/
+    GameHistoryScreen(),
     TeamsDisplayScreen(),
     NewGameScreen(key: PageStorageKey("NewGameScreen")),
     SettingsScreen(),
@@ -167,5 +173,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
       ),*/
     );
+  }
+
+  Future getGameHistoryList() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user!.uid;
+    var data = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .get();
+
+    setState() {
+      _historyList = List.from(data.docs.map((doc) => Game.fromSnapshot(doc)));
+    }
   }
 }
