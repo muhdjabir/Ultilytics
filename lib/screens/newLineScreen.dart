@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/newgamescreen.dart';
-import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
+import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
+import 'package:orbital_ultylitics/screens/HistoryScreen.dart';
 import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 
 class NewLineScreen extends StatefulWidget {
@@ -101,7 +101,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProfileScreen(index: 2),
+                    builder: (context) => const HistoryScreen(index: 2),
                   ),
                 );
               },
@@ -196,7 +196,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => statTrackingScreen(
+                            builder: (context) => StatTrackingScreen(
                                 myPlayers: lineupList, uid: uid),
                           ),
                         );

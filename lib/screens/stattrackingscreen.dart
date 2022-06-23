@@ -22,22 +22,22 @@ void setPlayersStatus(final playerStatus, final myPlayers) {
   }
 }
 
-class statTrackingScreen extends StatefulWidget {
+class StatTrackingScreen extends StatefulWidget {
   var myPlayers;
   String uid;
-  statTrackingScreen({Key? key, required this.myPlayers, required this.uid})
+  StatTrackingScreen({Key? key, required this.myPlayers, required this.uid})
       : super(key: key);
 
   @override
-  State<statTrackingScreen> createState() =>
-      _statTrackingScreenState(myPlayers: this.myPlayers, uid: this.uid);
+  State<StatTrackingScreen> createState() =>
+      _StatTrackingScreenState(myPlayers: this.myPlayers, uid: this.uid);
 }
 
-class _statTrackingScreenState extends State<statTrackingScreen> {
+class _StatTrackingScreenState extends State<StatTrackingScreen> {
   var myPlayers;
   String uid;
   @override
-  _statTrackingScreenState({required this.myPlayers, required this.uid});
+  _StatTrackingScreenState({required this.myPlayers, required this.uid});
   var playerStatus = {};
 
   void setPlayersStatus(final myPlayers) {

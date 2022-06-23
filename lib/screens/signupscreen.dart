@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
+import 'package:orbital_ultylitics/screens/HistoryScreen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -114,7 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               }),
                             });
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => ProfileScreen(index: 2)));
+                        builder: (context) => HistoryScreen(index: 2)));
                   }
 
                   /*FirebaseAuth.instance
@@ -150,7 +150,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   //await _user.userSetup(_emailController.text,);
                   //await users.add({'name': _email, });
                   //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  //builder: (context) => ProfileScreen(index: 2)));
+                  //builder: (context) => HistoryScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",

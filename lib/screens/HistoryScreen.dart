@@ -11,22 +11,22 @@ Score
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/newgamescreen.dart';
-import 'package:orbital_ultylitics/screens/teamsdisplayscreen.dart';
+import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
+import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
 //import 'package:orbital_ultylitics/authservices.dart';
 //import 'package:orbital_ultylitics/main.dart';
 //import 'HomePage.dart';
 import 'settingscreen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class HistoryScreen extends StatefulWidget {
   final int index;
-  const ProfileScreen({Key? key, this.index = 0}) : super(key: key);
+  const HistoryScreen({Key? key, this.index = 0}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState(index: this.index);
+  State<HistoryScreen> createState() => _HistoryScreenState(index: this.index);
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   /*User fromJson(Map<String, dynamic>  json) => User(
     email:json['email'],
     uid:json['uid']
@@ -38,13 +38,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
-  _ProfileScreenState({required this.index});
+  _HistoryScreenState({required this.index});
   final screens = const [
     Center(
         child: Text("Games History",
             style: TextStyle(fontSize: 72, color: Colors.white60))),
     TeamsDisplayScreen(),
-    newGameScreen(key: PageStorageKey("newGameScreen")),
+    NewGameScreen(key: PageStorageKey("NewGameScreen")),
     SettingsScreen(),
   ];
 

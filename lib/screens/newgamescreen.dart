@@ -17,11 +17,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
 
-class newGameScreen extends StatefulWidget {
-  const newGameScreen({Key? key}) : super(key: key);
+class NewGameScreen extends StatefulWidget {
+  const NewGameScreen({Key? key}) : super(key: key);
 
   @override
-  State<newGameScreen> createState() => _newGameScreenState();
+  State<NewGameScreen> createState() => _NewGameScreenState();
 }
 
 var numPlayers = 0;
@@ -114,7 +114,7 @@ Future<void> createGameData(
 }
 
 // ignore: camel_case_types
-class _newGameScreenState extends State<newGameScreen> {
+class _NewGameScreenState extends State<NewGameScreen> {
   //final Globalkey<FormState> _formkeyValue=new
   late TextEditingController controllerOpponentName;
   String _opponentName = "";
@@ -195,7 +195,7 @@ class _newGameScreenState extends State<newGameScreen> {
           //autovalidateMode:true,
           //child:
           ListView(
-        key: PageStorageKey<String>('newGameScreen'),
+        key: PageStorageKey<String>('NewGameScreen'),
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         children: <Widget>[
           Container(height: 15),

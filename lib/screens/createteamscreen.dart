@@ -8,7 +8,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/namewidget.dart';
 import 'package:orbital_ultylitics/screens/settingscreen.dart';
-import 'ProfileScreen.dart';
+import 'HistoryScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;
@@ -311,7 +311,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(index: 1),
+                      builder: (context) => const HistoryScreen(index: 1),
                     ),
                   );
                 },
