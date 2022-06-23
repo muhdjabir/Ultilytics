@@ -3,11 +3,11 @@ import 'dart:ffi';
 class Game {
   String? gameDetails;
   String? gameType;
-  Int? myScore;
+  int? myScore;
   String? teamName;
   String? opponentName;
   String? startingOn;
-  Int? opponentScore;
+  int? opponentScore;
 
   Game();
 

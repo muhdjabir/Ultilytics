@@ -42,7 +42,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
-  List<Object> _historyList = [];
   _NavigationBarScreenState({required this.index});
   final screens = const [
     /*Center(
@@ -173,20 +172,5 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         ),
       ),*/
     );
-  }
-
-  Future getGameHistoryList() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user!.uid;
-    var data = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('games')
-        .get();
-
-    setState() {
-      _historyList = List.from(data.docs.map((doc) => Game.fromSnapshot(doc)));
-    }
   }
 }
