@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/customWidget/offenseThrowerWidget.dart';
+import 'package:orbital_ultylitics/screens/customWidget/OffenseThrowerWidget.dart';
 import 'customWidget/offenseReceiverWidget.dart';
-import 'customWidget/offenseStartingWidget.dart';
+import 'customWidget/OffenseStartingWidget.dart';
 
 var status = [
   'startingOff',
@@ -22,22 +22,22 @@ void setPlayersStatus(final playerStatus, final myPlayers) {
   }
 }
 
-class statTrackingScreen extends StatefulWidget {
+class StatTrackingScreen extends StatefulWidget {
   var myPlayers;
   String uid;
-  statTrackingScreen({Key? key, required this.myPlayers, required this.uid})
+  StatTrackingScreen({Key? key, required this.myPlayers, required this.uid})
       : super(key: key);
 
   @override
-  State<statTrackingScreen> createState() =>
-      _statTrackingScreenState(myPlayers: this.myPlayers, uid: this.uid);
+  State<StatTrackingScreen> createState() =>
+      _StatTrackingScreenState(myPlayers: this.myPlayers, uid: this.uid);
 }
 
-class _statTrackingScreenState extends State<statTrackingScreen> {
+class _StatTrackingScreenState extends State<StatTrackingScreen> {
   var myPlayers;
   String uid;
   @override
-  _statTrackingScreenState({required this.myPlayers, required this.uid});
+  _StatTrackingScreenState({required this.myPlayers, required this.uid});
   var playerStatus = {};
 
   void setPlayersStatus(final myPlayers) {
@@ -66,20 +66,20 @@ class _statTrackingScreenState extends State<statTrackingScreen> {
                   print('$myPlayers are my players');
                   if (playerStatus[myPlayers[index]] == status[0]) {
                     //startingOff
-                    return offenseStartingWidget(
+                    return OffenseStartingWidget(
                         playerName: myPlayers[index],
                         playerStatus: playerStatus,
                         callbackFunction: callback);
                   }
                   if (playerStatus[myPlayers[index]] == status[1]) {
                     // receiverOff
-                    return receiverOffWidget(
+                    return ReceiverOffWidget(
                         playerName: myPlayers[index],
                         playerStatus: playerStatus);
                   }
                   if (playerStatus[myPlayers[index]] == status[2]) {
                     //thrower Offense
-                    return throwerOffWidget(
+                    return ThrowerOffWidget(
                         playerName: myPlayers[index],
                         playerStatus: playerStatus);
                   } else {

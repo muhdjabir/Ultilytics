@@ -4,8 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
 
-class NameContainerWidget extends StatelessWidget {
-  const NameContainerWidget({Key? key, required this.child}) : super(key: key);
+class GameEntryWidget extends StatelessWidget {
+  const GameEntryWidget({Key? key, required this.child}) : super(key: key);
   final String child;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,8 @@ class NameContainerWidget extends StatelessWidget {
                   //color:,
                   size: 40,
                 ),
-                onPressed: () async {
+                onPressed: () => print(
+                    "Hello") /*() async {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -44,7 +45,8 @@ class NameContainerWidget extends StatelessWidget {
                           CreateTeamScreen(newTeamName: child),
                     ),
                   );
-                },
+                }*/
+                ,
               ),
             ),
           ],

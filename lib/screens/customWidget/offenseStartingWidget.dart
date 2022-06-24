@@ -8,21 +8,28 @@ var status = [
   'playerDef'
 ];
 
-class offenseStartingWidget extends StatefulWidget {
+class OffenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   final Function callbackFunction;
-  offenseStartingWidget(
-      {Key? key, required this.playerName, required this.playerStatus, required this.callbackFunction})
+  OffenseStartingWidget(
+      {Key? key,
+      required this.playerName,
+      required this.playerStatus,
+      required this.callbackFunction})
       : super(key: key);
   @override
-  State<offenseStartingWidget> createState() => _offenseStartingWidgetState(
-      playerName: this.playerName, playerStatus: this.playerStatus, callbackFunction: this.callbackFunction);
+  State<OffenseStartingWidget> createState() => _OffenseStartingWidgetState(
+      playerName: this.playerName,
+      playerStatus: this.playerStatus,
+      callbackFunction: this.callbackFunction);
 }
 
-class _offenseStartingWidgetState extends State<offenseStartingWidget> {
-  _offenseStartingWidgetState(
-      {required this.playerName, required this.playerStatus, required this.callbackFunction});
+class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
+  _OffenseStartingWidgetState(
+      {required this.playerName,
+      required this.playerStatus,
+      required this.callbackFunction});
   var playerName;
   var playerStatus;
   final Function callbackFunction;
@@ -54,7 +61,8 @@ class _offenseStartingWidgetState extends State<offenseStartingWidget> {
                     ButtonTheme(
                       child: ElevatedButton(
                         child: Text("Starting Thrower"),
-                        onPressed: () => callbackFunction(playerName, 2, 1),/*() {
+                        onPressed: () => callbackFunction(playerName, 2,
+                            1), /*() {
                           setState(() {
                             playerStatus.keys.forEach((k) {
                               if (k == playerName) {

@@ -8,19 +8,19 @@ var status = [
   'playerDef'
 ];
 
-class receiverOffWidget extends StatefulWidget {
+class ReceiverOffWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
-  receiverOffWidget(
+  ReceiverOffWidget(
       {Key? key, required this.playerName, required this.playerStatus})
       : super(key: key);
   @override
-  State<receiverOffWidget> createState() => _receiverOffWidgetState(
+  State<ReceiverOffWidget> createState() => _ReceiverOffWidgetState(
       playerName: this.playerName, playerStatus: this.playerStatus);
 }
 
-class _receiverOffWidgetState extends State<receiverOffWidget> {
-  _receiverOffWidgetState(
+class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
+  _ReceiverOffWidgetState(
       {required this.playerName, required this.playerStatus});
   var playerName;
   var playerStatus;

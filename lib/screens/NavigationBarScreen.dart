@@ -10,23 +10,27 @@ Score
 //import 'package:flutter/src/foundation/key.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/newgamescreen.dart';
-import 'package:orbital_ultylitics/screens/teamsdisplayscreen.dart';
+import 'package:orbital_ultylitics/models/Game.dart';
+import 'package:orbital_ultylitics/screens/GameHistoryScreen.dart';
+import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
+import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
 //import 'package:orbital_ultylitics/authservices.dart';
 //import 'package:orbital_ultylitics/main.dart';
 //import 'HomePage.dart';
 import 'settingscreen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class NavigationBarScreen extends StatefulWidget {
   final int index;
-  const ProfileScreen({Key? key, this.index = 0}) : super(key: key);
+  const NavigationBarScreen({Key? key, this.index = 0}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState(index: this.index);
+  State<NavigationBarScreen> createState() =>
+      _NavigationBarScreenState(index: index);
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _NavigationBarScreenState extends State<NavigationBarScreen> {
   /*User fromJson(Map<String, dynamic>  json) => User(
     email:json['email'],
     uid:json['uid']
@@ -38,13 +42,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
-  _ProfileScreenState({required this.index});
+  _NavigationBarScreenState({required this.index});
   final screens = const [
-    Center(
+    /*Center(
         child: Text("Games History",
-            style: TextStyle(fontSize: 72, color: Colors.white60))),
+            style: TextStyle(fontSize: 72, color: Colors.white60))),*/
+    GameHistoryScreen(),
     TeamsDisplayScreen(),
-    newGameScreen(key: PageStorageKey("newGameScreen")),
+    NewGameScreen(key: PageStorageKey("NewGameScreen")),
     SettingsScreen(),
   ];
 

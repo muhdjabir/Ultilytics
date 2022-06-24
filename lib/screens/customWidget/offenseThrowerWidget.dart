@@ -8,19 +8,19 @@ var status = [
   'playerDef'
 ];
 
-class throwerOffWidget extends StatefulWidget {
+class ThrowerOffWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
-  throwerOffWidget(
+  ThrowerOffWidget(
       {Key? key, required this.playerName, required this.playerStatus})
       : super(key: key);
   @override
-  State<throwerOffWidget> createState() => _throwerOffWidgetState(
+  State<ThrowerOffWidget> createState() => _ThrowerOffWidgetState(
       playerName: this.playerName, playerStatus: this.playerStatus);
 }
 
-class _throwerOffWidgetState extends State<throwerOffWidget> {
-  _throwerOffWidgetState(
+class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
+  _ThrowerOffWidgetState(
       {required this.playerName, required this.playerStatus});
   var playerName;
   var playerStatus;

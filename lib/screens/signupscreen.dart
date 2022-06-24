@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
+import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -113,6 +113,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 }
                               }),
                             });
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => NavigationBarScreen(index: 2)));
                   }
 
                   /*FirebaseAuth.instance
@@ -134,9 +136,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   }*/
                   on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
-                      print('The password provided is too weak.');
+                      errorMessage('Password is too weak');
                     } else if (e.code == 'email-already-in-use') {
-                      print('The account already exists for that email.');
+                      errorMessage('Email is already registered');
                     }
                   } catch (e) {
                     print(e);
@@ -147,8 +149,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   //await _user.userSetup(_emailController.text,);
                   //await users.add({'name': _email, });
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => ProfileScreen(index: 2)));
+                  //Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  //builder: (context) => NavigationBarScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",
@@ -163,5 +165,18 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  Future errorMessage(String error) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(title: Text('${error}'), actions: [
+            TextButton(
+              child: Text('Okay'),
+              onPressed: okay,
+            )
+          ]));
+
+  void okay() {
+    Navigator.of(context).pop();
   }
 }

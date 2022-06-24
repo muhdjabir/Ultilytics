@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'package:orbital_ultylitics/screens/HomePage.dart';
 import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
-import 'package:orbital_ultylitics/screens/customWidget/teamnamewidget.dart';
+import 'package:orbital_ultylitics/screens/customWidget/TeamNameWidget.dart';
 //import 'package:orbital_ultylitics/screens/profilescreen.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'ProfileScreen.dart';
@@ -138,7 +138,7 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
                                 snapshot.data?.docs[index];
                             print(teamsData);
                             //var currTeams = teams;
-                            return nameContainerWidget(
+                            return NameContainerWidget(
                                 child: documentSnapshot!["Team Name"]);
                           });
                     } else {
