@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
+import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/screens/GameSummaryScreen.dart';
 import 'package:orbital_ultylitics/screens/customWidget/GameEntryWidget.dart';
 import 'HomePage.dart';
@@ -35,7 +36,7 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
         .doc(uid)
         .collection('games')
         .snapshots();
-    var gamesData = getGamesHistory(uid);
+    //var gamesData = getGamesHistory(uid);
     return Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
@@ -55,6 +56,8 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                     QueryDocumentSnapshot<Object?>? documentSnapshot =
                         snapshot.data?.docs[index];
                     Game game = Game.fromSnapshot(documentSnapshot);
+                    String? docID = documentSnapshot?.reference.id;
+                    print(docID);
                     return (documentSnapshot != null)
                         ? Card(
                             elevation: 4,
@@ -63,8 +66,8 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                                 textColor: Colors.deepPurpleAccent,
                                 title: Text(game.teamName
                                     .toString()), //documentSnapshot["My Team"]),
-                                subtitle: Text(game.opponentName
-                                    .toString()), //documentSnapshot["Opponents"]),
+                                subtitle: Text(
+                                    "VS ${game.opponentName.toString()}"), //documentSnapshot["Opponents"]),
                                 leading: Text(game.myScore
                                     .toString()), //documentSnapshot["My Score"].toString()),
                                 trailing: Text(game.opponentScore
@@ -72,8 +75,8 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                                 //  .toString()),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        GameSummaryScreen(game: game),
+                                    builder: (context) => GameSummaryScreen(
+                                        game: game, docID: docID.toString()),
                                   ));
                                 }))
                         //=> print("See More")))
