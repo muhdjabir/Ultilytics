@@ -58,29 +58,22 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                     Game game = Game.fromSnapshot(documentSnapshot);
                     String? docID = documentSnapshot?.reference.id;
                     print(docID);
-                    return (documentSnapshot != null)
-                        ? Card(
-                            elevation: 4,
-                            child: ListTile(
-                                tileColor: Color.fromARGB(255, 10, 52, 87),
-                                textColor: Colors.deepPurpleAccent,
-                                title: Text(game.teamName
-                                    .toString()), //documentSnapshot["My Team"]),
-                                subtitle: Text(
-                                    "VS ${game.opponentName.toString()}"), //documentSnapshot["Opponents"]),
-                                leading: Text(game.myScore
-                                    .toString()), //documentSnapshot["My Score"].toString()),
-                                trailing: Text(game.opponentScore
-                                    .toString()), //documentSnapshot["Opponent Score"]
-                                //  .toString()),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => GameSummaryScreen(
-                                        game: game, docID: docID.toString()),
-                                  ));
-                                }))
-                        //=> print("See More")))
-                        : Text("No Games Recorded");
+                    return Card(
+                        elevation: 4,
+                        child: ListTile(
+                            tileColor: Color.fromARGB(255, 10, 52, 87),
+                            textColor: Colors.white,
+                            title: Text(game.teamName.toString()),
+                            subtitle:
+                                Text("VS ${game.opponentName.toString()}"),
+                            trailing: Text(
+                                "${game.myScore} - ${game.opponentScore.toString()}"),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => GameSummaryScreen(
+                                    game: game, docID: docID.toString()),
+                              ));
+                            }));
                   },
                 );
               } else {

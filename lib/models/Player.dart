@@ -1,14 +1,14 @@
 import 'dart:ffi';
 
 class Player {
-  late final int? assists;
-  late final int? breaksideThrows;
-  late final int? catches;
-  late final int? goalScored;
-  late final int? interception;
-  late final int? opensideThrows;
-  late final int? throwaways;
-  late final String? name;
+  late final int assists;
+  late final int breaksideThrows;
+  late final int catches;
+  late final int goalScored;
+  late final int interception;
+  late final int opensideThrows;
+  late final int throwaways;
+  late final String name;
 
   Player();
 
