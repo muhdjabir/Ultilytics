@@ -1,13 +1,19 @@
 import 'dart:ffi';
 
+import 'package:orbital_ultylitics/models/Player.dart';
+
 class Game {
-  String? gameDetails;
-  String? gameType;
-  int? myScore;
-  String? teamName;
-  String? opponentName;
-  String? startingOn;
-  int? opponentScore;
+  late final String gameDetails;
+  late final String gameType;
+  late final int myScore;
+  late final String teamName;
+  late final String opponentName;
+  late final String startingOn;
+  late final int opponentScore;
+
+  /*static List<Player> getPlayers(snapshot) {
+    return snapshot.
+  }*/
 
   Game();
 

@@ -1,13 +1,10 @@
-//import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
+import 'package:orbital_ultylitics/models/Player.dart';
+import 'package:orbital_ultylitics/screens/GameSummaryScreen.dart';
 import 'package:orbital_ultylitics/screens/customWidget/GameEntryWidget.dart';
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
-
 import 'HomePage.dart';
 
 class GameHistoryScreen extends StatefulWidget {
@@ -39,7 +36,7 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
         .doc(uid)
         .collection('games')
         .snapshots();
-    var gamesData = getGamesHistory(uid);
+    //var gamesData = getGamesHistory(uid);
     return Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
@@ -58,70 +55,30 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     QueryDocumentSnapshot<Object?>? documentSnapshot =
                         snapshot.data?.docs[index];
-                    return (documentSnapshot != null)
-                        ? Card(
-                            elevation: 4,
-                            child: ListTile(
-                                tileColor: Color.fromARGB(255, 10, 52, 87),
-                                textColor: Colors.deepPurpleAccent,
-                                title: Text(documentSnapshot["My Team"]),
-                                subtitle: Text(documentSnapshot["Opponents"]),
-                                leading: Text(
-                                    documentSnapshot["My Score"].toString()),
-                                trailing: Text(
-                                    documentSnapshot["Opponent Score"]
-                                        .toString()),
-                                onTap: () => print("See More")))
-                        : Text("No Games Recorded");
+                    Game game = Game.fromSnapshot(documentSnapshot);
+                    String? docID = documentSnapshot?.reference.id;
+                    print(docID);
+                    return Card(
+                        elevation: 4,
+                        child: ListTile(
+                            tileColor: Color.fromARGB(255, 10, 52, 87),
+                            textColor: Colors.white,
+                            title: Text(game.teamName.toString()),
+                            subtitle:
+                                Text("VS ${game.opponentName.toString()}"),
+                            trailing: Text(
+                                "${game.myScore} - ${game.opponentScore.toString()}"),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => GameSummaryScreen(
+                                    game: game, docID: docID.toString()),
+                              ));
+                            }));
                   },
                 );
               } else {
                 return Text("No Games Recorded");
               }
-            }
-
-            /*SafeArea(
-        child: Expanded(
-          child: SingleChildScrollView(
-            physics: const ScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //Expanded(child:
-                StreamBuilder<QuerySnapshot>(
-                  //https://www.youtube.com/watch?v=HDy0RKCj40Q
-                  stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(uid)
-                      .collection('games')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      print(snapshot.data!.docs.length);
-                      return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            QueryDocumentSnapshot<Object?>? documentSnapshot =
-                                snapshot.data?.docs[index];
-                            print(gamesData);
-                            //var currTeams = teams;
-                            return GameEntryWidget(
-                                child: documentSnapshot!["Game Details"]);
-                          });
-                    } else {
-                      return const Text("something is wrong",
-                          style: TextStyle(color: Colors.amber));
-                    }
-                  },
-                ) //),
-              ],
-            ),
-            //)
-          ),
-        ),
-      ),*/
-            ));
+            }));
   }
 }
