@@ -156,10 +156,16 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text("${game.teamName} vs ${game.opponentName}")),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal, child: _buildBody(context)),
+        body: Column(
+          children: [
+            Text("Game Details: ${game.gameDetails} ",
+                style: TextStyle(color: Colors.white)),
+            SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: _buildBody(context))),
+          ],
         ));
   }
 }
