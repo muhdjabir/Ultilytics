@@ -6,24 +6,27 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
-import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
+//import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
+import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
 class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
   String gameName;
   String uid;
+  var newPointState;
   var numPlayers;
   NewLineScreen(
       {Key? key,
       required this.gameName,
       required this.numPlayers,
       //required this.myPlayers,
-      required this.uid})
+      required this.uid,
+      required this.newPointState})
       : super(key: key);
 
   @override
   State<NewLineScreen> createState() => _NewLineScreenState(
-      gameName: this.gameName, numPlayers: this.numPlayers, uid: this.uid);
+      numPlayers: this.numPlayers, uid: this.uid,gameName: this.gameName, newPointState: this.newPointState);
 }
 
 class _NewLineScreenState extends State<NewLineScreen> {
@@ -32,10 +35,12 @@ class _NewLineScreenState extends State<NewLineScreen> {
   //List<String> myPlayers;
   String uid;
   String gameName;
+  var newPointState;
   //Int numPlayers;
   List<bool> isChecked = [];
   var lineupList = [];
   Future<bool?> getData() async {
+    print('is checked has $numPlayers');
     for (var i = 0; i < numPlayers; i += 1) {
       isChecked.add(false);
     }
@@ -76,7 +81,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
   _NewLineScreenState(
       {required this.gameName,
       required this.numPlayers,
-      /*required this.myPlayers,*/ required this.uid});
+      /*required this.myPlayers,*/ required this.uid, required this.newPointState});
   Widget build(BuildContext context) {
     getData();
     print("$numPlayers number of players");
@@ -122,7 +127,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
             },
           ),
         ],*/
-            title: Text("Select lineup: $numSelectedString players selected "),
+            title: Text("$newPointState lineup: $numSelectedString players selected "),
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -150,6 +155,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
                                 QueryDocumentSnapshot<Object?>?
                                     documentSnapshot =
                                     snapshot.data?.docs[index];
+                                    print('index $index');
                                 return Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 2.0),
@@ -197,7 +203,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => StatTrackingScreen(
-                                myPlayers: lineupList, uid: uid),
+                                myPlayers: lineupList, uid: uid, gameName: gameName, newPointState: newPointState,),
                           ),
                         );
                       });
