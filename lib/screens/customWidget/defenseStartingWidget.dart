@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 
-var status = [
-  'startingOff',
-  'receiverOff',
-  'throwerOff',
-  'startingDef',
-  'playerDef'
-];
-
-class OffenseStartingWidget extends StatefulWidget {
+class defenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   final Function callbackFunction;
-  OffenseStartingWidget(
+  defenseStartingWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
       required this.callbackFunction})
       : super(key: key);
   @override
-  State<OffenseStartingWidget> createState() => _OffenseStartingWidgetState(
+  State<defenseStartingWidget> createState() => _defenseStartingWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction);
 }
 
-class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
-  _OffenseStartingWidgetState(
+class _defenseStartingWidgetState extends State<defenseStartingWidget> {
+  _defenseStartingWidgetState(
       {required this.playerName,
       required this.playerStatus,
       required this.callbackFunction});
@@ -55,14 +47,14 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
                   )),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: Container(
                   child: ButtonBar(children: [
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("Starting Thrower"),
-                        onPressed: () => callbackFunction(playerName, 2,
-                            1), /*() {
+                        child: Text("Starting Puller"),
+                        onPressed: () => callbackFunction(playerName, 4,
+                            4), /*() {
                           setState(() {
                             playerStatus.keys.forEach((k) {
                               if (k == playerName) {

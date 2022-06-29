@@ -112,8 +112,7 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
         title: const Text("Your Teams"),
       ),
       body: SafeArea(
-        child: Expanded(
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
             physics: const ScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +149,6 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
               ],
             ),
             //)
-          ),
         ),
       ),
     );

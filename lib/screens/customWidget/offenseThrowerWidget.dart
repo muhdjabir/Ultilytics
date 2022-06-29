@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 
-var status = [
-  'startingOff',
-  'receiverOff',
-  'throwerOff',
-  'startingDef',
-  'playerDef'
-];
-
 class ThrowerOffWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
+  final Function callbackFunction;
   ThrowerOffWidget(
-      {Key? key, required this.playerName, required this.playerStatus})
+      {Key? key, required this.playerName, required this.playerStatus, required this.callbackFunction})
       : super(key: key);
   @override
   State<ThrowerOffWidget> createState() => _ThrowerOffWidgetState(
-      playerName: this.playerName, playerStatus: this.playerStatus);
+      playerName: this.playerName, playerStatus: this.playerStatus, callbackFunction: this.callbackFunction);
 }
 
 class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
   _ThrowerOffWidgetState(
-      {required this.playerName, required this.playerStatus});
+      {required this.playerName, required this.playerStatus, required this.callbackFunction});
   var playerName;
   var playerStatus;
+  final Function callbackFunction;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,29 +40,23 @@ class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
                   )),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
-                child: Container(
-                  child: ButtonBar(children: [
-                    ButtonTheme(
-                      child: ElevatedButton(
-                        child: Text("Throwaway"),
-                        onPressed: () {
-                          setState(() {
-                            playerStatus.keys.forEach((k) {
-                              if (k == playerName) {
-                                playerStatus[playerName] = status[4]; //defender
-                                print(playerStatus);
-                              } else {
-                                playerStatus[k] = status[4]; //defender
-                                //print(playerStatus);
-                              }
-                            });
-                          });
-                        },
-                      ),
-                    )
-                  ]),
-                )),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: ButtonBar(children: [
+                  ButtonTheme(
+                    child: ElevatedButton(
+                      child: Text("Throwaway"),
+                      onPressed: () => callbackFunction(playerName, 4,
+                          4), //4 = 'playerDef'
+                    ),
+                  ),
+                  ButtonTheme(
+                    child: ElevatedButton(
+                      child: Text("Stallout"),
+                      onPressed: () => callbackFunction(playerName, 4,
+                          4), //4 = 'playerDef'
+                    ), 
+                  ),
+                ])),
           ],
         ),
       ),

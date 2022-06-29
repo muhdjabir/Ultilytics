@@ -15,7 +15,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
+//import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
+import 'package:orbital_ultylitics/screens/newLineScreen.dart';
 
 class NewGameScreen extends StatefulWidget {
   const NewGameScreen({Key? key}) : super(key: key);
@@ -344,7 +345,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
                     style: const TextStyle(color: Colors.white),
                     items: [
                       _dropdownItem("Offense"),
-                      _dropdownItem("Defence"),
+                      _dropdownItem("Defense"),
                     ],
                     value: myStartState,
                     onChanged: (myStartState) =>
@@ -426,8 +427,8 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NewLineScreen(
-                      gameName: _gameName, numPlayers: numPlayers, uid: uid),
-                ),
+                      gameName: _gameName, numPlayers: numPlayers, uid: uid, newPointState: myStartState,
+                ),),
               );
 
               /*insertTeamData(newTeamName, uid, _playerList.length);
