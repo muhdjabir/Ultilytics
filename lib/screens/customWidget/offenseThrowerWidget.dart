@@ -1,26 +1,52 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ThrowerOffWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   final Function callbackFunction;
-  ThrowerOffWidget(
-      {Key? key, required this.playerName, required this.playerStatus, required this.callbackFunction})
-      : super(key: key);
+  String gameName;
+  String uid;
+  ThrowerOffWidget({
+    Key? key,
+    required this.playerName,
+    required this.playerStatus,
+    required this.callbackFunction,
+    required this.gameName,
+    required this.uid,
+  }) : super(key: key);
   @override
   State<ThrowerOffWidget> createState() => _ThrowerOffWidgetState(
-      playerName: this.playerName, playerStatus: this.playerStatus, callbackFunction: this.callbackFunction);
+      playerName: this.playerName,
+      playerStatus: this.playerStatus,
+      callbackFunction: this.callbackFunction,
+      gameName: this.gameName,
+      uid: this.uid);
 }
 
 class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
-  _ThrowerOffWidgetState(
-      {required this.playerName, required this.playerStatus, required this.callbackFunction});
+  _ThrowerOffWidgetState({
+    required this.playerName,
+    required this.playerStatus,
+    required this.callbackFunction,
+    required this.gameName,
+    required this.uid,
+  });
   var playerName;
   var playerStatus;
+  String gameName;
+  String uid;
   final Function callbackFunction;
+  
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    var playersInstance = FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('games')
+      .doc(gameName)
+      .collection('players');
+      return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
         height: 80,
@@ -45,16 +71,20 @@ class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
                   ButtonTheme(
                     child: ElevatedButton(
                       child: Text("Throwaway"),
-                      onPressed: () => callbackFunction(playerName, 4,
-                          4), //4 = 'playerDef'
+                      onPressed: () {
+                              playersInstance.doc(playerName).update({"Throwaways": FieldValue.increment(1),"Plus-Minus":FieldValue.increment(-1)});
+                              callbackFunction(playerName, 4, 4);
+                            } //4 = 'playerDef'
                     ),
                   ),
                   ButtonTheme(
                     child: ElevatedButton(
                       child: Text("Stallout"),
-                      onPressed: () => callbackFunction(playerName, 4,
-                          4), //4 = 'playerDef'
-                    ), 
+                      onPressed: () {
+                              playersInstance.doc(playerName).update({"Stalled Out": FieldValue.increment(1),"Plus-Minus":FieldValue.increment(-1)});
+                              callbackFunction(playerName, 4, 4);
+                            } //4 = 'playerDef'
+                    ),
                   ),
                 ])),
           ],
