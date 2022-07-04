@@ -8,8 +8,6 @@
 //type of game
 //lineup page
 
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -267,10 +265,13 @@ class _NewGameScreenState extends State<NewGameScreen> {
                         value: myTeamSelect,
                         hint: const Text(
                           "Select Your Team",
-                          style: TextStyle(color: Color.fromARGB(255, 46, 119, 179), fontSize: 20),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 46, 119, 179),
+                              fontSize: 20),
                         ),
                         //isExpanded: true,
-                        style: const TextStyle(color: Color.fromARGB(255, 46, 119, 179)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 46, 119, 179)),
                         items: teamItems,
                         onChanged: (myTeamSelect) => setState(() {
                           this.myTeamSelect = myTeamSelect;

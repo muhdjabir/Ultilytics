@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:orbital_ultylitics/models/Player.dart';
-
 class Game {
   late final String gameDetails;
   late final String gameType;

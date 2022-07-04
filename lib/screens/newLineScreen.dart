@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 //import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
@@ -49,7 +46,7 @@ class NewLineScreen extends StatefulWidget {
       myTeam: this.myTeam,
       opponentTeam: this.opponentTeam,
       timeLeft: this.timeLeft,
-      isPlaying:this.isPlaying);
+      isPlaying: this.isPlaying);
 }
 
 class _NewLineScreenState extends State<NewLineScreen>
@@ -90,10 +87,12 @@ class _NewLineScreenState extends State<NewLineScreen>
       vsync: this,
       duration: timeLeft,
     );
-    
-    if (isPlaying == true)
-    {controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);}
-    else{controller.stop();}
+
+    if (isPlaying == true) {
+      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
+    } else {
+      controller.stop();
+    }
   }
 
   @override
@@ -293,7 +292,11 @@ class _NewLineScreenState extends State<NewLineScreen>
                               myScore: myScore,
                               myTeam: myTeam,
                               opponentTeam: opponentTeam,
-                              timeLeft: controller.duration! * controller.value == Duration(hours: 0, minutes: 0, seconds: 0) ? timeLeft: controller.duration! * controller.value,
+                              timeLeft: controller.duration! *
+                                          controller.value ==
+                                      Duration(hours: 0, minutes: 0, seconds: 0)
+                                  ? timeLeft
+                                  : controller.duration! * controller.value,
                               isPlaying: isPlaying,
                             ),
                           ),
