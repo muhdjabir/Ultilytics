@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../newLineScreen.dart';
 
@@ -20,10 +17,10 @@ class newPointPopupWidget extends StatefulWidget {
 
   @override
   State<newPointPopupWidget> createState() => _newPointPopupWidgetState(
-      state: this.state,
-      gameName: this.gameName,
-      uid: this.uid,
-      myPlayersLength: this.myPlayersLength);
+      state: state,
+      gameName: gameName,
+      uid: uid,
+      myPlayersLength: myPlayersLength);
 }
 
 class _newPointPopupWidgetState extends State<newPointPopupWidget> {

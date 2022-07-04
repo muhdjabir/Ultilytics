@@ -17,19 +17,21 @@ class LoginScreen extends StatefulWidget {
 
 ThemeData _lightTheme = ThemeData(
   //brightness: Brightness.light,
-  primaryColor: Color.fromARGB(255, 36, 101, 155),
+  primaryColor: const Color.fromARGB(255, 36, 101, 155),
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)),
-  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  buttonTheme:
+      const ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
 );
 
 ThemeData _darkTheme = ThemeData(
   //textTheme: ,
   //brightness: Colors.blue,
-  primaryColor: Color.fromARGB(255, 36, 101, 155),
+  primaryColor: const Color.fromARGB(255, 36, 101, 155),
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)),
-  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  buttonTheme:
+      const ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
 );
 
 //ool _light = true; //https://www.youtube.com/watch?v=aFei1SwczS4
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) => AlertDialog(title: Text('${error}'), actions: [
             TextButton(
-              child: Text('Okay'),
+              child: const Text('Okay'),
               onPressed: okay,
             )
           ]));
@@ -76,8 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //create the textfiled controller
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return MaterialApp(
       //theme: _light ? _lightTheme: _darkTheme,
       home: Padding(
@@ -109,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               style: const TextStyle(color: Colors.white),
-              controller: _emailController,
+              controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 hintText: "User Email",
@@ -126,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               style: const TextStyle(color: Colors.white),
-              controller: _passwordController,
+              controller: passwordController,
               obscureText: true,
               decoration: const InputDecoration(
                 hintText: "User Password",
@@ -178,8 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () async {
                   //testing the app
                   User? user = await loginUsingEmailPassword(
-                      email: _emailController.text,
-                      password: _passwordController.text,
+                      email: emailController.text,
+                      password: passwordController.text,
                       context: context);
                   print(user);
                   if (user != null) {

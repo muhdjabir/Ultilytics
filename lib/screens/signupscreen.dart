@@ -14,8 +14,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final auth = FirebaseAuth.instance;
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String _email = '';
   String _password = '';
   //Authservices _user;
@@ -115,26 +115,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             });
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => NavigationBarScreen(index: 2)));
-                  }
-
-                  /*FirebaseAuth.instance
-                        .authStateChanges()
-                        .listen((User? user) {
-                      if (user == null)
-                        ;
-                      else
-                      String uid;
-                        CollectionReference users =
-                            FirebaseFirestore.instance.collection('users');
-                      DocumentReference<Map<String, dynamic>> users =
-                          FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(uid);
-                      users.set({'displayName': email, 'uid': uid});
-                      ;
-                    });
-                  }*/
-                  on FirebaseAuthException catch (e) {
+                  } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       errorMessage('Password is too weak');
                     } else if (e.code == 'email-already-in-use') {
@@ -143,14 +124,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   } catch (e) {
                     print(e);
                   }
-
-                  //print(user);
-                  //String uid = FirebaseAuth.instance.currentUser?.uid;
-
-                  //await _user.userSetup(_emailController.text,);
-                  //await users.add({'name': _email, });
-                  //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  //builder: (context) => NavigationBarScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",
@@ -169,10 +142,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future errorMessage(String error) => showDialog(
       context: context,
-      builder: (context) => AlertDialog(title: Text('${error}'), actions: [
+      builder: (context) => AlertDialog(title: Text(error), actions: [
             TextButton(
-              child: Text('Okay'),
               onPressed: okay,
+              child: Text('Okay'),
             )
           ]));
 

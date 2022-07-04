@@ -27,11 +27,11 @@ class ReceiverOffWidget extends StatefulWidget {
   }) : super(key: key);
   @override
   State<ReceiverOffWidget> createState() => _ReceiverOffWidgetState(
-        playerName: this.playerName,
-        playerStatus: this.playerStatus,
-        callbackFunction: this.callbackFunction,
-        gameName: this.gameName,
-        uid: this.uid,
+        playerName: playerName,
+        playerStatus: playerStatus,
+        callbackFunction: callbackFunction,
+        gameName: gameName,
+        uid: uid,
       );
 }
 
@@ -118,7 +118,13 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             NewLineScreen(
-                                                              gameName: gameName, uid: uid, newPointState: 'Offense', numPlayers: numPlayers,
+                                                              gameName:
+                                                                  gameName,
+                                                              uid: uid,
+                                                              newPointState:
+                                                                  'Offense',
+                                                              numPlayers:
+                                                                  numPlayers,
                                                             )))),
                                             TextButton(
                                                 child: Text('Defense'),
@@ -127,7 +133,13 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             NewLineScreen(
-                                                              gameName: gameName, uid: uid, newPointState: 'Defense', numPlayers: numPlayers,
+                                                              gameName:
+                                                                  gameName,
+                                                              uid: uid,
+                                                              newPointState:
+                                                                  'Defense',
+                                                              numPlayers:
+                                                                  numPlayers,
                                                             ))))
                                           ]));
                             }),

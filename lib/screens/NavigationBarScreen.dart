@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/models/Game.dart';
-import 'package:orbital_ultylitics/screens/GameHistoryScreen.dart';
 import 'package:orbital_ultylitics/screens/HistoryTabScreen.dart';
 import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';

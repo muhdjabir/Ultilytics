@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Team {
   late final int loses;
   late final int wins;

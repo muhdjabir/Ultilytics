@@ -1,13 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/models/Game.dart';
-import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/GameSummaryScreen.dart';
-import 'package:orbital_ultylitics/screens/customWidget/GameEntryWidget.dart';
-import 'package:orbital_ultylitics/screens/customWidget/TeamNameWidget.dart';
-import 'HomePage.dart';
 
 class TeamHistoryScreen extends StatefulWidget {
   @override
@@ -20,11 +14,6 @@ class _TeamHistoryScreenState extends State<TeamHistoryScreen> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final uid = user!.uid;
-    final Stream<QuerySnapshot> teams = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('teams')
-        .snapshots();
     return Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
@@ -53,6 +42,7 @@ class _TeamHistoryScreenState extends State<TeamHistoryScreen> {
                             QueryDocumentSnapshot<Object?>? documentSnapshot =
                                 snapshot.data?.docs[index];
                             Team team = Team.fromSnapshot(documentSnapshot);
+                            String? docID = documentSnapshot?.reference.id;
                             return Card(
                               elevation: 4,
                               child: ListTile(

@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 //https://www.youtube.com/watch?v=yNN8NthQIu4 creating custom widgets
 class NameWidget extends StatelessWidget {

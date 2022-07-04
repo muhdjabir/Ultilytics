@@ -1,12 +1,8 @@
-import 'dart:ffi';
+// ignore_for_file: unnecessary_this
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
-//import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
 class NewLineScreen extends StatefulWidget {
@@ -26,7 +22,10 @@ class NewLineScreen extends StatefulWidget {
 
   @override
   State<NewLineScreen> createState() => _NewLineScreenState(
-      numPlayers: this.numPlayers, uid: this.uid,gameName: this.gameName, newPointState: this.newPointState);
+      numPlayers: this.numPlayers,
+      uid: this.uid,
+      gameName: this.gameName,
+      newPointState: this.newPointState);
 }
 
 class _NewLineScreenState extends State<NewLineScreen> {
@@ -81,7 +80,9 @@ class _NewLineScreenState extends State<NewLineScreen> {
   _NewLineScreenState(
       {required this.gameName,
       required this.numPlayers,
-      /*required this.myPlayers,*/ required this.uid, required this.newPointState});
+      /*required this.myPlayers,*/ required this.uid,
+      required this.newPointState});
+  @override
   Widget build(BuildContext context) {
     getData();
     print("$numPlayers number of players");
@@ -127,7 +128,8 @@ class _NewLineScreenState extends State<NewLineScreen> {
             },
           ),
         ],*/
-            title: Text("$newPointState lineup: $numSelectedString players selected "),
+            title: Text(
+                "$newPointState lineup: $numSelectedString players selected "),
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -155,10 +157,10 @@ class _NewLineScreenState extends State<NewLineScreen> {
                                 QueryDocumentSnapshot<Object?>?
                                     documentSnapshot =
                                     snapshot.data?.docs[index];
-                                    print('index $index');
+                                print('index $index');
                                 return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 2.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2.0),
                                     child: CheckboxListTile(
                                         controlAffinity:
                                             ListTileControlAffinity.trailing,
@@ -167,14 +169,14 @@ class _NewLineScreenState extends State<NewLineScreen> {
                                                 ? (documentSnapshot[
                                                     "Player Name"])
                                                 : "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color:
                                                     Colors.deepPurpleAccent)),
                                         value: isChecked[index],
                                         activeColor: Colors.orangeAccent,
                                         checkColor: Colors.limeAccent,
-                                        tileColor:
-                                            Color.fromARGB(255, 10, 52, 87),
+                                        tileColor: const Color.fromARGB(
+                                            255, 10, 52, 87),
                                         onChanged: (bool? value) {
                                           if (value != null) {
                                             setState(() {
@@ -187,8 +189,8 @@ class _NewLineScreenState extends State<NewLineScreen> {
                                         }));
                               }));
                         } else {
-                          return Text("something is wrong",
-                              style: TextStyle(color: Colors.amber));
+                          return const Text("something is wrong",
+                              style: const TextStyle(color: Colors.amber));
                         }
                       }),
                   ElevatedButton(
@@ -203,7 +205,11 @@ class _NewLineScreenState extends State<NewLineScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => StatTrackingScreen(
-                                myPlayers: lineupList, uid: uid, gameName: gameName, newPointState: newPointState,),
+                              myPlayers: lineupList,
+                              uid: uid,
+                              gameName: gameName,
+                              newPointState: newPointState,
+                            ),
                           ),
                         );
                       });

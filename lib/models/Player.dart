@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Player {
   late final int assists;
   late final int breaksideThrows;
