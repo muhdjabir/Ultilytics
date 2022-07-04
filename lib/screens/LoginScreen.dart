@@ -37,7 +37,7 @@ ThemeData _darkTheme = ThemeData(
 //class DarkLightTheme extends
 class _LoginScreenState extends State<LoginScreen> {
   //login function
-  static Future<User?> loginUsingEmailPassword(
+  Future<User?> loginUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -49,11 +49,28 @@ class _LoginScreenState extends State<LoginScreen> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        print("No User found for that email");
+        errorMessage("User not registered");
+      } else if (e.code == "wrong-password") {
+        errorMessage("Incorrect password");
+      } else {
+        print(e.code);
       }
     }
 
     return user;
+  }
+
+  Future errorMessage(String error) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(title: Text('${error}'), actions: [
+            TextButton(
+              child: Text('Okay'),
+              onPressed: okay,
+            )
+          ]));
+
+  void okay() {
+    Navigator.of(context).pop();
   }
 
   @override
