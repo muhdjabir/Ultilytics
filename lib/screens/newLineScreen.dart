@@ -5,19 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
+import 'customWidget/roundButtonTimerWidget.dart';
+
 class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
   String gameName;
   String uid;
   var newPointState;
   var numPlayers;
+  var myScore;
+  var opponentScore;
+  var myTeam;
+  Duration timeLeft;
+  String opponentTeam;
+  bool isPlaying;
   NewLineScreen(
       {Key? key,
       required this.gameName,
       required this.numPlayers,
       //required this.myPlayers,
       required this.uid,
-      required this.newPointState})
+      required this.newPointState,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam,
+      required this.timeLeft,
+      required this.isPlaying})
       : super(key: key);
 
   @override
@@ -25,16 +39,30 @@ class NewLineScreen extends StatefulWidget {
       numPlayers: this.numPlayers,
       uid: this.uid,
       gameName: this.gameName,
-      newPointState: this.newPointState);
+      newPointState: this.newPointState,
+      myScore: this.myScore,
+      opponentScore: this.opponentScore,
+      myTeam: this.myTeam,
+      opponentTeam: this.opponentTeam,
+      timeLeft: this.timeLeft,
+      isPlaying:this.isPlaying);
 }
 
-class _NewLineScreenState extends State<NewLineScreen> {
+class _NewLineScreenState extends State<NewLineScreen>
+    with TickerProviderStateMixin {
   var numPlayers;
-  bool? _isChecked = false;
+  //bool? _isChecked = false;
   //List<String> myPlayers;
   String uid;
   String gameName;
+  Duration timeLeft;
   var newPointState;
+  var myScore;
+  var opponentScore;
+  String myTeam;
+  String opponentTeam;
+  bool isPlaying;
+  late AnimationController controller;
   //Int numPlayers;
   List<bool> isChecked = [];
   var lineupList = [];
@@ -43,6 +71,31 @@ class _NewLineScreenState extends State<NewLineScreen> {
     for (var i = 0; i < numPlayers; i += 1) {
       isChecked.add(false);
     }
+    return null;
+  }
+
+  String get countText {
+    Duration count = controller.duration! * controller.value;
+    return '${count.inHours}:${(count.inMinutes % 60).toString().padLeft(2, '0')}:${(count.inSeconds % 60).toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: timeLeft,
+    );
+    
+    if (isPlaying == true)
+    {controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);}
+    else{controller.stop();}
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   Future<void> getLineupList(final uid, final gameName) async {
@@ -80,20 +133,23 @@ class _NewLineScreenState extends State<NewLineScreen> {
   _NewLineScreenState(
       {required this.gameName,
       required this.numPlayers,
-      /*required this.myPlayers,*/ required this.uid,
-      required this.newPointState});
+      required this.uid,
+      required this.newPointState,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam,
+      required this.timeLeft,
+      required this.isPlaying});
+
   @override
   Widget build(BuildContext context) {
     getData();
     print("$numPlayers number of players");
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      //print("$numPlayers number of players");
-      //getData();
       getNumSelected();
-      //if(numSelected!=0){
       numSelectedString = numSelected.toString();
-      //}
       return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -103,7 +159,6 @@ class _NewLineScreenState extends State<NewLineScreen> {
             leading: IconButton(
               onPressed: () {
                 isChecked = [];
-                //Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -115,19 +170,7 @@ class _NewLineScreenState extends State<NewLineScreen> {
                 Icons.arrow_back_ios_new_sharp,
                 size: 15,
               ),
-              //label: const Text(''),
-              //style: ElevatedButton.styleFrom(
-              //  elevation: 0, primary: Colors.transparent,),
             ),
-            /*actions: <Widget>[
-          IconButton(
-            //add new team button
-            icon: const Icon(Icons.group_add_outlined),
-            onPressed: () async {
-              createAlertDialog(context);
-            },
-          ),
-        ],*/
             title: Text(
                 "$newPointState lineup: $numSelectedString players selected "),
           ),
@@ -135,6 +178,40 @@ class _NewLineScreenState extends State<NewLineScreen> {
             child: SingleChildScrollView(
                 physics: const ScrollPhysics(),
                 child: Column(children: [
+                  Row(children: [
+                    AnimatedBuilder(
+                        animation: controller,
+                        builder: (context, child) => Text(countText,
+                            style: const TextStyle(
+                                fontSize: 60,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white70))),
+                    GestureDetector(
+                        onTap: () {
+                          if (controller.isAnimating) {
+                            controller.stop();
+                            setState(() {
+                              isPlaying = false;
+                            });
+                          } else {
+                            controller.reverse(
+                                from: controller.value == 0
+                                    ? 1.0
+                                    : controller.value);
+                            setState(() {
+                              isPlaying = true;
+                            });
+                          }
+                        },
+                        child: RoundButton(
+                          color: isPlaying == true
+                              ? Colors.yellow[700]
+                              : Colors.green[700],
+                          icon: isPlaying == true
+                              ? Icons.pause
+                              : Icons.play_arrow,
+                        ))
+                  ]),
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('users')
@@ -209,17 +286,17 @@ class _NewLineScreenState extends State<NewLineScreen> {
                               uid: uid,
                               gameName: gameName,
                               newPointState: newPointState,
+                              opponentScore: opponentScore,
+                              myScore: myScore,
+                              myTeam: myTeam,
+                              opponentTeam: opponentTeam,
+                              timeLeft: controller.duration! * controller.value == Duration(hours: 0, minutes: 0, seconds: 0) ? timeLeft: controller.duration! * controller.value,
+                              isPlaying: isPlaying,
                             ),
                           ),
                         );
                       });
                     },
-
-                    /*await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => newLineScreen();
-            },*/
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith(
                           (Set<MaterialState> states) {

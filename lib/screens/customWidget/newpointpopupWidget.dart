@@ -7,20 +7,33 @@ class newPointPopupWidget extends StatefulWidget {
   String gameName;
   String uid;
   var myPlayersLength;
+  var myScore;
+  var opponentScore;
+  String myTeam;
+  String opponentTeam;
   newPointPopupWidget(
       {Key? key,
       required this.state,
       required this.gameName,
       required this.uid,
-      required this.myPlayersLength})
+      required this.myPlayersLength,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam})
       : super(key: key);
 
   @override
   State<newPointPopupWidget> createState() => _newPointPopupWidgetState(
-      state: state,
-      gameName: gameName,
-      uid: uid,
-      myPlayersLength: myPlayersLength);
+      state: this.state,
+      gameName: this.gameName,
+      uid: this.uid,
+      myPlayersLength: this.myPlayersLength,
+      myScore: this.myScore,
+      opponentScore: this.opponentScore,
+      myTeam: this.myTeam,
+      opponentTeam: this.opponentTeam);
+
 }
 
 class _newPointPopupWidgetState extends State<newPointPopupWidget> {
@@ -28,11 +41,19 @@ class _newPointPopupWidgetState extends State<newPointPopupWidget> {
       {required this.state,
       required this.gameName,
       required this.uid,
-      required this.myPlayersLength});
+      required this.myPlayersLength,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam});
   var state;
   String gameName;
   String uid;
   var myPlayersLength;
+  var myScore;
+  var opponentScore;
+  String myTeam;
+  String opponentTeam;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +69,11 @@ class _newPointPopupWidgetState extends State<newPointPopupWidget> {
                       uid: uid,
                       newPointState: 'Offense',
                       numPlayers: myPlayersLength,
+                      myScore: myScore,
+                      myTeam: myTeam,
+                      opponentScore: opponentScore,
+                      opponentTeam: opponentTeam,
+                      timeLeft: ,
                     ))),
         TextButton(
             child: Text('Defense'),
@@ -57,8 +83,12 @@ class _newPointPopupWidgetState extends State<newPointPopupWidget> {
                       uid: uid,
                       newPointState: 'Defense',
                       numPlayers: myPlayersLength,
+                      myScore: myScore,
+                      myTeam: myTeam,
+                      opponentScore: opponentScore,
+                      opponentTeam: opponentTeam,
                     )))
       ],
     )));
   }
-}
+}*/
