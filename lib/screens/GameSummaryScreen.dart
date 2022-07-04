@@ -61,16 +61,16 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
       stream: getPlayerStats(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Text("Loading");
+          return const Text("Loading");
         } else {
           return DataTable(
               headingRowColor: MaterialStateProperty.resolveWith((states) {
-                return Color.fromARGB(255, 255, 255, 255);
+                return const Color.fromARGB(255, 255, 255, 255);
               }),
               sortAscending: true,
               sortColumnIndex: 0,
               dataRowColor: MaterialStateProperty.resolveWith(_getDataRowColor),
-              columns: [
+              columns: const [
                 DataColumn(
                     label: Text('Name',
                         style: TextStyle(color: Colors.blueAccent))),
@@ -116,28 +116,28 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
       Player player = Player.fromSnapshot(documentSnapshot);
       return DataRow(cells: [
         DataCell(Text(player.name.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.goalScored.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.assists.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.throwaways.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.interception.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.catches.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.opensideThrows.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.breaksideThrows.toString(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);
     }).toList() as List<DataRow>;
@@ -147,7 +147,6 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> players = getPlayerStats();
-    print(players.toList());
     return Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: false,
@@ -157,14 +156,21 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
             elevation: 0,
             title: Text("${game.teamName} vs ${game.opponentName}")),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("Game Details: ${game.gameDetails} ",
-                style: TextStyle(color: Colors.white)),
-            SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: _buildBody(context))),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Game Details: ${game.gameDetails} ",
+                  style: const TextStyle(color: Colors.white),
+                )),
+            Expanded(
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: _buildBody(context))),
+            )
           ],
         ));
   }

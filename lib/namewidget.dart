@@ -4,7 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 //https://www.youtube.com/watch?v=yNN8NthQIu4 creating custom widgets
-class NameWidget extends StatelessWidget { 
+class NameWidget extends StatelessWidget {
   final String inputText;
   //const NameWidget({this.inputText = 'name'});
   NameWidget({Key? key, this.inputText = 'name'}) : super(key: key);
@@ -18,7 +18,7 @@ class NameWidget extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -31,7 +31,8 @@ class NameWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                PopupMenuButton( //https://www.youtube.com/watch?v=J9XKI4RucY8
+                PopupMenuButton(
+                  //https://www.youtube.com/watch?v=J9XKI4RucY8
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       value: editName,
