@@ -12,6 +12,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -49,6 +50,9 @@ Future<void> insertPlayerData(
     "Breakside Throws": 0,
     "Openside Throws": 0,
     "Interception": 0,
+    "Drops": 0,
+    "Plus-Minus": 0,
+    "Stalled Out": 0,
   });
 }
 
@@ -129,6 +133,9 @@ class _NewGameScreenState extends State<NewGameScreen> {
   late var myTeams;
   String? myTeamSelect;
   String? myStartState;
+  var durationHours;
+  var durationMins;
+  var durationSecs;
   String? myGameType;
 
   @override
@@ -260,10 +267,10 @@ class _NewGameScreenState extends State<NewGameScreen> {
                         value: myTeamSelect,
                         hint: const Text(
                           "Select Your Team",
-                          style: TextStyle(color: Colors.grey, fontSize: 20),
+                          style: TextStyle(color: Color.fromARGB(255, 46, 119, 179), fontSize: 20),
                         ),
                         //isExpanded: true,
-                        style: const TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Color.fromARGB(255, 46, 119, 179)),
                         items: teamItems,
                         onChanged: (myTeamSelect) => setState(() {
                           this.myTeamSelect = myTeamSelect;
@@ -276,26 +283,14 @@ class _NewGameScreenState extends State<NewGameScreen> {
                         style: TextStyle(color: Colors.amber));
                   }
                 },
-              )
-                  /*DropdownButton<String>(
-                  hint: const Text(
-                    "Select Your Team",
-                    style: TextStyle(color: Colors.grey, fontSize: 20),
-                  ),
-                  //isExpanded: true,
-                  style: const TextStyle(color: Colors.white),
-                  items: myTeams,
-                  onChanged: (myTeamSelect) =>
-                      setState(() => this.myTeamSelect = myTeamSelect),
-                ),*/
-                  ),
+              )),
             ],
           ),
           //opponents name
           TextFormField(
             cursorColor: Colors.grey,
             controller: controllerOpponentName,
-            style: const TextStyle(color: Colors.limeAccent),
+            style: const TextStyle(color: Color.fromARGB(255, 172, 56, 48)),
             decoration: InputDecoration(
               icon: const Icon(
                 Icons.group_sharp,
@@ -378,6 +373,65 @@ class _NewGameScreenState extends State<NewGameScreen> {
           Container(
             height: 15,
           ),
+          Row(
+            children: [
+              const Icon(
+                Icons
+                    .timer_outlined, //flip_camera_android,//run_circle_outlined,
+                color: Colors.grey,
+                size: 40,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                flex: 1,
+                child: DropdownButton<String>(
+                    hint: const Text(
+                      "Hours",
+                      style: TextStyle(color: Colors.grey, fontSize: 20),
+                    ),
+                    //isExpanded: true,
+                    style: const TextStyle(color: Colors.white),
+                    items: [
+                      _dropdownItem('0'),
+                      _dropdownItem('1'),
+                      _dropdownItem('2'),
+                    ],
+                    value: durationHours,
+                    onChanged: (durationHours) =>
+                        setState(() => this.durationHours = durationHours)),
+              ),
+              Expanded(
+                flex: 1,
+                child: DropdownButton<String>(
+                    hint: const Text(
+                      "Minutes",
+                      style: TextStyle(color: Colors.grey, fontSize: 20),
+                    ),
+                    //isExpanded: true,
+                    style: const TextStyle(color: Colors.white),
+                    items: [
+                      _dropdownItem("0"),
+                      _dropdownItem("5"),
+                      _dropdownItem("10"),
+                      _dropdownItem("15"),
+                      _dropdownItem("20"),
+                      _dropdownItem("25"),
+                      _dropdownItem("30"),
+                      _dropdownItem("35"),
+                      _dropdownItem("40"),
+                      _dropdownItem("45"),
+                      _dropdownItem("50"),
+                      _dropdownItem("55"),
+                    ],
+                    value: durationMins,
+                    onChanged: (durationMins) =>
+                        setState(() => this.durationMins = durationMins)),
+              )
+            ],
+          ),
+          Container(
+            height: 15,
+          ),
           //game details/comments box
           TextFormField(
             minLines: 2,
@@ -427,8 +481,21 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NewLineScreen(
-                      gameName: _gameName, numPlayers: numPlayers, uid: uid, newPointState: myStartState,
-                ),),
+                    gameName: _gameName,
+                    numPlayers: numPlayers,
+                    uid: uid,
+                    newPointState: myStartState,
+                    myScore: 0,
+                    myTeam: myTeamSelect,
+                    opponentScore: 0,
+                    opponentTeam: _opponentName,
+                    timeLeft: Duration(
+                        hours: int.parse(durationHours),
+                        minutes: int.parse(durationMins),
+                        seconds: 0),
+                    isPlaying: false,
+                  ),
+                ),
               );
 
               /*insertTeamData(newTeamName, uid, _playerList.length);

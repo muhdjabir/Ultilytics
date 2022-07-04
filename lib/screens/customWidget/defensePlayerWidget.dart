@@ -10,38 +10,66 @@ class defPlayerWidget extends StatefulWidget {
   var playerStatus;
   String gameName;
   String uid;
+  var myScore;
+  var opponentScore;
+  String myTeam;
+  String opponentTeam;
+  Duration timeLeft;
+  bool isPlaying;
 
   final Function callbackFunction;
-  defPlayerWidget({
-    Key? key,
-    required this.playerName,
-    required this.playerStatus,
-    required this.callbackFunction,
-    required this.gameName,
-    required this.uid,
-  }) : super(key: key);
+  defPlayerWidget(
+      {Key? key,
+      required this.playerName,
+      required this.playerStatus,
+      required this.callbackFunction,
+      required this.gameName,
+      required this.uid,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam,
+      required this.timeLeft,
+      required this.isPlaying})
+      : super(key: key);
   @override
   State<defPlayerWidget> createState() => _defPlayerWidgetState(
-        playerName: this.playerName,
-        playerStatus: this.playerStatus,
-        callbackFunction: this.callbackFunction,
-        gameName: this.gameName,
-        uid: this.uid,
-      );
+      playerName: this.playerName,
+      playerStatus: this.playerStatus,
+      callbackFunction: this.callbackFunction,
+      gameName: this.gameName,
+      uid: this.uid,
+      myScore: this.myScore,
+      opponentScore: this.opponentScore,
+      myTeam: this.myTeam,
+      opponentTeam: this.opponentTeam,
+      timeLeft: this.timeLeft,
+      isPlaying: this.isPlaying);
 }
 
 class _defPlayerWidgetState extends State<defPlayerWidget> {
-  _defPlayerWidgetState({
-    required this.playerName,
-    required this.playerStatus,
-    required this.callbackFunction,
-    required this.gameName,
-    required this.uid,
-  });
+  _defPlayerWidgetState(
+      {required this.playerName,
+      required this.playerStatus,
+      required this.callbackFunction,
+      required this.gameName,
+      required this.uid,
+      required this.myScore,
+      required this.opponentScore,
+      required this.myTeam,
+      required this.opponentTeam,
+      required this.timeLeft,
+      required this.isPlaying});
   var playerName;
   var playerStatus;
   String gameName;
   String uid;
+  Duration timeLeft;
+  var myScore;
+  var opponentScore;
+  String myTeam;
+  String opponentTeam;
+  bool isPlaying;
 
   final Function callbackFunction;
   var numPlayers;
@@ -61,6 +89,17 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var playersInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .doc(gameName)
+        .collection('players');
+    var gameInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .doc(gameName);
     getNumPlayers(uid, gameName);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -92,18 +131,28 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                     ButtonTheme(
                       //padding: EdgeInsets.all(8),
                       child: ElevatedButton(
-                        child: const Text("Interception"),
-                        onPressed: () => callbackFunction(playerName, 2, 1),
-                      ),
+                          child: const Text("Interception"),
+                          onPressed: () {
+                            playersInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
+                            callbackFunction(playerName, 2, 1);
+                          }),
                     ),
                     Container(
                       width: gapWidth,
                     ),
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: const Text("Block"),
-                        onPressed: () => callbackFunction(playerName, 0, 0),
-                      ),
+                          child: const Text("Block"),
+                          onPressed: () {
+                            playersInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
+                            callbackFunction(playerName, 0, 0);
+                          }),
                     ),
                     Container(
                       width: gapWidth,
@@ -112,6 +161,8 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                       child: ElevatedButton(
                           child: const Text("Scored on"),
                           onPressed: () {
+                            gameInstance.update(
+                                {"Opponent Score": FieldValue.increment(1)});
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -120,34 +171,56 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                                       actions: [
                                         TextButton(
                                             child: Text('Offense'),
-                                            onPressed: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NewLineScreen(
-                                                            gameName: gameName,
-                                                            uid: uid,
-                                                            newPointState:
-                                                                'Offense',
-                                                            numPlayers:
-                                                                numPlayers,
-                                                          )),
-                                                )),
+                                            onPressed: () {
+                                              opponentScore += 1;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewLineScreen(
+                                                          gameName: gameName,
+                                                          uid: uid,
+                                                          newPointState:
+                                                              'Offense',
+                                                          numPlayers:
+                                                              numPlayers,
+                                                          myScore: myScore,
+                                                          myTeam: myTeam,
+                                                          opponentScore:
+                                                              opponentScore,
+                                                          opponentTeam:
+                                                              opponentTeam,
+                                                          timeLeft: timeLeft,
+                                                          isPlaying: isPlaying,
+                                                        )),
+                                              );
+                                            }),
                                         TextButton(
                                             child: Text('Defense'),
-                                            onPressed: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NewLineScreen(
-                                                            gameName: gameName,
-                                                            uid: uid,
-                                                            newPointState:
-                                                                'Defense',
-                                                            numPlayers:
-                                                                numPlayers,
-                                                          )),
-                                                ))
+                                            onPressed: () {
+                                              opponentScore += 1;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewLineScreen(
+                                                          gameName: gameName,
+                                                          uid: uid,
+                                                          newPointState:
+                                                              'Defense',
+                                                          numPlayers:
+                                                              numPlayers,
+                                                          myScore: myScore,
+                                                          myTeam: myTeam,
+                                                          opponentScore:
+                                                              opponentScore,
+                                                          opponentTeam:
+                                                              opponentTeam,
+                                                          timeLeft: timeLeft,
+                                                          isPlaying: isPlaying,
+                                                        )),
+                                              );
+                                            })
                                       ],
                                     ));
                           }
