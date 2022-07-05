@@ -44,6 +44,7 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: const Text("Game History"),
+          automaticallyImplyLeading: false,
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: games,

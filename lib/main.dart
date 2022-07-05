@@ -1,12 +1,6 @@
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:orbital_ultylitics/screens/ProfileScreen.dart';
-//import 'package:orbital_ultylitics/screens/SignupScreen.dart';
-//import 'package:orbital_ultylitics/screens/LoginScreen.dart';
 import 'package:orbital_ultylitics/screens/HomePage.dart';
-//import 'firebase_options.dart'; // generated via `flutterfire` CLI
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

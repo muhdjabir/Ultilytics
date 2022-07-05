@@ -39,9 +39,13 @@ Future<void> insertPlayerData(
     "Assists": 0,
     "Throwaways": 0,
     "Goals Scored": 0,
-    "Breakside Throws": 0,
-    "Openside Throws": 0,
+    "Total Throws": 0,
     "Interception": 0,
+    "Points Played": 0,
+    "Advantageous Throw": 0,
+    "Number of Pulls": 0,
+    "Plus-Minus": 0,
+    "Stalled Out": 0,
   });
 }
 
@@ -285,7 +289,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       onPressed: () async {
                         final User? user = auth.currentUser;
                         final uid = user!.uid;
-                        _playerList.add(_newPlayerName);
+                        //_playerList.add(_newPlayerName);
                         print(_playerList);
                         insertPlayerData(newTeamName, _newPlayerName, uid);
                         controllerPlayerName.clear();
@@ -308,7 +312,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                           .update({"Players": _playerList});*/
                   //},
                   //);
-                  await Navigator.push(
+                  await Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const NavigationBarScreen(index: 1),

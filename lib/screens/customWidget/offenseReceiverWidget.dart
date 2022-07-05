@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 
 import '../newLineScreen.dart';
 
@@ -14,6 +15,7 @@ class ReceiverOffWidget extends StatefulWidget {
   String opponentTeam;
   Duration timeLeft;
   bool isPlaying;
+  var thrower;
   final Function callbackFunction;
   ReceiverOffWidget(
       {Key? key,
@@ -27,7 +29,8 @@ class ReceiverOffWidget extends StatefulWidget {
       required this.myTeam,
       required this.opponentTeam,
       required this.timeLeft,
-      required this.isPlaying})
+      required this.isPlaying,
+      })
       : super(key: key);
   @override
   State<ReceiverOffWidget> createState() => _ReceiverOffWidgetState(
@@ -41,7 +44,8 @@ class ReceiverOffWidget extends StatefulWidget {
       myTeam: this.myTeam,
       opponentTeam: this.opponentTeam,
       timeLeft: this.timeLeft,
-      isPlaying: this.isPlaying);
+      isPlaying: this.isPlaying,
+      );
 }
 
 class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
@@ -56,7 +60,8 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
       required this.myTeam,
       required this.opponentTeam,
       required this.timeLeft,
-      required this.isPlaying});
+      required this.isPlaying,
+      });
   var playerName;
   var playerStatus;
   String gameName;
@@ -80,7 +85,14 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
         .get()
         .then((value) => (numPlayers = value.docs.length));
   }
-
+  String getThrower(final playerStatus){
+    for (var player in playerStatus.keys){
+      if (playerStatus[player] == 'throwerOff') {
+        return player;
+      }
+    }
+    return "";
+  }
   @override
   Widget build(BuildContext context) {
     getNumPlayers(uid, gameName);
@@ -106,11 +118,11 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
             child: Row(
               children: [
                 Container(
-                  width: 120,
+                  width: 68,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: Text(playerName,
                       style: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         color: Colors.deepPurpleAccent,
                       )),
                 ),
@@ -120,11 +132,30 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                         child: ButtonBar(children: [
                       ButtonTheme(
                         child: ElevatedButton(
-                            child: Text("Catch"),
+                            child: Text("+Catch"),
                             onPressed: () {
+                              var thrower = getThrower.toString();
                               playersInstance
                                   .doc(playerName)
                                   .update({"Catch": FieldValue.increment(1)});
+                              playersInstance
+                                  .doc(thrower)
+                                  .update({"Advantageous Throw": FieldValue.increment(1), "Total Throws": FieldValue.increment(1)});
+                              callbackFunction(playerName, 2, 1);
+                            } //2 = 'receiverOff', 1 = 'startingOff'
+                            ),
+                      ),
+                      ButtonTheme(
+                        child: ElevatedButton(
+                            child: Text("-Catch"),
+                            onPressed: () {
+                              var thrower = getThrower.toString();
+                              playersInstance
+                                  .doc(playerName)
+                                  .update({"Catch": FieldValue.increment(1)});
+                              playersInstance
+                                  .doc(thrower)
+                                  .update({"Total Throws": FieldValue.increment(1)});
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -145,7 +176,10 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                         child: ElevatedButton(
                             child: Text("Score"),
                             onPressed: () {
-                              
+                              var thrower = getThrower.toString();
+                              playersInstance
+                                  .doc(thrower)
+                                  .update({"Assists":FieldValue.increment(1) ,"Total Throws": FieldValue.increment(1), "Advantageous Throw": FieldValue.increment(1)});
                               playersInstance.doc(playerName).update({
                                 "Goals Scored": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(1),
@@ -155,59 +189,80 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                               showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
-                                          content: Text(
+                                          content: const Text(
                                               'Are you starting the next point on Offense or Defense?'),
                                           actions: [
                                             TextButton(
-                                                child: Text('Offense'),
+                                                child: const Text('Game Over'),
                                                 onPressed: () {
-                                                  myScore += 1;
-                                                  Navigator.push(
+                                                  opponentScore += 1;
+                                                  Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            NewLineScreen(
-                                                              gameName:
-                                                                  gameName,
-                                                              uid: uid,
-                                                              newPointState:
-                                                                  'Offense',
-                                                              numPlayers:
-                                                                  numPlayers,
-                                                              myScore: myScore,
-                                                              myTeam: myTeam,
-                                                              opponentScore:
-                                                                  opponentScore,
-                                                              opponentTeam:
-                                                                  opponentTeam,
-                                                                  timeLeft: timeLeft,
-                                                                  isPlaying: isPlaying,
-                                                            )));}),
+                                                            const NavigationBarScreen(
+                                                                index: 0)),
+                                                  );
+                                                }),
+                                            const SizedBox(width: 50),
                                             TextButton(
-                                                child: Text('Defense'),
+                                                child: const Text('Offense'),
                                                 onPressed: () {
                                                   myScore += 1;
                                                   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NewLineScreen(
-                                                              gameName:
-                                                                  gameName,
-                                                              uid: uid,
-                                                              newPointState:
-                                                                  'Defense',
-                                                              numPlayers:
-                                                                  numPlayers,
-                                                              myScore: myScore,
-                                                              myTeam: myTeam,
-                                                              opponentScore:
-                                                                  opponentScore,
-                                                              opponentTeam:
-                                                                  opponentTeam,
-                                                                  timeLeft: timeLeft,
-                                                                  isPlaying: isPlaying
-                                                            )));})
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NewLineScreen(
+                                                                gameName:
+                                                                    gameName,
+                                                                uid: uid,
+                                                                newPointState:
+                                                                    'Offense',
+                                                                numPlayers:
+                                                                    numPlayers,
+                                                                myScore:
+                                                                    myScore,
+                                                                myTeam: myTeam,
+                                                                opponentScore:
+                                                                    opponentScore,
+                                                                opponentTeam:
+                                                                    opponentTeam,
+                                                                timeLeft:
+                                                                    timeLeft,
+                                                                isPlaying:
+                                                                    isPlaying,
+                                                              )));
+                                                }),
+                                            TextButton(
+                                                child: const Text('Defense'),
+                                                onPressed: () {
+                                                  myScore += 1;
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NewLineScreen(
+                                                                  gameName:
+                                                                      gameName,
+                                                                  uid: uid,
+                                                                  newPointState:
+                                                                      'Defense',
+                                                                  numPlayers:
+                                                                      numPlayers,
+                                                                  myScore:
+                                                                      myScore,
+                                                                  myTeam:
+                                                                      myTeam,
+                                                                  opponentScore:
+                                                                      opponentScore,
+                                                                  opponentTeam:
+                                                                      opponentTeam,
+                                                                  timeLeft:
+                                                                      timeLeft,
+                                                                  isPlaying:
+                                                                      isPlaying)));
+                                                })
                                           ]));
                             }),
                       )

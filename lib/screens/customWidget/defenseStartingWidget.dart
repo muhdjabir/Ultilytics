@@ -1,32 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class defenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
+  var uid;
+  var gameName;
   final Function callbackFunction;
   defenseStartingWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
-      required this.callbackFunction})
+      required this.callbackFunction,
+      required this.uid,
+      required this.gameName})
       : super(key: key);
   @override
   State<defenseStartingWidget> createState() => _defenseStartingWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
-      callbackFunction: this.callbackFunction);
+      callbackFunction: this.callbackFunction,
+      uid: this.uid,
+      gameName: this.gameName);
 }
 
 class _defenseStartingWidgetState extends State<defenseStartingWidget> {
   _defenseStartingWidgetState(
       {required this.playerName,
       required this.playerStatus,
-      required this.callbackFunction});
+      required this.callbackFunction,
+      required this.uid,
+      required this.gameName});
   var playerName;
   var playerStatus;
+  var uid;
+  var gameName;
   final Function callbackFunction;
   @override
   Widget build(BuildContext context) {
+    var playersInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .doc(gameName)
+        .collection('players');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
@@ -53,8 +70,11 @@ class _defenseStartingWidgetState extends State<defenseStartingWidget> {
                     ButtonTheme(
                       child: ElevatedButton(
                         child: Text("Starting Puller"),
-                        onPressed: () => callbackFunction(playerName, 4,
-                            4), /*() {
+                        onPressed: () {
+                          playersInstance.doc(playerName).update(
+                              {"Number of Pulls": FieldValue.increment(1)});
+                          callbackFunction(playerName, 4, 4);
+                        }, /*() {
                           setState(() {
                             playerStatus.keys.forEach((k) {
                               if (k == playerName) {

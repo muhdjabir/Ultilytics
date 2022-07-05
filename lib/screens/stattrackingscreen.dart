@@ -98,6 +98,14 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
   Duration timeLeft;
   final _isHours = true;
 
+  String getThrower(final playerStatus){
+    for (var player in playerStatus.keys){
+      if (playerStatus[player] == possibleStatus[2]) {
+        return player;
+      }
+    }
+    return "";
+  }
   void initState() {
     super.initState();
     controller = AnimationController(
@@ -205,6 +213,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                     opponentTeam: opponentTeam,
                     timeLeft: controller.duration! * controller.value,
                     isPlaying: isPlaying,
+                    thrower: getThrower(playerStatus),
                   );
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[2]) {
@@ -223,7 +232,9 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                   return defenseStartingWidget(
                       playerName: myPlayers[index],
                       playerStatus: playerStatus,
-                      callbackFunction: callback);
+                      callbackFunction: callback,
+                      uid: uid,
+                      gameName: gameName);
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[4]) {
                   //player Def
@@ -322,7 +333,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
 
 String getOpponentTeamName(final opponentTeam) {
   if (opponentTeam.length >= 9) {
-    return opponentTeam.substring(0, 7);
+    return opponentTeam.substring(0, 6);
   } else {
     return opponentTeam;
   }

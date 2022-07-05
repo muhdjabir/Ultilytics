@@ -100,6 +100,7 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             //add new team button
