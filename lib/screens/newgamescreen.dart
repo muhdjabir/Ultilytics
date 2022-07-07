@@ -47,10 +47,11 @@ Future<void> insertPlayerData(
     "Assists": 0,
     "Throwaways": 0,
     "Goals Scored": 0,
-    "Breakside Throws": 0,
-    "Openside Throws": 0,
+    "Total Throws": 0,
     "Interception": 0,
-    "Drops": 0,
+    "Points Played": 0,
+    "Advantageous Throw": 0,
+    "Number of Pulls": 0,
     "Plus-Minus": 0,
     "Stalled Out": 0,
   });
@@ -192,6 +193,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: Container(
             alignment: Alignment.centerLeft,
@@ -350,7 +352,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 flex: 1,
                 child: DropdownButton<String>(
                     hint: const Text(
-                      "Game Type",
+                      "Game Stage", //gametype
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
                     //isExpanded: true,

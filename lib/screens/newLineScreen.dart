@@ -49,7 +49,7 @@ class NewLineScreen extends StatefulWidget {
       myTeam: this.myTeam,
       opponentTeam: this.opponentTeam,
       timeLeft: this.timeLeft,
-      isPlaying:this.isPlaying);
+      isPlaying: this.isPlaying);
 }
 
 class _NewLineScreenState extends State<NewLineScreen>
@@ -90,10 +90,12 @@ class _NewLineScreenState extends State<NewLineScreen>
       vsync: this,
       duration: timeLeft,
     );
-    
-    if (isPlaying == true)
-    {controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);}
-    else{controller.stop();}
+
+    if (isPlaying == true) {
+      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
+    } else {
+      controller.stop();
+    }
   }
 
   @override
@@ -158,22 +160,6 @@ class _NewLineScreenState extends State<NewLineScreen>
             backgroundColor: Colors.transparent,
             elevation: 0,
             automaticallyImplyLeading: false,
-            leadingWidth: 50,
-            leading: IconButton(
-              onPressed: () {
-                isChecked = [];
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NavigationBarScreen(index: 2),
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios_new_sharp,
-                size: 15,
-              ),
-            ),
             title: Text(
                 "$newPointState lineup: $numSelectedString players selected "),
           ),
@@ -277,8 +263,17 @@ class _NewLineScreenState extends State<NewLineScreen>
                     clipBehavior: Clip.none,
                     child: const Text('Done Selecting Lineup'),
                     onPressed: () async {
+                      var playersInstance = FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('games')
+                          .doc(gameName)
+                          .collection('players');
                       getLineupList(uid, gameName).then((value) {
                         print('$lineupList');
+                        for (var player in lineupList) {
+                          playersInstance.doc(player).update({"Points Played": FieldValue.increment(1)});
+                        } 
                       }).then((value) {
                         //print('building $lineupList');
                         Navigator.push(
@@ -293,7 +288,11 @@ class _NewLineScreenState extends State<NewLineScreen>
                               myScore: myScore,
                               myTeam: myTeam,
                               opponentTeam: opponentTeam,
-                              timeLeft: controller.duration! * controller.value == Duration(hours: 0, minutes: 0, seconds: 0) ? timeLeft: controller.duration! * controller.value,
+                              timeLeft: controller.duration! *
+                                          controller.value ==
+                                      Duration(hours: 0, minutes: 0, seconds: 0)
+                                  ? timeLeft
+                                  : controller.duration! * controller.value,
                               isPlaying: isPlaying,
                             ),
                           ),

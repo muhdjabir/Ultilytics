@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:orbital_ultylitics/screens/HomePage.dart';
+import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 
 import '../newLineScreen.dart';
 
@@ -169,6 +171,18 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                                       content: Text(
                                           'Are you starting the next point on Offense or Defense?'),
                                       actions: [
+                                        TextButton(
+                                            child: Text('Game Over'),
+                                            onPressed: () {
+                                              opponentScore += 1;
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const NavigationBarScreen(index: 0)),
+                                              );
+                                            }),
+                                        const SizedBox(width:50),
                                         TextButton(
                                             child: Text('Offense'),
                                             onPressed: () {
