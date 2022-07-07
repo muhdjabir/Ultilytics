@@ -8,7 +8,7 @@ import 'package:orbital_ultylitics/screens/customWidget/GameEntryWidget.dart';
 import 'HomePage.dart';
 
 class GameHistoryScreen extends StatefulWidget {
-  const GameHistoryScreen({Key? key}) : super(key: key);
+//  const GameHistoryScreen({Key? key}) : super(key: key);
 
   @override
   State<GameHistoryScreen> createState() => _GameHistoryScreenState();
@@ -40,12 +40,6 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text("Game History"),
-          automaticallyImplyLeading: false,
-        ),
         body: StreamBuilder<QuerySnapshot>(
             stream: games,
             builder: (context, snapshot) {
@@ -58,7 +52,6 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                         snapshot.data?.docs[index];
                     Game game = Game.fromSnapshot(documentSnapshot);
                     String? docID = documentSnapshot?.reference.id;
-                    print(docID);
                     return Card(
                         elevation: 4,
                         child: ListTile(

@@ -1,24 +1,11 @@
-/* Things To Include
-Games
-Team Name
-Opponent Name
-Game Type
-Score
-*/
-
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/screens/GameHistoryScreen.dart';
+import 'package:orbital_ultylitics/screens/HistoryTabScreen.dart';
 import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
 import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
-//import 'package:orbital_ultylitics/authservices.dart';
-//import 'package:orbital_ultylitics/main.dart';
-//import 'HomePage.dart';
 import 'settingscreen.dart';
 
 class NavigationBarScreen extends StatefulWidget {
@@ -31,23 +18,12 @@ class NavigationBarScreen extends StatefulWidget {
 }
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
-  /*User fromJson(Map<String, dynamic>  json) => User(
-    email:json['email'],
-    uid:json['uid']
-  );
-  Stream<List<User>> readUsers() => FirebaseFirestore.instance
-  .collection('users')
-  .snapshots();
-  .map((snapshot)=(snapshot) => snapshot.docs.map((doc) => User.fromJson(doc.data()).toList());*/
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
   _NavigationBarScreenState({required this.index});
   final screens = const [
-    /*Center(
-        child: Text("Games History",
-            style: TextStyle(fontSize: 72, color: Colors.white60))),*/
-    GameHistoryScreen(),
+    HistoryTabScreen(),
     TeamsDisplayScreen(),
     NewGameScreen(key: PageStorageKey("NewGameScreen")),
     SettingsScreen(),
@@ -97,80 +73,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
           ),
         ),
       ),
-
-      //remove screens[]... to
-      /*body:Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                elevation: 0.0,
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)),
-                onPressed: () async {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                },
-                child: const Text(
-                  "Create New Team",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                elevation: 0.0,
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)),
-                onPressed: () async {
-                  FirebaseAuth.instance
-                      .signOut(); //https://www.google.com/search?client=firefox-b-d&q=logout+button+flutter+firebase#kpvalbx=_S0mQYoCtDaaRseMPt8iD4A416
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                },
-                child: const Text(
-                  "Logout",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-            ),
-          ],
-          /*Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
-                elevation: 0.0,
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)),
-                onPressed: () async {
-                  print;
-                },
-                child: const Text(
-                  "current uid",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-            ),*/
-        ),
-      ),*/
     );
   }
 }

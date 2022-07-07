@@ -17,6 +17,7 @@ class defenseStartingWidget extends StatefulWidget {
       : super(key: key);
   @override
   State<defenseStartingWidget> createState() => _defenseStartingWidgetState(
+
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
