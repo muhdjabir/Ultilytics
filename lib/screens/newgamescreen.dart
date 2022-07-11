@@ -31,10 +31,6 @@ Future<void> insertPlayerData(
     final gameName, final newPlayerName, final uid) async {
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
-  /*usersCollectionRef.doc(uid).collection('teams').doc(newTeamName).set({
-    //"Players": FieldValue.arrayUnion([newPlayerName])
-    //"Number of Players": FieldValue.increment(1),
-  }, SetOptions(merge: true));*/
   usersCollectionRef
       .doc(uid)
       .collection('games')
@@ -54,6 +50,9 @@ Future<void> insertPlayerData(
     "Number of Pulls": 0,
     "Plus-Minus": 0,
     "Stalled Out": 0,
+    "Average Pull Time": 0,
+    "Out of Bounds Pull": 0,
+    "Average Disc Time": 0,
   });
 }
 
@@ -269,10 +268,13 @@ class _NewGameScreenState extends State<NewGameScreen> {
                         value: myTeamSelect,
                         hint: const Text(
                           "Select Your Team",
-                          style: TextStyle(color: Color.fromARGB(255, 46, 119, 179), fontSize: 20),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 46, 119, 179),
+                              fontSize: 20),
                         ),
                         //isExpanded: true,
-                        style: const TextStyle(color: Color.fromARGB(255, 46, 119, 179)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 46, 119, 179)),
                         items: teamItems,
                         onChanged: (myTeamSelect) => setState(() {
                           this.myTeamSelect = myTeamSelect;
