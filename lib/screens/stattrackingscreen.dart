@@ -213,7 +213,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                     opponentTeam: opponentTeam,
                     timeLeft: controller.duration! * controller.value,
                     isPlaying: isPlaying,
-                    thrower: getThrower(playerStatus),
+                    
                   );
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[2]) {
