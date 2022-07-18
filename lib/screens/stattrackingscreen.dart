@@ -1,19 +1,14 @@
 // for working purposes to be copy pasted when creating a new screen that needs variables to be passed in
 //import 'dart:html';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/customWidget/newpointpopupWidget.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import '../models/Game.dart';
 import 'customWidget/defensePlayerWidget.dart';
 import 'customWidget/offenseReceiverWidget.dart';
 import 'customWidget/offenseStartingWidget.dart';
 import 'customWidget/defenseStartingWidget.dart';
 import 'customWidget/offenseThrowerWidget.dart';
 import 'customWidget/roundButtonTimerWidget.dart';
-import 'newLineScreen.dart';
 
 var possibleStatus = [
   'startingOff',
@@ -115,9 +110,11 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
     setPlayersStatus(myPlayers, newPointState, playerStatus);
     opponentTeamName = getOpponentTeamName(opponentTeam);
     myTeamName = getOpponentTeamName(myTeam);
-    if (isPlaying == true)
-    {controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);}
-    else{controller.stop();}
+    if (isPlaying == true) {
+      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
+    } else {
+      controller.stop();
+    }
   }
 
   @override
