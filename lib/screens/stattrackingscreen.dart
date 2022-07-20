@@ -2,6 +2,8 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:orbital_ultylitics/screens/customWidget/BlankPlayerWidget.dart';
+import 'package:orbital_ultylitics/screens/customWidget/PullerWidget.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'customWidget/defensePlayerWidget.dart';
 import 'customWidget/offenseReceiverWidget.dart';
@@ -11,13 +13,13 @@ import 'customWidget/offenseThrowerWidget.dart';
 import 'customWidget/roundButtonTimerWidget.dart';
 
 var possibleStatus = [
-  'startingOff',
-  'receiverOff',
-  'throwerOff',
-  'startingDef',
-  'playerDef',
-  'winpoint',
-  'lostpoint',
+  'startingOff', //0
+  'receiverOff', //1
+  'throwerOff', //2
+  'startingDef', //3
+  'playerDef', //4
+  'puller', //5
+  'blank', //6
 ];
 
 //https://www.youtube.com/watch?v=zq-JGQxNwtU CALLBACK FUNCTIONSSS
@@ -93,14 +95,15 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
   Duration timeLeft;
   final _isHours = true;
 
-  String getThrower(final playerStatus){
-    for (var player in playerStatus.keys){
+  String getThrower(final playerStatus) {
+    for (var player in playerStatus.keys) {
       if (playerStatus[player] == possibleStatus[2]) {
         return player;
       }
     }
     return "";
   }
+
   void initState() {
     super.initState();
     controller = AnimationController(
@@ -210,7 +213,6 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                     opponentTeam: opponentTeam,
                     timeLeft: controller.duration! * controller.value,
                     isPlaying: isPlaying,
-                    
                   );
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[2]) {
@@ -235,7 +237,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[4]) {
                   //player Def
-                  print('defplayerwidget activated');
+                  //print('defplayerwidget activated');
                   return defPlayerWidget(
                     playerName: myPlayers[index],
                     playerStatus: playerStatus,
@@ -249,6 +251,17 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                     timeLeft: controller.duration! * controller.value,
                     isPlaying: isPlaying,
                   );
+                }
+                if (playerStatus[myPlayers[index]] == possibleStatus[5]) {
+                  return PullerWidget(
+                      playerName: myPlayers[index],
+                      playerStatus: playerStatus,
+                      callbackFunction: callback,
+                      uid: uid,
+                      gameName: gameName);
+                }
+                if (playerStatus[myPlayers[index]] == possibleStatus[6]) {
+                  return BlankPlayerWidget(playerName: myPlayers[index]);
                 } else {
                   //setPlayersStatus(myPlayers);
                   print(playerStatus);

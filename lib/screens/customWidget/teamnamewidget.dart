@@ -22,7 +22,7 @@ class NameContainerWidget extends StatelessWidget {
               child: Text(child,
                   style: const TextStyle(
                     fontSize: 30,
-                    color: Colors.deepPurpleAccent,
+                    color: Color.fromARGB(255, 164, 136, 241),
                   )),
             ),
             Padding(
