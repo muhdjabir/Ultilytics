@@ -95,11 +95,11 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Openside Throws',
+                    label: Text('Total Throws',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Breakside Throws',
+                    label: Text('Advantageous Throws',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true)
               ],
@@ -133,10 +133,10 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
         DataCell(Text(player.catches.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.opensideThrows.toString(),
+        DataCell(Text(player.totalThrows.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.breaksideThrows.toString(),
+        DataCell(Text(player.advantageousThrows.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);

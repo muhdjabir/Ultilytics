@@ -54,7 +54,8 @@ class _GameHistoryScreenState extends State<GameHistoryScreen> {
                         child: ListTile(
                             tileColor: Color.fromARGB(255, 10, 52, 87),
                             textColor: Colors.white,
-                            title: Text(game.teamName.toString()),
+                            title: Text(
+                                "${game.teamName.toString()} ${game.gameType.toString()}"),
                             subtitle:
                                 Text("VS ${game.opponentName.toString()}"),
                             trailing: Text(
