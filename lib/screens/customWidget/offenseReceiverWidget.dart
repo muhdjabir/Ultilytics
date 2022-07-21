@@ -17,51 +17,50 @@ class ReceiverOffWidget extends StatefulWidget {
   bool isPlaying;
   var thrower;
   final Function callbackFunction;
-  ReceiverOffWidget(
-      {Key? key,
-      required this.playerName,
-      required this.playerStatus,
-      required this.callbackFunction,
-      required this.gameName,
-      required this.uid,
-      required this.myScore,
-      required this.opponentScore,
-      required this.myTeam,
-      required this.opponentTeam,
-      required this.timeLeft,
-      required this.isPlaying,
-      })
-      : super(key: key);
+  ReceiverOffWidget({
+    Key? key,
+    required this.playerName,
+    required this.playerStatus,
+    required this.callbackFunction,
+    required this.gameName,
+    required this.uid,
+    required this.myScore,
+    required this.opponentScore,
+    required this.myTeam,
+    required this.opponentTeam,
+    required this.timeLeft,
+    required this.isPlaying,
+  }) : super(key: key);
   @override
   State<ReceiverOffWidget> createState() => _ReceiverOffWidgetState(
-      playerName: this.playerName,
-      playerStatus: this.playerStatus,
-      callbackFunction: this.callbackFunction,
-      gameName: this.gameName,
-      uid: this.uid,
-      myScore: this.myScore,
-      opponentScore: this.opponentScore,
-      myTeam: this.myTeam,
-      opponentTeam: this.opponentTeam,
-      timeLeft: this.timeLeft,
-      isPlaying: this.isPlaying,
+        playerName: this.playerName,
+        playerStatus: this.playerStatus,
+        callbackFunction: this.callbackFunction,
+        gameName: this.gameName,
+        uid: this.uid,
+        myScore: this.myScore,
+        opponentScore: this.opponentScore,
+        myTeam: this.myTeam,
+        opponentTeam: this.opponentTeam,
+        timeLeft: this.timeLeft,
+        isPlaying: this.isPlaying,
       );
 }
 
 class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
-  _ReceiverOffWidgetState(
-      {required this.playerName,
-      required this.playerStatus,
-      required this.callbackFunction,
-      required this.gameName,
-      required this.uid,
-      required this.myScore,
-      required this.opponentScore,
-      required this.myTeam,
-      required this.opponentTeam,
-      required this.timeLeft,
-      required this.isPlaying,
-      });
+  _ReceiverOffWidgetState({
+    required this.playerName,
+    required this.playerStatus,
+    required this.callbackFunction,
+    required this.gameName,
+    required this.uid,
+    required this.myScore,
+    required this.opponentScore,
+    required this.myTeam,
+    required this.opponentTeam,
+    required this.timeLeft,
+    required this.isPlaying,
+  });
   var playerName;
   var playerStatus;
   String gameName;
@@ -74,6 +73,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
   final Function callbackFunction;
   bool isPlaying;
   num numPlayers = 0;
+  //final stopwatch = Stopwatch();
 
   Future<void> getNumPlayers(final uid, final gameName) async {
     await FirebaseFirestore.instance
@@ -85,14 +85,16 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
         .get()
         .then((value) => (numPlayers = value.docs.length));
   }
-  String getThrower(final playerStatus){
-    for (var player in playerStatus.keys){
+
+  Future<String> getThrower(final playerStatus, String thrower) async {
+    for (var player in playerStatus.keys) {
       if (playerStatus[player] == 'throwerOff') {
-        return player;
+        return thrower = player.toString();
       }
     }
     return "";
   }
+
   @override
   Widget build(BuildContext context) {
     getNumPlayers(uid, gameName);
@@ -134,13 +136,22 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                         child: ElevatedButton(
                             child: Text("+Catch"),
                             onPressed: () {
-                              var thrower = getThrower.toString();
+                              //var thrower = getThrower.toString();
+                              //print(thrower);
+                              String thrower = '';
+                              getThrower(playerStatus, thrower).then(
+                                (thrower) {
+                                  playersInstance.doc(thrower).update({
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1)
+                                  });
+                                },
+                              );
                               playersInstance
                                   .doc(playerName)
                                   .update({"Catch": FieldValue.increment(1)});
-                              playersInstance
-                                  .doc(thrower)
-                                  .update({"Advantageous Throw": FieldValue.increment(1), "Total Throws": FieldValue.increment(1)});
+
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -149,13 +160,18 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                         child: ElevatedButton(
                             child: Text("-Catch"),
                             onPressed: () {
-                              var thrower = getThrower.toString();
+                              String thrower = '';
+                              getThrower(playerStatus, thrower).then(
+                                (thrower) {
+                                  //print(thrower);
+                                  playersInstance.doc(thrower).update({
+                                    "Total Throws": FieldValue.increment(1)
+                                  });
+                                },
+                              );
                               playersInstance
                                   .doc(playerName)
                                   .update({"Catch": FieldValue.increment(1)});
-                              playersInstance
-                                  .doc(thrower)
-                                  .update({"Total Throws": FieldValue.increment(1)});
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -176,10 +192,18 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                         child: ElevatedButton(
                             child: Text("Score"),
                             onPressed: () {
-                              var thrower = getThrower.toString();
-                              playersInstance
-                                  .doc(thrower)
-                                  .update({"Assists":FieldValue.increment(1) ,"Total Throws": FieldValue.increment(1), "Advantageous Throw": FieldValue.increment(1)});
+                              String thrower = '';
+                              getThrower(playerStatus, thrower).then(
+                                (thrower) {
+                                  playersInstance.doc(thrower).update({
+                                    "Assists": FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1),
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1)
+                                  });
+                                },
+                              );
+                              //var thrower = getThrower(playerStatus).toString();
                               playersInstance.doc(playerName).update({
                                 "Goals Scored": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(1),

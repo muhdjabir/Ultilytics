@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 
-class defenseStartingWidget extends StatefulWidget {
-  var playerName;
-  var playerStatus;
-  var uid;
-  var gameName;
-  final Function callbackFunction;
-  defenseStartingWidget(
+class PullerWidget extends StatefulWidget {
+  PullerWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
@@ -15,9 +13,13 @@ class defenseStartingWidget extends StatefulWidget {
       required this.uid,
       required this.gameName})
       : super(key: key);
+  var playerName;
+  var playerStatus;
+  var uid;
+  var gameName;
+  var callbackFunction;
   @override
-  State<defenseStartingWidget> createState() => _defenseStartingWidgetState(
-
+  State<PullerWidget> createState() => _PullerWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
@@ -25,8 +27,8 @@ class defenseStartingWidget extends StatefulWidget {
       gameName: this.gameName);
 }
 
-class _defenseStartingWidgetState extends State<defenseStartingWidget> {
-  _defenseStartingWidgetState(
+class _PullerWidgetState extends State<PullerWidget> {
+  _PullerWidgetState(
       {required this.playerName,
       required this.playerStatus,
       required this.callbackFunction,
@@ -36,7 +38,7 @@ class _defenseStartingWidgetState extends State<defenseStartingWidget> {
   var playerStatus;
   var uid;
   var gameName;
-  final Function callbackFunction;
+  var callbackFunction;
   @override
   Widget build(BuildContext context) {
     var playersInstance = FirebaseFirestore.instance
@@ -70,24 +72,24 @@ class _defenseStartingWidgetState extends State<defenseStartingWidget> {
                   child: ButtonBar(children: [
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("Starting Puller"),
+                        child: Text("In Bounds"),
                         onPressed: () {
-                          /*playersInstance.doc(playerName).update(
-                              {"Number of Pulls": FieldValue.increment(1)});*/
-                          callbackFunction(playerName, 5, 6);
-                        }, /*() {
-                          setState(() {
-                            playerStatus.keys.forEach((k) {
-                              if (k == playerName) {
-                                playerStatus[playerName] = status[2];
-                                print(playerStatus);
-                              } else {
-                                playerStatus[k] = status[1];
-                                print(playerStatus);
-                              }
-                            });
+                          playersInstance.doc(playerName).update(
+                              {"Number of Pulls": FieldValue.increment(1)});
+                          callbackFunction(playerName, 4, 4);
+                        },
+                      ),
+                    ),
+                    ButtonTheme(
+                      child: ElevatedButton(
+                        child: Text("Out Bounds"),
+                        onPressed: () {
+                          playersInstance.doc(playerName).update({
+                            "Number of Pulls": FieldValue.increment(1),
+                            "Out of Bounds Pull": FieldValue.increment(1)
                           });
-                        },*/
+                          callbackFunction(playerName, 4, 4);
+                        },
                       ),
                     )
                   ]),
