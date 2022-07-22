@@ -148,9 +148,10 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                   });
                                 },
                               );
-                              playersInstance
-                                  .doc(playerName)
-                                  .update({"Catch": FieldValue.increment(1)});
+                              playersInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
 
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
@@ -165,13 +166,14 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                 (thrower) {
                                   //print(thrower);
                                   playersInstance.doc(thrower).update({
-                                    "Total Throws": FieldValue.increment(1)
+                                    "Total Throws": FieldValue.increment(1),
                                   });
                                 },
                               );
-                              playersInstance
-                                  .doc(playerName)
-                                  .update({"Catch": FieldValue.increment(1)});
+                              playersInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -197,6 +199,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                 (thrower) {
                                   playersInstance.doc(thrower).update({
                                     "Assists": FieldValue.increment(1),
+                                    "Plus-Minus": FieldValue.increment(1),
                                     "Total Throws": FieldValue.increment(1),
                                     "Advantageous Throw":
                                         FieldValue.increment(1)
@@ -207,6 +210,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                               playersInstance.doc(playerName).update({
                                 "Goals Scored": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
                               });
                               gameInstance.update(
                                   {"My Score": FieldValue.increment(1)});

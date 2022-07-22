@@ -15,6 +15,8 @@ class Player {
   late final int averagePullTime;
   late final int obPulls;
   late final int averageDiscTime;
+  late final int drops;
+  late final int touches;
 
   Player();
 
@@ -32,7 +34,9 @@ class Player {
         "Stalled Out": stalledOut,
         "Average Pull Time": averagePullTime,
         "Out of Bounds Pull": obPulls,
-        "Average Disc Time": averageDiscTime
+        "Average Disc Time": averageDiscTime,
+        "Drops": drops,
+        "Touches": touches
       };
 
   Player.fromSnapshot(snapshot)
@@ -49,5 +53,8 @@ class Player {
         averageDiscTime = snapshot.data()["Average Disc Time"],
         obPulls = snapshot.data()["Number of Pulls"],
         throwaways = snapshot.data()["Throwaways"],
+        drops = snapshot.data()["Drops"],
+        touches = snapshot.data()["Touches"],
         name = snapshot.data()["Player Name"];
+  //drops = snapshot.data()["Drops"];
 }

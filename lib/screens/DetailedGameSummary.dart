@@ -5,27 +5,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
-import 'package:orbital_ultylitics/screens/DetailedGameSummary.dart';
 
-class GameSummaryScreen extends StatefulWidget {
+class DetailedGameSummaryScreen extends StatefulWidget {
   final Game game;
   final String docID;
 
-  const GameSummaryScreen({
+  const DetailedGameSummaryScreen({
     Key? key,
     required this.game,
     required this.docID,
   }) : super(key: key);
 
   @override
-  State<GameSummaryScreen> createState() =>
-      _GameSummaryScreenState(game: this.game, docID: this.docID);
+  State<DetailedGameSummaryScreen> createState() =>
+      _DetailedGameSummaryScreenState(game: this.game, docID: this.docID);
 }
 
-class _GameSummaryScreenState extends State<GameSummaryScreen> {
+class _DetailedGameSummaryScreenState extends State<DetailedGameSummaryScreen> {
   Game game;
   String docID;
-  _GameSummaryScreenState({required this.game, required this.docID});
+  _DetailedGameSummaryScreenState({required this.game, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
@@ -76,16 +75,11 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                     label: Text('Name',
                         style: TextStyle(color: Colors.blueAccent))),
                 DataColumn(
-                    label:
-                        Text('+/-', style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Scores',
+                    label: Text('Catch Rate',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Assists',
-                        style: TextStyle(color: Colors.blueAccent)),
+                    label: Text('', style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
                     label: Text('Throwaways',
@@ -102,6 +96,10 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                 DataColumn(
                     label: Text('Total Throws',
                         style: TextStyle(color: Colors.blueAccent)),
+                    numeric: true),
+                DataColumn(
+                    label:
+                        Text('+/-', style: TextStyle(color: Colors.blueAccent)),
                     numeric: true)
               ],
               rows: _buildList(snapshot.data));
@@ -117,9 +115,6 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
       Player player = Player.fromSnapshot(documentSnapshot);
       return DataRow(cells: [
         DataCell(Text(player.name.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.plusMinus.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.goalScored.toString(),
@@ -140,6 +135,9 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
         DataCell(Text(player.totalThrows.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
+        DataCell(Text(player.plusMinus.toString(),
+            style: const TextStyle(
+                color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);
     }).toList() as List<DataRow>;
     return newList;
@@ -155,19 +153,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("${game.teamName} vs ${game.opponentName}"),
-            actions: <Widget>[
-              IconButton(
-                //add new team button
-                icon: const Icon(Icons.accessible_forward),
-                onPressed: () async {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailedGameSummaryScreen(
-                          game: game, docID: docID.toString())));
-                },
-              ),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.all_out))
-            ]),
+            title: Text("Detailed vs ${game.opponentName}")),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

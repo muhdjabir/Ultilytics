@@ -197,7 +197,9 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                   return OffenseStartingWidget(
                       playerName: myPlayers[index],
                       playerStatus: playerStatus,
-                      callbackFunction: callback);
+                      callbackFunction: callback,
+                      uid: uid,
+                      gameName: gameName);
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[1]) {
                   // receiverOff

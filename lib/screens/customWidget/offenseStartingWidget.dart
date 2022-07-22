@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 var status = [
@@ -11,17 +12,23 @@ var status = [
 class OffenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
+  String uid;
+  String gameName;
   final Function callbackFunction;
   OffenseStartingWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
+      required this.gameName,
+      required this.uid,
       required this.callbackFunction})
       : super(key: key);
   @override
   State<OffenseStartingWidget> createState() => _OffenseStartingWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
+      gameName: this.gameName,
+      uid: this.uid,
       callbackFunction: this.callbackFunction);
 }
 
@@ -29,12 +36,22 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
   _OffenseStartingWidgetState(
       {required this.playerName,
       required this.playerStatus,
-      required this.callbackFunction});
+      required this.callbackFunction,
+      required this.gameName,
+      required this.uid});
   var playerName;
   var playerStatus;
+  String gameName;
+  String uid;
   final Function callbackFunction;
   @override
   Widget build(BuildContext context) {
+    var playersInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .doc(gameName)
+        .collection('players');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
@@ -61,8 +78,12 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
                     ButtonTheme(
                       child: ElevatedButton(
                         child: Text("Starting Thrower"),
-                        onPressed: () => callbackFunction(playerName, 2,
-                            1), /*() {
+                        onPressed: () {
+                          playersInstance.doc(playerName).update({
+                            "Touches": FieldValue.increment(1),
+                          });
+                          callbackFunction(playerName, 2, 1);
+                        }, /*() {
                           setState(() {
                             playerStatus.keys.forEach((k) {
                               if (k == playerName) {

@@ -137,6 +137,7 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                           onPressed: () {
                             playersInstance.doc(playerName).update({
                               "Interception": FieldValue.increment(1),
+                              "Touches": FieldValue.increment(1),
                               "Plus-Minus": FieldValue.increment(1)
                             });
                             callbackFunction(playerName, 2, 1);
@@ -179,10 +180,11 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const NavigationBarScreen(index: 0)),
+                                                        const NavigationBarScreen(
+                                                            index: 0)),
                                               );
                                             }),
-                                        const SizedBox(width:50),
+                                        const SizedBox(width: 50),
                                         TextButton(
                                             child: Text('Offense'),
                                             onPressed: () {

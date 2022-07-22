@@ -42,9 +42,11 @@ Future<void> insertPlayerData(
     "Number of Pulls": 0,
     "Plus-Minus": 0,
     "Stalled Out": 0,
-    "Average Pull Time":0,
+    "Average Pull Time": 0,
     "Out of Bounds Pull": 0,
     "Average Disc Time": 0,
+    "Drops": 0,
+    "Touches": 0,
   });
 }
 
