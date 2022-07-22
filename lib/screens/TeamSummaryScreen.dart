@@ -3,33 +3,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
+import 'package:orbital_ultylitics/models/Team.dart';
 import 'package:orbital_ultylitics/screens/DetailedGameSummary.dart';
 
-class GameSummaryScreen extends StatefulWidget {
-  final Game game;
+class TeamSummaryScreen extends StatefulWidget {
+  final Team team;
   final String docID;
 
-  const GameSummaryScreen({
+  const TeamSummaryScreen({
     Key? key,
-    required this.game,
+    required this.team,
     required this.docID,
   }) : super(key: key);
 
   @override
-  State<GameSummaryScreen> createState() =>
-      _GameSummaryScreenState(game: this.game, docID: this.docID);
+  State<TeamSummaryScreen> createState() =>
+      _TeamSummaryScreenState(team: this.team, docID: this.docID);
 }
 
-class _GameSummaryScreenState extends State<GameSummaryScreen> {
-  Game game;
+class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
+  Team team;
   String docID;
-  _GameSummaryScreenState({required this.game, required this.docID});
+  _TeamSummaryScreenState({required this.team, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
-        .instance; // Acquiring individual player statistics from this game
+        .instance; // Acquiring individual player statistics from this team
     User? user = auth.currentUser;
     String uid = user!.uid;
     return FirebaseFirestore.instance
@@ -155,28 +155,17 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("${game.teamName} vs ${game.opponentName}"),
+            title: Text("${team.teamName}"),
             actions: <Widget>[
               IconButton(
                 //add new team button
-                icon: const Icon(Icons.shield),
-                onPressed: () async {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailedGameSummaryScreen(
-                          game: game, docID: docID.toString())));
-                },
+                icon: const Icon(Icons.shield), onPressed: () {},
               ),
               IconButton(onPressed: () {}, icon: const Icon(Icons.rocket))
             ]),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Game Details: ${game.gameDetails} ",
-                  style: const TextStyle(color: Colors.white),
-                )),
             Expanded(
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

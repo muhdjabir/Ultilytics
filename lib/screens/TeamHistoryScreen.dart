@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
+import 'package:orbital_ultylitics/screens/TeamSummaryScreen.dart';
 
 class TeamHistoryScreen extends StatefulWidget {
   @override
@@ -47,12 +48,20 @@ class _TeamHistoryScreenState extends State<TeamHistoryScreen> {
                             QueryDocumentSnapshot<Object?>? documentSnapshot =
                                 snapshot.data?.docs[index];
                             Team team = Team.fromSnapshot(documentSnapshot);
+                            String? docID = documentSnapshot?.reference.id;
                             return Card(
                               elevation: 4,
                               child: ListTile(
                                   tileColor: Color.fromARGB(255, 10, 52, 87),
                                   textColor: Colors.white,
-                                  title: Text(documentSnapshot!["Team Name"])),
+                                  title: Text(documentSnapshot!["Team Name"]),
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => TeamSummaryScreen(
+                                          team: team, docID: docID.toString()),
+                                    ));
+                                  }),
                             );
                           });
                     } else {
