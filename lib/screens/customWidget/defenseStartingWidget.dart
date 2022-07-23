@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class defenseStartingWidget extends StatefulWidget {
+class DefenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   var uid;
   var gameName;
   final Function callbackFunction;
-  defenseStartingWidget(
+  DefenseStartingWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
@@ -16,8 +16,7 @@ class defenseStartingWidget extends StatefulWidget {
       required this.gameName})
       : super(key: key);
   @override
-  State<defenseStartingWidget> createState() => _defenseStartingWidgetState(
-
+  State<DefenseStartingWidget> createState() => _DefenseStartingWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
@@ -25,8 +24,8 @@ class defenseStartingWidget extends StatefulWidget {
       gameName: this.gameName);
 }
 
-class _defenseStartingWidgetState extends State<defenseStartingWidget> {
-  _defenseStartingWidgetState(
+class _DefenseStartingWidgetState extends State<DefenseStartingWidget> {
+  _DefenseStartingWidgetState(
       {required this.playerName,
       required this.playerStatus,
       required this.callbackFunction,

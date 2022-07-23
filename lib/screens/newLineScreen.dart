@@ -6,7 +6,7 @@ import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 //import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
-import 'customWidget/roundButtonTimerWidget.dart';
+import 'customWidget/RoundButtonTimerWidget.dart';
 
 class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
@@ -269,8 +269,9 @@ class _NewLineScreenState extends State<NewLineScreen>
                       getLineupList(uid, gameName).then((value) {
                         print('$lineupList');
                         for (var player in lineupList) {
-                          playersInstance.doc(player).update({"Points Played": FieldValue.increment(1)});
-                        } 
+                          playersInstance.doc(player).update(
+                              {"Points Played": FieldValue.increment(1)});
+                        }
                       }).then((value) {
                         //print('building $lineupList');
                         Navigator.push(

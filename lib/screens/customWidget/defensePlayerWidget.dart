@@ -7,7 +7,7 @@ import '../newLineScreen.dart';
 
 double? gapWidth = 0;
 
-class defPlayerWidget extends StatefulWidget {
+class DefPlayerWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   String gameName;
@@ -20,7 +20,7 @@ class defPlayerWidget extends StatefulWidget {
   bool isPlaying;
 
   final Function callbackFunction;
-  defPlayerWidget(
+  DefPlayerWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
@@ -35,7 +35,7 @@ class defPlayerWidget extends StatefulWidget {
       required this.isPlaying})
       : super(key: key);
   @override
-  State<defPlayerWidget> createState() => _defPlayerWidgetState(
+  State<DefPlayerWidget> createState() => _DefPlayerWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
@@ -49,8 +49,8 @@ class defPlayerWidget extends StatefulWidget {
       isPlaying: this.isPlaying);
 }
 
-class _defPlayerWidgetState extends State<defPlayerWidget> {
-  _defPlayerWidgetState(
+class _DefPlayerWidgetState extends State<DefPlayerWidget> {
+  _DefPlayerWidgetState(
       {required this.playerName,
       required this.playerStatus,
       required this.callbackFunction,

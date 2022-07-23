@@ -10,7 +10,7 @@ import 'customWidget/offenseReceiverWidget.dart';
 import 'customWidget/offenseStartingWidget.dart';
 import 'customWidget/defenseStartingWidget.dart';
 import 'customWidget/offenseThrowerWidget.dart';
-import 'customWidget/roundButtonTimerWidget.dart';
+import 'customWidget/RoundButtonTimerWidget.dart';
 
 var possibleStatus = [
   'startingOff', //0
@@ -230,7 +230,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[3]) {
                   //starting Def
-                  return defenseStartingWidget(
+                  return DefenseStartingWidget(
                       playerName: myPlayers[index],
                       playerStatus: playerStatus,
                       callbackFunction: callback,
@@ -240,7 +240,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 if (playerStatus[myPlayers[index]] == possibleStatus[4]) {
                   //player Def
                   //print('defplayerwidget activated');
-                  return defPlayerWidget(
+                  return DefPlayerWidget(
                     playerName: myPlayers[index],
                     playerStatus: playerStatus,
                     callbackFunction: callback,
