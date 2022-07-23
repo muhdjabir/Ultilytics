@@ -7,28 +7,25 @@ import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
 import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
 
-import 'DefenseTeamSummaryScreen.dart';
-import 'OffenseTeamSummaryScreen.dart';
-
-class TeamSummaryScreen extends StatefulWidget {
+class DefenseTeamSummaryScreen extends StatefulWidget {
   final Team team;
   final String docID;
 
-  const TeamSummaryScreen({
+  const DefenseTeamSummaryScreen({
     Key? key,
     required this.team,
     required this.docID,
   }) : super(key: key);
 
   @override
-  State<TeamSummaryScreen> createState() =>
-      _TeamSummaryScreenState(team: this.team, docID: this.docID);
+  State<DefenseTeamSummaryScreen> createState() =>
+      _DefenseTeamSummaryScreenState(team: this.team, docID: this.docID);
 }
 
-class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
+class _DefenseTeamSummaryScreenState extends State<DefenseTeamSummaryScreen> {
   Team team;
   String docID;
-  _TeamSummaryScreenState({required this.team, required this.docID});
+  _DefenseTeamSummaryScreenState({required this.team, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
@@ -79,31 +76,19 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
                     label: Text('Name',
                         style: TextStyle(color: Colors.blueAccent))),
                 DataColumn(
-                    label:
-                        Text('+/-', style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Scores',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Assists',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Throwaways',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
                     label: Text('Interceptions',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Catches',
+                    label: Text('Pulling Rate',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Total Throws',
+                    label: Text('Total Pulls',
+                        style: TextStyle(color: Colors.blueAccent)),
+                    numeric: true),
+                DataColumn(
+                    label: Text('O/B Pulls',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true)
               ],
@@ -122,25 +107,18 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
         DataCell(Text(player.name.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.plusMinus.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.goalScored.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.assists.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.throwaways.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.interception.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.catches.toString(),
+        DataCell(Text(
+            ((player.noOfPulls - player.obPulls) / player.noOfPulls)
+                .toStringAsFixed(2),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.totalThrows.toString(),
+        DataCell(Text(((player.noOfPulls)).toStringAsFixed(2),
+            style: const TextStyle(
+                color: Colors.blueAccent, backgroundColor: Colors.white))),
+        DataCell(Text(player.obPulls.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);
@@ -148,6 +126,7 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
     return newList;
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> players = getPlayerStats();
@@ -158,25 +137,7 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("${team.teamName}"),
-            actions: <Widget>[
-              IconButton(
-                //add new team button
-                icon: const Icon(Icons.shield),
-                onPressed: () async {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DefenseTeamSummaryScreen(
-                          team: team, docID: docID.toString())));
-                },
-              ),
-              IconButton(
-                  onPressed: () async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OffenseTeamSummaryScreen(
-                            team: team, docID: docID.toString())));
-                  },
-                  icon: const Icon(Icons.rocket))
-            ]),
+            title: Text("Defense")),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
