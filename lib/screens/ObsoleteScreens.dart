@@ -1,3 +1,36 @@
+
+/* for working purposes to be copy pasted when creating a new screen that needs variables to be passed in
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
+class newLineScreen extends StatefulWidget {
+  List<String> myPlayers;
+  int uid;
+  const newLineScreen({Key? key, required this.myPlayers, this.uid})
+      : super(key: key);
+
+  @override
+  State<newLineScreen> createState() =>
+      _newLineScreenState(myPlayers: this.myPlayers, uid: this.uid);
+}
+
+class _newLineScreenState extends State<newLineScreen> {
+  List<String> myPlayers;
+  int uid;
+  @override
+  _newLineScreenState({required this.myPlayers, required this.uid});
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: CheckboxListTile(
+          
+        ),
+      ),
+    );
+  }
+}*/
+
 /*class GameSummaryScreen extends StatelessWidget {
   final Game game;
   final String docID;

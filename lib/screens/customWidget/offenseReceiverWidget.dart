@@ -109,6 +109,12 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName);
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
+        .collection('players');
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
@@ -146,13 +152,21 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                         FieldValue.increment(1),
                                     "Total Throws": FieldValue.increment(1)
                                   });
+                                  teamInstance.doc(thrower).update({
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1)
+                                  });
                                 },
                               );
                               playersInstance.doc(playerName).update({
                                 "Catch": FieldValue.increment(1),
                                 "Touches": FieldValue.increment(1)
                               });
-
+                              teamInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -168,9 +182,16 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                   playersInstance.doc(thrower).update({
                                     "Total Throws": FieldValue.increment(1),
                                   });
+                                  teamInstance.doc(thrower).update({
+                                    "Total Throws": FieldValue.increment(1),
+                                  });
                                 },
                               );
                               playersInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
+                              teamInstance.doc(playerName).update({
                                 "Catch": FieldValue.increment(1),
                                 "Touches": FieldValue.increment(1)
                               });
@@ -183,6 +204,10 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                             child: Text("Drop"),
                             onPressed: () {
                               playersInstance.doc(playerName).update({
+                                "Drops": FieldValue.increment(1),
+                                "Plus-Minus": FieldValue.increment(-1)
+                              });
+                              teamInstance.doc(playerName).update({
                                 "Drops": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(-1)
                               });
@@ -204,10 +229,22 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                     "Advantageous Throw":
                                         FieldValue.increment(1)
                                   });
+                                  teamInstance.doc(thrower).update({
+                                    "Assists": FieldValue.increment(1),
+                                    "Plus-Minus": FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1),
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1)
+                                  });
                                 },
                               );
                               //var thrower = getThrower(playerStatus).toString();
                               playersInstance.doc(playerName).update({
+                                "Goals Scored": FieldValue.increment(1),
+                                "Plus-Minus": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
+                              teamInstance.doc(playerName).update({
                                 "Goals Scored": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(1),
                                 "Touches": FieldValue.increment(1)

@@ -6,25 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 
-class DetailedGameSummaryScreen extends StatefulWidget {
+class OffenseGameSummaryScreen extends StatefulWidget {
   final Game game;
   final String docID;
 
-  const DetailedGameSummaryScreen({
+  const OffenseGameSummaryScreen({
     Key? key,
     required this.game,
     required this.docID,
   }) : super(key: key);
 
   @override
-  State<DetailedGameSummaryScreen> createState() =>
-      _DetailedGameSummaryScreenState(game: this.game, docID: this.docID);
+  State<OffenseGameSummaryScreen> createState() =>
+      _OffenseGameSummaryScreenState(game: this.game, docID: this.docID);
 }
 
-class _DetailedGameSummaryScreenState extends State<DetailedGameSummaryScreen> {
+class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
   Game game;
   String docID;
-  _DetailedGameSummaryScreenState({required this.game, required this.docID});
+  _OffenseGameSummaryScreenState({required this.game, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
@@ -153,7 +153,7 @@ class _DetailedGameSummaryScreenState extends State<DetailedGameSummaryScreen> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("Detailed vs ${game.opponentName}")),
+            title: Text("Offense vs ${game.opponentName}")),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

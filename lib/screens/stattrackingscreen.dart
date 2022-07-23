@@ -1,15 +1,14 @@
 // for working purposes to be copy pasted when creating a new screen that needs variables to be passed in
 //import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/screens/customWidget/BlankPlayerWidget.dart';
 import 'package:orbital_ultylitics/screens/customWidget/PullerWidget.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'customWidget/defensePlayerWidget.dart';
-import 'customWidget/offenseReceiverWidget.dart';
-import 'customWidget/offenseStartingWidget.dart';
-import 'customWidget/defenseStartingWidget.dart';
-import 'customWidget/offenseThrowerWidget.dart';
+import 'customWidget/OffenseThrowerWidget.dart';
+import 'customWidget/DefensePlayerWidget.dart';
+import 'customWidget/OffenseReceiverWidget.dart';
+import 'customWidget/OffenseStartingWidget.dart';
+import 'customWidget/DefenseStartingWidget.dart';
 import 'customWidget/RoundButtonTimerWidget.dart';
 
 var possibleStatus = [
@@ -195,6 +194,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 if (playerStatus[myPlayers[index]] == possibleStatus[0]) {
                   //startingOff
                   return OffenseStartingWidget(
+                      myTeam: myTeam,
                       playerName: myPlayers[index],
                       playerStatus: playerStatus,
                       callbackFunction: callback,
@@ -225,6 +225,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                     playerStatus: playerStatus,
                     callbackFunction: callback,
                     uid: uid,
+                    myTeam: myTeam,
                     gameName: gameName,
                   );
                 }
@@ -256,6 +257,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[5]) {
                   return PullerWidget(
+                      myTeam: myTeam,
                       playerName: myPlayers[index],
                       playerStatus: playerStatus,
                       callbackFunction: callback,

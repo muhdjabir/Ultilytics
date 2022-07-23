@@ -12,6 +12,7 @@ var status = [
 class OffenseStartingWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
+  String myTeam;
   String uid;
   String gameName;
   final Function callbackFunction;
@@ -21,6 +22,7 @@ class OffenseStartingWidget extends StatefulWidget {
       required this.playerStatus,
       required this.gameName,
       required this.uid,
+      required this.myTeam,
       required this.callbackFunction})
       : super(key: key);
   @override
@@ -28,6 +30,7 @@ class OffenseStartingWidget extends StatefulWidget {
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       gameName: this.gameName,
+      myTeam: this.myTeam,
       uid: this.uid,
       callbackFunction: this.callbackFunction);
 }
@@ -36,6 +39,7 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
   _OffenseStartingWidgetState(
       {required this.playerName,
       required this.playerStatus,
+      required this.myTeam,
       required this.callbackFunction,
       required this.gameName,
       required this.uid});
@@ -43,6 +47,7 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
   var playerStatus;
   String gameName;
   String uid;
+  String myTeam;
   final Function callbackFunction;
   @override
   Widget build(BuildContext context) {
@@ -51,6 +56,12 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName)
+        .collection('players');
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
         .collection('players');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -80,6 +91,9 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
                         child: Text("Starting Thrower"),
                         onPressed: () {
                           playersInstance.doc(playerName).update({
+                            "Touches": FieldValue.increment(1),
+                          });
+                          teamInstance.doc(playerName).update({
                             "Touches": FieldValue.increment(1),
                           });
                           callbackFunction(playerName, 2, 1);

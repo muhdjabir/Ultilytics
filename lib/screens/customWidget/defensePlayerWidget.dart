@@ -72,7 +72,6 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
   String myTeam;
   String opponentTeam;
   bool isPlaying;
-
   final Function callbackFunction;
   var numPlayers;
 
@@ -102,6 +101,12 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName);
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
+        .collection('players');
     getNumPlayers(uid, gameName);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -140,6 +145,11 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                               "Touches": FieldValue.increment(1),
                               "Plus-Minus": FieldValue.increment(1)
                             });
+                            teamInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Touches": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
                             callbackFunction(playerName, 2, 1);
                           }),
                     ),
@@ -151,6 +161,10 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                           child: const Text("Block"),
                           onPressed: () {
                             playersInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
+                            teamInstance.doc(playerName).update({
                               "Interception": FieldValue.increment(1),
                               "Plus-Minus": FieldValue.increment(1)
                             });

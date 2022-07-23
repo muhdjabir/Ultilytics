@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/DetailedGameSummary.dart';
+import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
 
 class TeamSummaryScreen extends StatefulWidget {
   final Team team;

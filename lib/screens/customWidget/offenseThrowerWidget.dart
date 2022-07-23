@@ -6,10 +6,12 @@ class ThrowerOffWidget extends StatefulWidget {
   var playerStatus;
   final Function callbackFunction;
   String gameName;
+  String myTeam;
   String uid;
   ThrowerOffWidget({
     Key? key,
     required this.playerName,
+    required this.myTeam,
     required this.playerStatus,
     required this.callbackFunction,
     required this.gameName,
@@ -19,6 +21,7 @@ class ThrowerOffWidget extends StatefulWidget {
   State<ThrowerOffWidget> createState() => _ThrowerOffWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
+      myTeam: this.myTeam,
       callbackFunction: this.callbackFunction,
       gameName: this.gameName,
       uid: this.uid);
@@ -28,6 +31,7 @@ class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
   _ThrowerOffWidgetState({
     required this.playerName,
     required this.playerStatus,
+    required this.myTeam,
     required this.callbackFunction,
     required this.gameName,
     required this.uid,
@@ -35,18 +39,25 @@ class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
   var playerName;
   var playerStatus;
   String gameName;
+  String myTeam;
   String uid;
   final Function callbackFunction;
-  
+
   @override
   Widget build(BuildContext context) {
     var playersInstance = FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .collection('games')
-      .doc(gameName)
-      .collection('players');
-      return Padding(
+        .collection('users')
+        .doc(uid)
+        .collection('games')
+        .doc(gameName)
+        .collection('players');
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
+        .collection('players');
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
         height: 80,
@@ -70,21 +81,35 @@ class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
                 child: ButtonBar(children: [
                   ButtonTheme(
                     child: ElevatedButton(
-                      child: Text("Throwaway"),
-                      onPressed: () {
-                              playersInstance.doc(playerName).update({"Throwaways": FieldValue.increment(1),"Plus-Minus":FieldValue.increment(-1)});
-                              callbackFunction(playerName, 4, 4);
-                            } //4 = 'playerDef'
-                    ),
+                        child: Text("Throwaway"),
+                        onPressed: () {
+                          playersInstance.doc(playerName).update({
+                            "Throwaways": FieldValue.increment(1),
+                            "Plus-Minus": FieldValue.increment(-1)
+                          });
+                          teamInstance.doc(playerName).update({
+                            "Throwaways": FieldValue.increment(1),
+                            "Plus-Minus": FieldValue.increment(-1)
+                          });
+                          callbackFunction(playerName, 4, 4);
+                        } //4 = 'playerDef'
+                        ),
                   ),
                   ButtonTheme(
                     child: ElevatedButton(
-                      child: Text("Stallout"),
-                      onPressed: () {
-                              playersInstance.doc(playerName).update({"Stalled Out": FieldValue.increment(1),"Plus-Minus":FieldValue.increment(-1)});
-                              callbackFunction(playerName, 4, 4);
-                            } //4 = 'playerDef'
-                    ),
+                        child: Text("Stallout"),
+                        onPressed: () {
+                          playersInstance.doc(playerName).update({
+                            "Stalled Out": FieldValue.increment(1),
+                            "Plus-Minus": FieldValue.increment(-1)
+                          });
+                          teamInstance.doc(playerName).update({
+                            "Stalled Out": FieldValue.increment(1),
+                            "Plus-Minus": FieldValue.increment(-1)
+                          });
+                          callbackFunction(playerName, 4, 4);
+                        } //4 = 'playerDef'
+                        ),
                   ),
                 ])),
           ],

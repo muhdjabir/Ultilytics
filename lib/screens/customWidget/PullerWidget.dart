@@ -11,20 +11,23 @@ class PullerWidget extends StatefulWidget {
       required this.playerStatus,
       required this.callbackFunction,
       required this.uid,
-      required this.gameName})
+      required this.gameName,
+      required this.myTeam})
       : super(key: key);
   var playerName;
   var playerStatus;
   var uid;
   var gameName;
   var callbackFunction;
+  String myTeam;
   @override
   State<PullerWidget> createState() => _PullerWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
       uid: this.uid,
-      gameName: this.gameName);
+      gameName: this.gameName,
+      myTeam: this.myTeam);
 }
 
 class _PullerWidgetState extends State<PullerWidget> {
@@ -33,12 +36,14 @@ class _PullerWidgetState extends State<PullerWidget> {
       required this.playerStatus,
       required this.callbackFunction,
       required this.uid,
-      required this.gameName});
+      required this.gameName,
+      required this.myTeam});
   var playerName;
   var playerStatus;
   var uid;
   var gameName;
   var callbackFunction;
+  String myTeam;
   @override
   Widget build(BuildContext context) {
     var playersInstance = FirebaseFirestore.instance
@@ -46,6 +51,12 @@ class _PullerWidgetState extends State<PullerWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName)
+        .collection('players');
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
         .collection('players');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -76,6 +87,8 @@ class _PullerWidgetState extends State<PullerWidget> {
                         onPressed: () {
                           playersInstance.doc(playerName).update(
                               {"Number of Pulls": FieldValue.increment(1)});
+                          teamInstance.doc(playerName).update(
+                              {"Number of Pulls": FieldValue.increment(1)});
                           callbackFunction(playerName, 4, 4);
                         },
                       ),
@@ -85,6 +98,10 @@ class _PullerWidgetState extends State<PullerWidget> {
                         child: Text("Out Bounds"),
                         onPressed: () {
                           playersInstance.doc(playerName).update({
+                            "Number of Pulls": FieldValue.increment(1),
+                            "Out of Bounds Pull": FieldValue.increment(1)
+                          });
+                          teamInstance.doc(playerName).update({
                             "Number of Pulls": FieldValue.increment(1),
                             "Out of Bounds Pull": FieldValue.increment(1)
                           });

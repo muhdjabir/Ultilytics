@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
-import 'package:orbital_ultylitics/screens/DetailedGameSummary.dart';
+import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
 
 class GameSummaryScreen extends StatefulWidget {
   final Game game;
@@ -80,6 +80,10 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                         Text('+/-', style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
+                    label: Text('Points Played',
+                        style: TextStyle(color: Colors.blueAccent)),
+                    numeric: true),
+                DataColumn(
                     label: Text('Scores',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
@@ -88,19 +92,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Throwaways',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
                     label: Text('Interceptions',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Catches',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Total Throws',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true)
               ],
@@ -122,22 +114,16 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
         DataCell(Text(player.plusMinus.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
+        DataCell(Text(player.pointsPlayed.toString(),
+            style: const TextStyle(
+                color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.goalScored.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.assists.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.throwaways.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(player.interception.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.catches.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.totalThrows.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);
@@ -159,14 +145,14 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
             actions: <Widget>[
               IconButton(
                 //add new team button
-                icon: const Icon(Icons.shield),
+                icon: const Icon(Icons.rocket),
                 onPressed: () async {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailedGameSummaryScreen(
+                      builder: (context) => OffenseGameSummaryScreen(
                           game: game, docID: docID.toString())));
                 },
               ),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.rocket))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.shield))
             ]),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
