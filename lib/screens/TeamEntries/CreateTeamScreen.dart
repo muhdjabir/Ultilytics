@@ -4,7 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'NavigationBarScreen.dart';
+import '../NavigationBarScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;
@@ -156,12 +156,12 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               color: Color.fromARGB(255, 110, 148, 252),
               fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 36, 52),
+        backgroundColor: const Color.fromARGB(255, 4, 36, 52),
       ),
       backgroundColor: Colors.black45,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
@@ -192,7 +192,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                     (documentSnapshot != null)
                                         ? (documentSnapshot["Player Name"])
                                         : "",
-                                    style: TextStyle(color: Colors.grey)),
+                                    style: const TextStyle(color: Colors.grey)),
                                 //color: ,
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
@@ -218,7 +218,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                 ));
                           }));
                     } else {
-                      return Text("something is wrong",
+                      return const Text("something is wrong",
                           style: TextStyle(color: Colors.amber));
                     }
                   }),
@@ -231,7 +231,8 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: TextFormField(
                           style: const TextStyle(
                               fontSize: 20.0,
@@ -277,7 +278,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       ),
                     ),
                     IconButton(
-                      color: Color.fromARGB(0, 198, 113, 113),
+                      color: const Color.fromARGB(0, 198, 113, 113),
                       splashRadius: 30,
                       //borderWidth: 1,
                       iconSize: 40,
@@ -300,7 +301,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                 ),
               ),
               ElevatedButton(
-                child: Text('Done'),
+                child: const Text('Done'),
                 onPressed: () async {
                   getTeamSize(newTeamName,
                       uid); /*.then(

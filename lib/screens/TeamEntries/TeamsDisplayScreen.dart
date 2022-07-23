@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
+import 'package:orbital_ultylitics/screens/TeamEntries/CreateTeamScreen.dart';
 import 'package:orbital_ultylitics/screens/customWidget/TeamNameWidget.dart';
 
 class TeamsDisplayScreen extends StatefulWidget {

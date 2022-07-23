@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/HistoryTabScreen.dart';
-import 'package:orbital_ultylitics/screens/NewGameScreen.dart';
-import 'package:orbital_ultylitics/screens/TeamsDisplayScreen.dart';
+import 'package:orbital_ultylitics/screens/Histories/HistoryTabScreen.dart';
+import 'package:orbital_ultylitics/screens/GameEntries/NewGameScreen.dart';
+import 'package:orbital_ultylitics/screens/TeamEntries/TeamsDisplayScreen.dart';
 import 'settingscreen.dart';
 
 class NavigationBarScreen extends StatefulWidget {

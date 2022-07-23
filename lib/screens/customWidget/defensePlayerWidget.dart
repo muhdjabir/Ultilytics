@@ -1,9 +1,11 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/screens/HomePage.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 
-import '../newLineScreen.dart';
+import '../GameEntries/NewLineScreen.dart';
 
 double? gapWidth = 0;
 
@@ -36,17 +38,17 @@ class DefPlayerWidget extends StatefulWidget {
       : super(key: key);
   @override
   State<DefPlayerWidget> createState() => _DefPlayerWidgetState(
-      playerName: this.playerName,
-      playerStatus: this.playerStatus,
-      callbackFunction: this.callbackFunction,
-      gameName: this.gameName,
-      uid: this.uid,
-      myScore: this.myScore,
-      opponentScore: this.opponentScore,
-      myTeam: this.myTeam,
-      opponentTeam: this.opponentTeam,
-      timeLeft: this.timeLeft,
-      isPlaying: this.isPlaying);
+      playerName: playerName,
+      playerStatus: playerStatus,
+      callbackFunction: callbackFunction,
+      gameName: gameName,
+      uid: uid,
+      myScore: myScore,
+      opponentScore: opponentScore,
+      myTeam: myTeam,
+      opponentTeam: opponentTeam,
+      timeLeft: timeLeft,
+      isPlaying: isPlaying);
 }
 
 class _DefPlayerWidgetState extends State<DefPlayerWidget> {
@@ -120,13 +122,13 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
         height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 10, 52, 87),
+          color: const Color.fromARGB(255, 10, 52, 87),
         ),
         child: Row(
           children: [
             Container(
               width: 120,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(playerName,
                   style: const TextStyle(
                     fontSize: 30,
@@ -134,7 +136,7 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                   )),
             ),
             Container(
-                padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 //child: Container(
                 child: SingleChildScrollView(
                   //clipBehavior: Clip.hardEdge,
@@ -189,11 +191,11 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                      content: Text(
+                                      content: const Text(
                                           'Are you starting the next point on Offense or Defense?'),
                                       actions: [
                                         TextButton(
-                                            child: Text('Game Over'),
+                                            child: const Text('Game Over'),
                                             onPressed: () {
                                               opponentScore += 1;
 
@@ -227,7 +229,7 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                                             }),
                                         const SizedBox(width: 50),
                                         TextButton(
-                                            child: Text('Offense'),
+                                            child: const Text('Offense'),
                                             onPressed: () {
                                               opponentScore += 1;
                                               Navigator.push(
@@ -253,7 +255,7 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                                               );
                                             }),
                                         TextButton(
-                                            child: Text('Defense'),
+                                            child: const Text('Defense'),
                                             onPressed: () {
                                               opponentScore += 1;
                                               Navigator.push(

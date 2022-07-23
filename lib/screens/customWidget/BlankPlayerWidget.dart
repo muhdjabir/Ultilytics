@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class BlankPlayerWidget extends StatefulWidget {
   var playerName;
-  BlankPlayerWidget({Key? key,
-      required this.playerName,}) : super(key: key);
+  BlankPlayerWidget({
+    Key? key,
+    required this.playerName,
+  }) : super(key: key);
 
   @override
-  State<BlankPlayerWidget> createState() => _BlankPlayerWidgetState(playerName: this.playerName,);
+  State<BlankPlayerWidget> createState() => _BlankPlayerWidgetState(
+        playerName: this.playerName,
+      );
 }
 
 class _BlankPlayerWidgetState extends State<BlankPlayerWidget> {

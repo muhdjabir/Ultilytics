@@ -17,19 +17,21 @@ class LoginScreen extends StatefulWidget {
 
 ThemeData _lightTheme = ThemeData(
   //brightness: Brightness.light,
-  primaryColor: Color.fromARGB(255, 36, 101, 155),
+  primaryColor: const Color.fromARGB(255, 36, 101, 155),
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)),
-  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  buttonTheme:
+      const ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
 );
 
 ThemeData _darkTheme = ThemeData(
   //textTheme: ,
   //brightness: Colors.blue,
-  primaryColor: Color.fromARGB(255, 36, 101, 155),
+  primaryColor: const Color.fromARGB(255, 36, 101, 155),
   colorScheme: ColorScheme.fromSwatch()
       .copyWith(secondary: const Color.fromARGB(255, 3, 188, 244)),
-  buttonTheme: ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
+  buttonTheme:
+      const ButtonThemeData(buttonColor: Color.fromARGB(255, 36, 101, 155)),
 );
 
 //ool _light = true; //https://www.youtube.com/watch?v=aFei1SwczS4
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) => AlertDialog(title: Text('${error}'), actions: [
             TextButton(
-              child: Text('Okay'),
+              child: const Text('Okay'),
               onPressed: okay,
             )
           ]));

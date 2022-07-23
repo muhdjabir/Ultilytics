@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
-import 'package:orbital_ultylitics/screens/GameSummaryScreen.dart';
+import 'package:orbital_ultylitics/screens/Histories/GameSummaryScreen.dart';
 
 class GameHistoryScreen extends StatefulWidget {
 //  const GameHistoryScreen({Key? key}) : super(key: key);

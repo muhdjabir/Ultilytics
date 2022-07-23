@@ -1,8 +1,9 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
-
-import '../newLineScreen.dart';
+import '../GameEntries/NewLineScreen.dart';
 
 class ReceiverOffWidget extends StatefulWidget {
   var playerName;
@@ -33,17 +34,17 @@ class ReceiverOffWidget extends StatefulWidget {
   }) : super(key: key);
   @override
   State<ReceiverOffWidget> createState() => _ReceiverOffWidgetState(
-        playerName: this.playerName,
-        playerStatus: this.playerStatus,
-        callbackFunction: this.callbackFunction,
-        gameName: this.gameName,
-        uid: this.uid,
-        myScore: this.myScore,
-        opponentScore: this.opponentScore,
-        myTeam: this.myTeam,
-        opponentTeam: this.opponentTeam,
-        timeLeft: this.timeLeft,
-        isPlaying: this.isPlaying,
+        playerName: playerName,
+        playerStatus: playerStatus,
+        callbackFunction: callbackFunction,
+        gameName: gameName,
+        uid: uid,
+        myScore: myScore,
+        opponentScore: opponentScore,
+        myTeam: myTeam,
+        opponentTeam: opponentTeam,
+        timeLeft: timeLeft,
+        isPlaying: isPlaying,
       );
 }
 
@@ -126,13 +127,13 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
             height: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Color.fromARGB(255, 10, 52, 87),
+              color: const Color.fromARGB(255, 10, 52, 87),
             ),
             child: Row(
               children: [
                 Container(
                   width: 68,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: Text(playerName,
                       style: const TextStyle(
                         fontSize: 20,
@@ -140,12 +141,12 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                       )),
                 ),
                 Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Container(
                         child: ButtonBar(children: [
                       ButtonTheme(
                         child: ElevatedButton(
-                            child: Text("+Catch"),
+                            child: const Text("+Catch"),
                             onPressed: () {
                               //var thrower = getThrower.toString();
                               //print(thrower);
@@ -178,7 +179,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                       ),
                       ButtonTheme(
                         child: ElevatedButton(
-                            child: Text("-Catch"),
+                            child: const Text("-Catch"),
                             onPressed: () {
                               String thrower = '';
                               getThrower(playerStatus, thrower).then(
@@ -206,7 +207,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                       ),
                       ButtonTheme(
                         child: ElevatedButton(
-                            child: Text("Drop"),
+                            child: const Text("Drop"),
                             onPressed: () {
                               playersInstance.doc(playerName).update({
                                 "Drops": FieldValue.increment(1),
@@ -222,7 +223,7 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                       ),
                       ButtonTheme(
                         child: ElevatedButton(
-                            child: Text("Score"),
+                            child: const Text("Score"),
                             onPressed: () {
                               String thrower = '';
                               getThrower(playerStatus, thrower).then(

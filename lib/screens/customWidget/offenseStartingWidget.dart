@@ -27,12 +27,12 @@ class OffenseStartingWidget extends StatefulWidget {
       : super(key: key);
   @override
   State<OffenseStartingWidget> createState() => _OffenseStartingWidgetState(
-      playerName: this.playerName,
-      playerStatus: this.playerStatus,
-      gameName: this.gameName,
-      myTeam: this.myTeam,
-      uid: this.uid,
-      callbackFunction: this.callbackFunction);
+      playerName: playerName,
+      playerStatus: playerStatus,
+      gameName: gameName,
+      myTeam: myTeam,
+      uid: uid,
+      callbackFunction: callbackFunction);
 }
 
 class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
@@ -69,13 +69,13 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
         height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 10, 52, 87),
+          color: const Color.fromARGB(255, 10, 52, 87),
         ),
         child: Row(
           children: [
             Container(
               width: 120,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(playerName,
                   style: const TextStyle(
                     fontSize: 30,
@@ -83,12 +83,12 @@ class _OffenseStartingWidgetState extends State<OffenseStartingWidget> {
                   )),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                   child: ButtonBar(children: [
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("Starting Thrower"),
+                        child: const Text("Starting Thrower"),
                         onPressed: () {
                           playersInstance.doc(playerName).update({
                             "Touches": FieldValue.increment(1),

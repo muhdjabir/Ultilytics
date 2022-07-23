@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -17,11 +19,11 @@ class DefenseStartingWidget extends StatefulWidget {
       : super(key: key);
   @override
   State<DefenseStartingWidget> createState() => _DefenseStartingWidgetState(
-      playerName: this.playerName,
-      playerStatus: this.playerStatus,
-      callbackFunction: this.callbackFunction,
-      uid: this.uid,
-      gameName: this.gameName);
+      playerName: playerName,
+      playerStatus: playerStatus,
+      callbackFunction: callbackFunction,
+      uid: uid,
+      gameName: gameName);
 }
 
 class _DefenseStartingWidgetState extends State<DefenseStartingWidget> {
@@ -38,6 +40,7 @@ class _DefenseStartingWidgetState extends State<DefenseStartingWidget> {
   final Function callbackFunction;
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     var playersInstance = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
@@ -50,13 +53,13 @@ class _DefenseStartingWidgetState extends State<DefenseStartingWidget> {
         height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 10, 52, 87),
+          color: const Color.fromARGB(255, 10, 52, 87),
         ),
         child: Row(
           children: [
             Container(
               width: 120,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(playerName,
                   style: const TextStyle(
                     fontSize: 30,
@@ -64,12 +67,12 @@ class _DefenseStartingWidgetState extends State<DefenseStartingWidget> {
                   )),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: Container(
                   child: ButtonBar(children: [
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("Starting Puller"),
+                        child: const Text("Starting Puller"),
                         onPressed: () {
                           /*playersInstance.doc(playerName).update(
                               {"Number of Pulls": FieldValue.increment(1)});*/

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/GameHistoryScreen.dart';
-import 'package:orbital_ultylitics/screens/TeamHistoryScreen.dart';
+import 'package:orbital_ultylitics/screens/Histories/GameHistoryScreen.dart';
+import 'package:orbital_ultylitics/screens/Histories/TeamHistoryScreen.dart';
 
 class HistoryTabScreen extends StatefulWidget {
   const HistoryTabScreen({Key? key}) : super(key: key);
@@ -20,7 +20,8 @@ class _HistoryTabScreen extends State<HistoryTabScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               title: const Text("History"),
-              bottom: TabBar(tabs: [Tab(text: "Games"), Tab(text: "Teams")]),
+              bottom: const TabBar(
+                  tabs: [const Tab(text: "Games"), const Tab(text: "Teams")]),
             ),
             body: TabBarView(
               children: [GameHistoryScreen(), TeamHistoryScreen()],

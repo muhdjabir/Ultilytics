@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/screens/customWidget/BlankPlayerWidget.dart';
 import 'package:orbital_ultylitics/screens/customWidget/PullerWidget.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'customWidget/OffenseThrowerWidget.dart';
-import 'customWidget/DefensePlayerWidget.dart';
-import 'customWidget/OffenseReceiverWidget.dart';
-import 'customWidget/OffenseStartingWidget.dart';
-import 'customWidget/DefenseStartingWidget.dart';
-import 'customWidget/RoundButtonTimerWidget.dart';
+import '../customWidget/OffenseThrowerWidget.dart';
+import '../customWidget/DefensePlayerWidget.dart';
+import '../customWidget/OffenseReceiverWidget.dart';
+import '../customWidget/OffenseStartingWidget.dart';
+import '../customWidget/DefenseStartingWidget.dart';
+import '../customWidget/RoundButtonTimerWidget.dart';
 
 var possibleStatus = [
   'startingOff', //0
@@ -66,16 +66,16 @@ class StatTrackingScreen extends StatefulWidget {
 
   @override
   State<StatTrackingScreen> createState() => _StatTrackingScreenState(
-      myPlayers: this.myPlayers,
-      uid: this.uid,
-      gameName: this.gameName,
-      newPointState: this.newPointState,
-      myScore: this.myScore,
-      opponentScore: this.opponentScore,
-      myTeam: this.myTeam,
-      opponentTeam: this.opponentTeam,
-      timeLeft: this.timeLeft,
-      isPlaying: this.isPlaying);
+      myPlayers: myPlayers,
+      uid: uid,
+      gameName: gameName,
+      newPointState: newPointState,
+      myScore: myScore,
+      opponentScore: opponentScore,
+      myTeam: myTeam,
+      opponentTeam: opponentTeam,
+      timeLeft: timeLeft,
+      isPlaying: isPlaying);
 }
 
 class _StatTrackingScreenState extends State<StatTrackingScreen>
@@ -103,6 +103,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
     return "";
   }
 
+  @override
   void initState() {
     super.initState();
     controller = AnimationController(
@@ -146,6 +147,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
   var playerStatus = {};
   late String opponentTeamName;
   late String myTeamName;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(

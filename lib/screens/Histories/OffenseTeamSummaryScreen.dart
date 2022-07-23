@@ -1,11 +1,12 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
+import 'package:orbital_ultylitics/screens/Histories/OffenseGameSummary.dart';
 
 class OffenseTeamSummaryScreen extends StatefulWidget {
   final Team team;

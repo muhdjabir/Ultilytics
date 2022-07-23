@@ -10,12 +10,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-//import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
-import 'package:orbital_ultylitics/screens/newLineScreen.dart';
+import 'package:orbital_ultylitics/screens/GameEntries/NewLineScreen.dart';
 
 class NewGameScreen extends StatefulWidget {
   const NewGameScreen({Key? key}) : super(key: key);
@@ -142,7 +138,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
       context: context,
       builder: (context) => AlertDialog(title: Text('${error}'), actions: [
             TextButton(
-              child: Text('Okay'),
+              child: const Text('Okay'),
               onPressed: okay,
             )
           ]));
@@ -158,8 +154,8 @@ class _NewGameScreenState extends State<NewGameScreen> {
     controllerTournamentName = TextEditingController();
     controllerGameDetails = TextEditingController();
     controllerGameName = TextEditingController();
-    _opponentName = PageStorage.of(context)
-            ?.readState(context, identifier: ValueKey("storeOpponentName")) ??
+    _opponentName = PageStorage.of(context)?.readState(context,
+            identifier: const ValueKey("storeOpponentName")) ??
         "";
   }
 
@@ -217,7 +213,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
           //autovalidateMode:true,
           //child:
           ListView(
-        key: PageStorageKey<String>('NewGameScreen'),
+        key: const PageStorageKey<String>('NewGameScreen'),
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         children: <Widget>[
           Container(height: 15),
@@ -232,16 +228,17 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 size: 40,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText: "Enter Game Name",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
               labelText: "Game Name:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {
@@ -256,7 +253,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 color: Color.fromARGB(255, 46, 119, 179),
                 size: 40,
               ),
-              SizedBox(width: 17),
+              const SizedBox(width: 17),
               Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -315,22 +312,23 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 size: 40,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(const Radius.circular(15))),
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText: "Enter Opponents Name",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: const Color.fromARGB(255, 75, 75, 75)),
               labelText: "Opponents:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {
                 _opponentName = val;
                 PageStorage.of(context)?.writeState(context, _opponentName,
-                    identifier: ValueKey("storeOpponentName"));
+                    identifier: const ValueKey("storeOpponentName"));
               });
             },
           ),
@@ -345,7 +343,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
                   size: 40,
                 ),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Expanded(
                 flex: 1,
                 child: DropdownButton<String>(
@@ -459,11 +457,11 @@ class _NewGameScreenState extends State<NewGameScreen> {
             style: const TextStyle(color: Colors.limeAccent),
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(const Radius.circular(15))),
               icon: const Icon(
                 Icons.format_list_bulleted_sharp,
                 color: Colors.grey,
@@ -472,9 +470,10 @@ class _NewGameScreenState extends State<NewGameScreen> {
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText:
                   "Enter any game details (eg current weather, field conditions, wind direction)",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
               labelText: "Comments:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {

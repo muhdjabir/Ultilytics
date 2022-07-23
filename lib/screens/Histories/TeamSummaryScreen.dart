@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
+import 'package:orbital_ultylitics/screens/Histories/OffenseGameSummary.dart';
 
 import 'DefenseTeamSummaryScreen.dart';
 import 'OffenseTeamSummaryScreen.dart';
@@ -22,7 +22,7 @@ class TeamSummaryScreen extends StatefulWidget {
 
   @override
   State<TeamSummaryScreen> createState() =>
-      _TeamSummaryScreenState(team: this.team, docID: this.docID);
+      _TeamSummaryScreenState(team: team, docID: docID);
 }
 
 class _TeamSummaryScreenState extends State<TeamSummaryScreen> {

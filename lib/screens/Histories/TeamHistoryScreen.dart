@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/TeamSummaryScreen.dart';
+import 'package:orbital_ultylitics/screens/Histories/TeamSummaryScreen.dart';
 
 class TeamHistoryScreen extends StatefulWidget {
   @override
