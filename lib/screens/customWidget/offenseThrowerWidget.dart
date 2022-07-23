@@ -4,45 +4,43 @@ import 'package:flutter/material.dart';
 class ThrowerOffWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
-  final Function callbackFunction;
-  String gameName;
   String myTeam;
   String uid;
-  ThrowerOffWidget({
-    Key? key,
-    required this.playerName,
-    required this.myTeam,
-    required this.playerStatus,
-    required this.callbackFunction,
-    required this.gameName,
-    required this.uid,
-  }) : super(key: key);
+  String gameName;
+  final Function callbackFunction;
+  ThrowerOffWidget(
+      {Key? key,
+      required this.playerName,
+      required this.playerStatus,
+      required this.gameName,
+      required this.uid,
+      required this.myTeam,
+      required this.callbackFunction})
+      : super(key: key);
   @override
   State<ThrowerOffWidget> createState() => _ThrowerOffWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
-      myTeam: this.myTeam,
-      callbackFunction: this.callbackFunction,
       gameName: this.gameName,
-      uid: this.uid);
+      myTeam: this.myTeam,
+      uid: this.uid,
+      callbackFunction: this.callbackFunction);
 }
 
 class _ThrowerOffWidgetState extends State<ThrowerOffWidget> {
-  _ThrowerOffWidgetState({
-    required this.playerName,
-    required this.playerStatus,
-    required this.myTeam,
-    required this.callbackFunction,
-    required this.gameName,
-    required this.uid,
-  });
+  _ThrowerOffWidgetState(
+      {required this.playerName,
+      required this.playerStatus,
+      required this.myTeam,
+      required this.callbackFunction,
+      required this.gameName,
+      required this.uid});
   var playerName;
   var playerStatus;
   String gameName;
-  String myTeam;
   String uid;
+  String myTeam;
   final Function callbackFunction;
-
   @override
   Widget build(BuildContext context) {
     var playersInstance = FirebaseFirestore.instance

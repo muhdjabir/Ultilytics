@@ -39,7 +39,6 @@ class _TeamHistoryScreenState extends State<TeamHistoryScreen> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data!.docs.length);
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,

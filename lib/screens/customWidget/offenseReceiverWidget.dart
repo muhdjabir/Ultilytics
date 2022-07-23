@@ -115,6 +115,11 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
         .collection('teams')
         .doc(myTeam)
         .collection('players');
+    var teamRecord = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam);
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
@@ -260,7 +265,31 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                             TextButton(
                                                 child: const Text('Game Over'),
                                                 onPressed: () {
-                                                  opponentScore += 1;
+                                                  myScore += 1;
+
+                                                  if (opponentScore > myScore) {
+                                                    teamRecord.update({
+                                                      "Loses":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("We lose");
+                                                  } else if (myScore >
+                                                      opponentScore) {
+                                                    teamRecord.update({
+                                                      "Wins":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("we win");
+                                                  } else {
+                                                    teamRecord.update({
+                                                      "Draws":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("everyone wins");
+                                                  }
                                                   Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(

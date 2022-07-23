@@ -22,6 +22,7 @@ Future<void> insertTeamData(final uid, final _newTeamName) async {
     "Wins": 0,
     "Loses": 0,
     "Win Rate": 100,
+    "Draws": 0,
   });
   //DocumentSnapshot docSnap= await usersCollectionRef.doc().get();
   //String teamDocID = docSnap.reference.documentID;
@@ -120,7 +121,6 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot.data!.docs.length);
                     return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -128,7 +128,6 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
                         itemBuilder: (context, index) {
                           QueryDocumentSnapshot<Object?>? documentSnapshot =
                               snapshot.data?.docs[index];
-                          print(teamsData);
                           //var currTeams = teams;
                           return NameContainerWidget(
                               child: documentSnapshot!["Team Name"]);

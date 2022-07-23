@@ -480,7 +480,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
               createGameData(uid, _gameName, myTeamSelect, _opponentName,
                   myStartState, _gameDetails, myGameType);
               //numPlayers = snapshot.data!.docs.length;
-              print("i have $numPlayers many players in the newgamescreen");
+              //print("i have $numPlayers many players in the newgamescreen");
               await Navigator.push(
                 context,
                 MaterialPageRoute(

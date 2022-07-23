@@ -99,7 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .authStateChanges()
                                   .listen((User? user) async {
                                 if (user != null) {
-                                  print(user.uid);
+                                  //print(user.uid);
                                   usersCollectionRef.doc(user.uid).set({
                                     "email": _email,
                                     "uid": user.uid

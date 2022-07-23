@@ -68,7 +68,7 @@ class _NewLineScreenState extends State<NewLineScreen>
   List<bool> isChecked = [];
   var lineupList = [];
   Future<bool?> getData() async {
-    print('is checked has $numPlayers');
+    //print('is checked has $numPlayers');
     for (var i = 0; i < numPlayers; i += 1) {
       isChecked.add(false);
     }
@@ -129,7 +129,7 @@ class _NewLineScreenState extends State<NewLineScreen>
         numSelected += 1;
       }
     }
-    print(numSelected);
+    //print(numSelected);
   }
 
   @override
@@ -147,7 +147,7 @@ class _NewLineScreenState extends State<NewLineScreen>
   @override
   Widget build(BuildContext context) {
     getData();
-    print("$numPlayers number of players");
+    //print("$numPlayers number of players");
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       getNumSelected();
@@ -209,8 +209,8 @@ class _NewLineScreenState extends State<NewLineScreen>
                       //initialData: getData(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          print("snapshothasdata");
-                          print(uid);
+                          //print("snapshothasdata");
+                          //print(uid);
                           return ListView.builder(
                               physics:
                                   const NeverScrollableScrollPhysics(), //AlwaysScrollableScrollPhysics(),
@@ -220,7 +220,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                                 QueryDocumentSnapshot<Object?>?
                                     documentSnapshot =
                                     snapshot.data?.docs[index];
-                                print('index $index');
+                                //print('index $index');
                                 return Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 2.0),
@@ -273,7 +273,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                           .doc(myTeam)
                           .collection('players');
                       getLineupList(uid, gameName).then((value) {
-                        print('$lineupList');
+                        //print('$lineupList');
                         for (var player in lineupList) {
                           playersInstance.doc(player).update(
                               {"Points Played": FieldValue.increment(1)});

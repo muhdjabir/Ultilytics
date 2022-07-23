@@ -187,10 +187,10 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
               physics: const NeverScrollableScrollPhysics(),
               itemCount: playerStatus.length,
               itemBuilder: ((context, index) {
-                print(playerStatus);
-                print('i am starting this point on $newPointState');
+                //print(playerStatus);
+                //print('i am starting this point on $newPointState');
                 //setPlayersStatus(myPlayers);
-                print('$myPlayers are my players');
+                //print('$myPlayers are my players');
                 if (playerStatus[myPlayers[index]] == possibleStatus[0]) {
                   //startingOff
                   return OffenseStartingWidget(
@@ -219,7 +219,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                 }
                 if (playerStatus[myPlayers[index]] == possibleStatus[2]) {
                   //thrower Offense
-                  print('throweroffwidget activated');
+                  //print('throweroffwidget activated');
                   return ThrowerOffWidget(
                     playerName: myPlayers[index],
                     playerStatus: playerStatus,
@@ -268,7 +268,7 @@ class _StatTrackingScreenState extends State<StatTrackingScreen>
                   return BlankPlayerWidget(playerName: myPlayers[index]);
                 } else {
                   //setPlayersStatus(myPlayers);
-                  print(playerStatus);
+                  //print(playerStatus);
                   return const Text(
                     'no widget yet',
                     style: TextStyle(color: Colors.white),

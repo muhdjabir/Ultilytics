@@ -6,25 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 
-class OffenseGameSummaryScreen extends StatefulWidget {
+class DefenseGameSummaryScreen extends StatefulWidget {
   final Game game;
   final String docID;
 
-  const OffenseGameSummaryScreen({
+  const DefenseGameSummaryScreen({
     Key? key,
     required this.game,
     required this.docID,
   }) : super(key: key);
 
   @override
-  State<OffenseGameSummaryScreen> createState() =>
-      _OffenseGameSummaryScreenState(game: this.game, docID: this.docID);
+  State<DefenseGameSummaryScreen> createState() =>
+      _DefenseGameSummaryScreenState(game: this.game, docID: this.docID);
 }
 
-class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
+class _DefenseGameSummaryScreenState extends State<DefenseGameSummaryScreen> {
   Game game;
   String docID;
-  _OffenseGameSummaryScreenState({required this.game, required this.docID});
+  _DefenseGameSummaryScreenState({required this.game, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
@@ -75,39 +75,19 @@ class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
                     label: Text('Name',
                         style: TextStyle(color: Colors.blueAccent))),
                 DataColumn(
-                    label: Text('Touches',
+                    label: Text('Interceptions',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Throwing Rate',
+                    label: Text('Pulling Rate',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Catching Rate',
+                    label: Text('Total Pulls',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true),
                 DataColumn(
-                    label: Text('Total Throws',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Advantageous Throws',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Catches',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Throwaways',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Drops',
-                        style: TextStyle(color: Colors.blueAccent)),
-                    numeric: true),
-                DataColumn(
-                    label: Text('Stall Outs',
+                    label: Text('O/B Pulls',
                         style: TextStyle(color: Colors.blueAccent)),
                     numeric: true)
               ],
@@ -126,35 +106,18 @@ class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
         DataCell(Text(player.name.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.touches.toString(),
+        DataCell(Text(player.interception.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
         DataCell(Text(
-            ((player.totalThrows - player.throwaways) / player.totalThrows)
+            ((player.noOfPulls - player.obPulls) / player.noOfPulls)
                 .toStringAsFixed(2),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(
-            ((player.catches) / (player.catches + player.drops))
-                .toStringAsFixed(2),
+        DataCell(Text(((player.noOfPulls)).toStringAsFixed(2),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.totalThrows.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.advantageousThrows.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.catches.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.throwaways.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.drops.toString(),
-            style: const TextStyle(
-                color: Colors.blueAccent, backgroundColor: Colors.white))),
-        DataCell(Text(player.stalledOut.toString(),
+        DataCell(Text(player.obPulls.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),
       ]);
@@ -162,6 +125,7 @@ class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
     return newList;
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> players = getPlayerStats();
@@ -172,7 +136,7 @@ class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("Offense")),
+            title: Text("Defense")),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

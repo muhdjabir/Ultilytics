@@ -35,8 +35,8 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
-        .collection('games')
-        .doc(docID)
+        .collection('teams')
+        .doc(team.teamName)
         .collection('players')
         .snapshots();
   }
@@ -166,6 +166,24 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Wins: ${team.wins}",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 20)),
+                    Text(
+                      "Losses: ${team.loses}",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Text(
+                      "Draws: ${team.draws}",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    )
+                  ],
+                )),
             Expanded(
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

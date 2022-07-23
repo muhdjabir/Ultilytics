@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       email: _emailController.text,
                       password: _passwordController.text,
                       context: context);
-                  print(user);
+                  //print(user);
                   if (user != null) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) =>

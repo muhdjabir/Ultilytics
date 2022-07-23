@@ -107,6 +107,12 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
         .collection('teams')
         .doc(myTeam)
         .collection('players');
+    var teamRecord = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam);
+
     getNumPlayers(uid, gameName);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -190,6 +196,27 @@ class _DefPlayerWidgetState extends State<DefPlayerWidget> {
                                             child: Text('Game Over'),
                                             onPressed: () {
                                               opponentScore += 1;
+
+                                              if (opponentScore > myScore) {
+                                                print("We lose");
+                                                teamRecord.update({
+                                                  "Loses":
+                                                      FieldValue.increment(1)
+                                                });
+                                              } else if (myScore >
+                                                  opponentScore) {
+                                                print("we win");
+                                                teamRecord.update({
+                                                  "Wins":
+                                                      FieldValue.increment(1)
+                                                });
+                                              } else {
+                                                teamRecord.update({
+                                                  "Draws":
+                                                      FieldValue.increment(1)
+                                                });
+                                                print("everyone wins");
+                                              }
                                               Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(

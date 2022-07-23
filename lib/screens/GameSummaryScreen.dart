@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Game.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
+import 'package:orbital_ultylitics/screens/DefenseGameSummaryScreen.dart';
 import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
 
 class GameSummaryScreen extends StatefulWidget {
@@ -26,7 +27,6 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
   Game game;
   String docID;
   _GameSummaryScreenState({required this.game, required this.docID});
-
   Stream<QuerySnapshot> getPlayerStats() {
     FirebaseAuth auth = FirebaseAuth
         .instance; // Acquiring individual player statistics from this game
@@ -152,7 +152,13 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                           game: game, docID: docID.toString())));
                 },
               ),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.shield))
+              IconButton(
+                  onPressed: () async {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DefenseGameSummaryScreen(
+                            game: game, docID: docID.toString())));
+                  },
+                  icon: const Icon(Icons.shield))
             ]),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
