@@ -42,9 +42,11 @@ Future<void> insertPlayerData(
     "Number of Pulls": 0,
     "Plus-Minus": 0,
     "Stalled Out": 0,
-    "Average Pull Time":0,
+    "Average Pull Time": 0,
     "Out of Bounds Pull": 0,
     "Average Disc Time": 0,
+    "Drops": 0,
+    "Touches": 0,
   });
 }
 
@@ -92,7 +94,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
         )
         .then((value) {
       teamSize = _playerList.length;
-      print('$teamSize size of team');
+      //print('$teamSize size of team');
       CollectionReference usersCollectionRef =
           FirebaseFirestore.instance.collection('users');
       usersCollectionRef.doc(uid).set({
@@ -115,7 +117,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   Future<void> insertTeamData(final newTeamName, final uid, teamSize) async {
     getTeamSize(newTeamName, uid).then((value) {
       //teamSize = _playerList.length;
-      print('$teamSize size of team');
+      //print('$teamSize size of team');
       CollectionReference usersCollectionRef =
           FirebaseFirestore.instance.collection('users');
       usersCollectionRef.doc(uid).set({
@@ -289,7 +291,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                         final User? user = auth.currentUser;
                         final uid = user!.uid;
                         //_playerList.add(_newPlayerName);
-                        print(_playerList);
+                        //print(_playerList);
                         insertPlayerData(newTeamName, _newPlayerName, uid);
                         controllerPlayerName.clear();
                       },

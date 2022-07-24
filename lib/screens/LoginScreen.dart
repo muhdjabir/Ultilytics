@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:orbital_ultylitics/main.dart';
 import 'package:orbital_ultylitics/screens/SignupScreen.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
+//import '../authservices.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -180,16 +181,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       email: _emailController.text,
                       password: _passwordController.text,
                       context: context);
-                  print(user);
+                  //print(user);
                   if (user != null) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) =>
                             const NavigationBarScreen(index: 0)));
-                  }
-                  else{
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) =>
-                        LoginScreen()));
                   }
                 },
                 child: const Text(

@@ -7,7 +7,7 @@ import '../newLineScreen.dart';
 
 double? gapWidth = 0;
 
-class defPlayerWidget extends StatefulWidget {
+class DefPlayerWidget extends StatefulWidget {
   var playerName;
   var playerStatus;
   String gameName;
@@ -20,7 +20,7 @@ class defPlayerWidget extends StatefulWidget {
   bool isPlaying;
 
   final Function callbackFunction;
-  defPlayerWidget(
+  DefPlayerWidget(
       {Key? key,
       required this.playerName,
       required this.playerStatus,
@@ -35,7 +35,7 @@ class defPlayerWidget extends StatefulWidget {
       required this.isPlaying})
       : super(key: key);
   @override
-  State<defPlayerWidget> createState() => _defPlayerWidgetState(
+  State<DefPlayerWidget> createState() => _DefPlayerWidgetState(
       playerName: this.playerName,
       playerStatus: this.playerStatus,
       callbackFunction: this.callbackFunction,
@@ -49,8 +49,8 @@ class defPlayerWidget extends StatefulWidget {
       isPlaying: this.isPlaying);
 }
 
-class _defPlayerWidgetState extends State<defPlayerWidget> {
-  _defPlayerWidgetState(
+class _DefPlayerWidgetState extends State<DefPlayerWidget> {
+  _DefPlayerWidgetState(
       {required this.playerName,
       required this.playerStatus,
       required this.callbackFunction,
@@ -72,7 +72,6 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
   String myTeam;
   String opponentTeam;
   bool isPlaying;
-
   final Function callbackFunction;
   var numPlayers;
 
@@ -102,6 +101,18 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName);
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
+        .collection('players');
+    var teamRecord = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam);
+
     getNumPlayers(uid, gameName);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -137,6 +148,12 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                           onPressed: () {
                             playersInstance.doc(playerName).update({
                               "Interception": FieldValue.increment(1),
+                              "Touches": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
+                            teamInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Touches": FieldValue.increment(1),
                               "Plus-Minus": FieldValue.increment(1)
                             });
                             callbackFunction(playerName, 2, 1);
@@ -150,6 +167,10 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                           child: const Text("Block"),
                           onPressed: () {
                             playersInstance.doc(playerName).update({
+                              "Interception": FieldValue.increment(1),
+                              "Plus-Minus": FieldValue.increment(1)
+                            });
+                            teamInstance.doc(playerName).update({
                               "Interception": FieldValue.increment(1),
                               "Plus-Minus": FieldValue.increment(1)
                             });
@@ -175,14 +196,36 @@ class _defPlayerWidgetState extends State<defPlayerWidget> {
                                             child: Text('Game Over'),
                                             onPressed: () {
                                               opponentScore += 1;
+
+                                              if (opponentScore > myScore) {
+                                                print("We lose");
+                                                teamRecord.update({
+                                                  "Loses":
+                                                      FieldValue.increment(1)
+                                                });
+                                              } else if (myScore >
+                                                  opponentScore) {
+                                                print("we win");
+                                                teamRecord.update({
+                                                  "Wins":
+                                                      FieldValue.increment(1)
+                                                });
+                                              } else {
+                                                teamRecord.update({
+                                                  "Draws":
+                                                      FieldValue.increment(1)
+                                                });
+                                                print("everyone wins");
+                                              }
                                               Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const NavigationBarScreen(index: 0)),
+                                                        const NavigationBarScreen(
+                                                            index: 0)),
                                               );
                                             }),
-                                        const SizedBox(width:50),
+                                        const SizedBox(width: 50),
                                         TextButton(
                                             child: Text('Offense'),
                                             onPressed: () {

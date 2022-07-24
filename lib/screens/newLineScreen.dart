@@ -6,7 +6,7 @@ import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 //import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
 import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
-import 'customWidget/roundButtonTimerWidget.dart';
+import 'customWidget/RoundButtonTimerWidget.dart';
 
 class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
@@ -68,7 +68,7 @@ class _NewLineScreenState extends State<NewLineScreen>
   List<bool> isChecked = [];
   var lineupList = [];
   Future<bool?> getData() async {
-    print('is checked has $numPlayers');
+    //print('is checked has $numPlayers');
     for (var i = 0; i < numPlayers; i += 1) {
       isChecked.add(false);
     }
@@ -129,7 +129,7 @@ class _NewLineScreenState extends State<NewLineScreen>
         numSelected += 1;
       }
     }
-    print(numSelected);
+    //print(numSelected);
   }
 
   @override
@@ -147,7 +147,7 @@ class _NewLineScreenState extends State<NewLineScreen>
   @override
   Widget build(BuildContext context) {
     getData();
-    print("$numPlayers number of players");
+    //print("$numPlayers number of players");
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       getNumSelected();
@@ -209,8 +209,8 @@ class _NewLineScreenState extends State<NewLineScreen>
                       //initialData: getData(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          print("snapshothasdata");
-                          print(uid);
+                          //print("snapshothasdata");
+                          //print(uid);
                           return ListView.builder(
                               physics:
                                   const NeverScrollableScrollPhysics(), //AlwaysScrollableScrollPhysics(),
@@ -220,7 +220,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                                 QueryDocumentSnapshot<Object?>?
                                     documentSnapshot =
                                     snapshot.data?.docs[index];
-                                print('index $index');
+                                //print('index $index');
                                 return Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 2.0),
@@ -266,11 +266,20 @@ class _NewLineScreenState extends State<NewLineScreen>
                           .collection('games')
                           .doc(gameName)
                           .collection('players');
+                      var teamInstance = FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .collection('teams')
+                          .doc(myTeam)
+                          .collection('players');
                       getLineupList(uid, gameName).then((value) {
-                        print('$lineupList');
+                        //print('$lineupList');
                         for (var player in lineupList) {
-                          playersInstance.doc(player).update({"Points Played": FieldValue.increment(1)});
-                        } 
+                          playersInstance.doc(player).update(
+                              {"Points Played": FieldValue.increment(1)});
+                          teamInstance.doc(player).update(
+                              {"Points Played": FieldValue.increment(1)});
+                        }
                       }).then((value) {
                         //print('building $lineupList');
                         Navigator.push(
@@ -308,35 +317,3 @@ class _NewLineScreenState extends State<NewLineScreen>
     });
   }
 }
-
-/* for working purposes to be copy pasted when creating a new screen that needs variables to be passed in
-import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-class newLineScreen extends StatefulWidget {
-  List<String> myPlayers;
-  int uid;
-  const newLineScreen({Key? key, required this.myPlayers, this.uid})
-      : super(key: key);
-
-  @override
-  State<newLineScreen> createState() =>
-      _newLineScreenState(myPlayers: this.myPlayers, uid: this.uid);
-}
-
-class _newLineScreenState extends State<newLineScreen> {
-  List<String> myPlayers;
-  int uid;
-  @override
-  _newLineScreenState({required this.myPlayers, required this.uid});
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CheckboxListTile(
-          
-        ),
-      ),
-    );
-  }
-}*/

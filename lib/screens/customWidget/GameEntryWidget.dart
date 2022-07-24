@@ -33,8 +33,8 @@ class GameEntryWidget extends StatelessWidget {
                   //color:,
                   size: 40,
                 ),
-                onPressed: () => print(
-                    "Hello") /*() async {
+                onPressed:
+                    () {} /*() async {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(

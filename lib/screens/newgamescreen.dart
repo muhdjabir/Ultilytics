@@ -51,6 +51,8 @@ Future<void> insertPlayerData(
     "Average Pull Time": 0,
     "Out of Bounds Pull": 0,
     "Average Disc Time": 0,
+    "Drops": 0,
+    "Touches": 0,
   });
 }
 
@@ -135,6 +137,19 @@ class _NewGameScreenState extends State<NewGameScreen> {
   var durationMins;
   var durationSecs;
   String? myGameType;
+
+  Future errorMessage(String error) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(title: Text('${error}'), actions: [
+            TextButton(
+              child: Text('Okay'),
+              onPressed: okay,
+            )
+          ]));
+
+  void okay() {
+    Navigator.of(context).pop();
+  }
 
   @override
   void initState() {
@@ -472,33 +487,42 @@ class _NewGameScreenState extends State<NewGameScreen> {
             onPressed: () async {
               //print(_opponentName);
               //print(teamItems);
-              //print(myTeamSelect);
-
+              //print(myTeamSelect)
+              if ((_gameName == null) ||
+                  (numPlayers == null) ||
+                  (myStartState == null) ||
+                  (myTeamSelect == null) ||
+                  (_opponentName == null) ||
+                  (durationHours == null) ||
+                  (durationMins == null)) {
+                errorMessage("Please fill in all boxes");
+              } else {
 //INCLUDE THE BELOW 2 LINES TO SAVE GAME DATA
-              createGameData(uid, _gameName, myTeamSelect, _opponentName,
-                  myStartState, _gameDetails, myGameType);
-              //numPlayers = snapshot.data!.docs.length;
-              print("i have $numPlayers many players in the newgamescreen");
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewLineScreen(
-                    gameName: _gameName,
-                    numPlayers: numPlayers,
-                    uid: uid,
-                    newPointState: myStartState,
-                    myScore: 0,
-                    myTeam: myTeamSelect,
-                    opponentScore: 0,
-                    opponentTeam: _opponentName,
-                    timeLeft: Duration(
-                        hours: int.parse(durationHours),
-                        minutes: int.parse(durationMins),
-                        seconds: 0),
-                    isPlaying: false,
+                createGameData(uid, _gameName, myTeamSelect, _opponentName,
+                    myStartState, _gameDetails, myGameType);
+                //numPlayers = snapshot.data!.docs.length;
+                //print("i have $numPlayers many players in the newgamescreen");
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewLineScreen(
+                      gameName: _gameName,
+                      numPlayers: numPlayers,
+                      uid: uid,
+                      newPointState: myStartState,
+                      myScore: 0,
+                      myTeam: myTeamSelect,
+                      opponentScore: 0,
+                      opponentTeam: _opponentName,
+                      timeLeft: Duration(
+                          hours: int.parse(durationHours),
+                          minutes: int.parse(durationMins),
+                          seconds: 0),
+                      isPlaying: false,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
 
               /*insertTeamData(newTeamName, uid, _playerList.length);
                   FirebaseFirestore.instance

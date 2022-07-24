@@ -109,6 +109,17 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
         .doc(uid)
         .collection('games')
         .doc(gameName);
+    var teamInstance = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam)
+        .collection('players');
+    var teamRecord = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('teams')
+        .doc(myTeam);
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
@@ -146,12 +157,21 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                         FieldValue.increment(1),
                                     "Total Throws": FieldValue.increment(1)
                                   });
+                                  teamInstance.doc(thrower).update({
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1)
+                                  });
                                 },
                               );
-                              playersInstance
-                                  .doc(playerName)
-                                  .update({"Catch": FieldValue.increment(1)});
-
+                              playersInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
+                              teamInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -165,13 +185,21 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                 (thrower) {
                                   //print(thrower);
                                   playersInstance.doc(thrower).update({
-                                    "Total Throws": FieldValue.increment(1)
+                                    "Total Throws": FieldValue.increment(1),
+                                  });
+                                  teamInstance.doc(thrower).update({
+                                    "Total Throws": FieldValue.increment(1),
                                   });
                                 },
                               );
-                              playersInstance
-                                  .doc(playerName)
-                                  .update({"Catch": FieldValue.increment(1)});
+                              playersInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
+                              teamInstance.doc(playerName).update({
+                                "Catch": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
                               callbackFunction(playerName, 2, 1);
                             } //2 = 'receiverOff', 1 = 'startingOff'
                             ),
@@ -181,6 +209,10 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                             child: Text("Drop"),
                             onPressed: () {
                               playersInstance.doc(playerName).update({
+                                "Drops": FieldValue.increment(1),
+                                "Plus-Minus": FieldValue.increment(-1)
+                              });
+                              teamInstance.doc(playerName).update({
                                 "Drops": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(-1)
                               });
@@ -197,6 +229,14 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                 (thrower) {
                                   playersInstance.doc(thrower).update({
                                     "Assists": FieldValue.increment(1),
+                                    "Plus-Minus": FieldValue.increment(1),
+                                    "Total Throws": FieldValue.increment(1),
+                                    "Advantageous Throw":
+                                        FieldValue.increment(1)
+                                  });
+                                  teamInstance.doc(thrower).update({
+                                    "Assists": FieldValue.increment(1),
+                                    "Plus-Minus": FieldValue.increment(1),
                                     "Total Throws": FieldValue.increment(1),
                                     "Advantageous Throw":
                                         FieldValue.increment(1)
@@ -207,6 +247,12 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                               playersInstance.doc(playerName).update({
                                 "Goals Scored": FieldValue.increment(1),
                                 "Plus-Minus": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
+                              });
+                              teamInstance.doc(playerName).update({
+                                "Goals Scored": FieldValue.increment(1),
+                                "Plus-Minus": FieldValue.increment(1),
+                                "Touches": FieldValue.increment(1)
                               });
                               gameInstance.update(
                                   {"My Score": FieldValue.increment(1)});
@@ -219,7 +265,31 @@ class _ReceiverOffWidgetState extends State<ReceiverOffWidget> {
                                             TextButton(
                                                 child: const Text('Game Over'),
                                                 onPressed: () {
-                                                  opponentScore += 1;
+                                                  myScore += 1;
+
+                                                  if (opponentScore > myScore) {
+                                                    teamRecord.update({
+                                                      "Loses":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("We lose");
+                                                  } else if (myScore >
+                                                      opponentScore) {
+                                                    teamRecord.update({
+                                                      "Wins":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("we win");
+                                                  } else {
+                                                    teamRecord.update({
+                                                      "Draws":
+                                                          FieldValue.increment(
+                                                              1)
+                                                    });
+                                                    print("everyone wins");
+                                                  }
                                                   Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
