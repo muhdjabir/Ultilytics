@@ -31,8 +31,8 @@ class _TeamSummaryScreenState extends State<TeamSummaryScreen> {
   _TeamSummaryScreenState({required this.team, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
-    FirebaseAuth auth = FirebaseAuth
-        .instance; // Acquiring individual player statistics from this team
+    // Acquiring individual player statistics from this team
+    FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
     String uid = user!.uid;
     return FirebaseFirestore.instance

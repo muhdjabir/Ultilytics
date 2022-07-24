@@ -34,7 +34,6 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
       resizeToAvoidBottomInset: false,
       body: screens[index],
       bottomNavigationBar: NavigationBarTheme(
-        //navigation bar implmentation video https://www.youtube.com/watch?v=2emB2VFrRnA
         data: NavigationBarThemeData(
           indicatorColor: Colors.blue.shade100,
           labelTextStyle: MaterialStateProperty.all(
@@ -44,6 +43,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         child: PageStorage(
           bucket: bucket,
           child: NavigationBar(
+            //Creating the navigation bar to navigate between History, Teams, Games and Settings
             height: 60,
             backgroundColor: Colors.blueGrey,
             selectedIndex: index,

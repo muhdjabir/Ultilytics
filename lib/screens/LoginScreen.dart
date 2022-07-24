@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
+      // User Authentication
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
@@ -63,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future errorMessage(String error) => showDialog(
+      // Creates a popup alert when login fails
       context: context,
       builder: (context) => AlertDialog(title: Text('${error}'), actions: [
             TextButton(
@@ -88,14 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('assets/images/logo.jpg', height: 100, width: 100),
-            /*const Text(
-          "Ultylytics",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 28.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),*/
             const Text(
               "Become the ultimate athlete",
               style: TextStyle(
@@ -110,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 44.0,
             ),
             TextField(
+              //Creating the Textfields for the input of Email and Password
               style: const TextStyle(color: Colors.white),
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -119,7 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
-                //labelStyle: TextStyle(color: Colors.white),
                 prefixIcon: Icon(Icons.mail, color: Colors.white),
               ),
             ),
@@ -142,15 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 12.0,
             ),
-            /* Dont remember your password text
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Don't remember your password?", 
-            textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.blue),
-            ),
-          ),*/
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
@@ -172,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               width: double.infinity,
               child: RawMaterialButton(
+                key: ValueKey("loginButton"),
                 fillColor: const Color(0xFF0069FE),
                 elevation: 0.0,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),

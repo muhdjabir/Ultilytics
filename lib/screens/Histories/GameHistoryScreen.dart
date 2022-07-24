@@ -12,6 +12,7 @@ class GameHistoryScreen extends StatefulWidget {
 }
 
 Future getGamesHistory(String uid) async {
+  // Acquiring individual player statistics from this game
   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
       .collection('users')
       .doc(uid)

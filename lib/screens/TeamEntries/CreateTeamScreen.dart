@@ -16,7 +16,10 @@ class CreateTeamScreen extends StatefulWidget {
 }
 
 Future<void> insertPlayerData(
-    final newTeamName, final newPlayerName, final uid) async {
+    //Creates Team Collection in Firebase
+    final newTeamName,
+    final newPlayerName,
+    final uid) async {
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
   usersCollectionRef.doc(uid).collection('teams').doc(newTeamName).set({
@@ -55,18 +58,13 @@ enum Menu { removePlayer, editName }
 class _CreateTeamScreenState extends State<CreateTeamScreen> {
   List<String> _playerList = [];
   String newTeamName;
-  //PlayersRecord playerName;
   _CreateTeamScreenState({required this.newTeamName});
   late TextEditingController controllerPlayerName;
   String _newPlayerName = "";
-  //late String newTeamName;
-  //late TextEditingController controllerTeamName;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  //String _selectedMenu = '';
   void initState() {
     super.initState();
-    //controllerTeamName = TextEditingController();
     controllerPlayerName = TextEditingController();
   }
 
@@ -131,15 +129,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     });
   }
 
-  //List<String> _playerList = [];
-// USE BELOW FOR WHEN EDITING AN EXISTING TEAM (To get back the list of players to be edited)
-  //Future<Map<String, dynamic>?> _playerList = FirebaseFirestore.instance.collection('users').doc(uid).collection('teams').doc(newTeamName).get().then((value) => value.data(););
-
-/*  getPlayerList(int teamSize, DocumentReference<Map<String, dynamic>> currTeam) async{
-    for (int i = 0; i < teamSize; i += 1){
-      _playerList.add(currTeam.collection('Players').doc().id);
-    }
-  }*/
   @override
   Widget build(BuildContext context) {
     final User? user = auth.currentUser;
@@ -165,7 +154,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                  //https://www.youtube.com/watch?v=HDy0RKCj40Q
                   stream: FirebaseFirestore.instance
                       .collection('users')
                       .doc(uid)
@@ -175,9 +163,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      //print("hasdata");
-                      //print(snapshot.data!.docs.length);
-
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -291,8 +276,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       onPressed: () async {
                         final User? user = auth.currentUser;
                         final uid = user!.uid;
-                        //_playerList.add(_newPlayerName);
-                        //print(_playerList);
                         insertPlayerData(newTeamName, _newPlayerName, uid);
                         controllerPlayerName.clear();
                       },
@@ -303,17 +286,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               ElevatedButton(
                 child: const Text('Done'),
                 onPressed: () async {
-                  getTeamSize(newTeamName,
-                      uid); /*.then(
-                    (value) {
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(uid)
-                          .collection('teams')
-                          .doc(newTeamName)
-                          .update({"Players": _playerList});*/
-                  //},
-                  //);
+                  getTeamSize(newTeamName, uid);
                   await Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

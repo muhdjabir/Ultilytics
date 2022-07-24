@@ -354,29 +354,3 @@ String getOpponentTeamName(final opponentTeam) {
     return opponentTeam;
   }
 }
-/*
-class CustomButton extends StatelessWidget {
-  var color;
-  var onPress;
-  final String label;
-  CustomButton(
-      {required this.color, required this.onPress, required this.label});
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      //shape:,
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(color),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0), // radius you want
-                  side: BorderSide(
-                    color: Colors.transparent, //color
-                  )))),
-      onPressed: onPress,
-      child: Text(label, style: TextStyle(color: Colors.white)),
-    );
-  }
-}
-*/
-

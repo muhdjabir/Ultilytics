@@ -28,6 +28,7 @@ class _DefenseGameSummaryScreenState extends State<DefenseGameSummaryScreen> {
   _DefenseGameSummaryScreenState({required this.game, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
+    // Firebase Queries for GAMES DATA
     FirebaseAuth auth = FirebaseAuth
         .instance; // Acquiring individual player statistics from this game
     User? user = auth.currentUser;
@@ -104,6 +105,7 @@ class _DefenseGameSummaryScreenState extends State<DefenseGameSummaryScreen> {
         snapshot?.docs.map((DocumentSnapshot documentSnapshot) {
       Player player = Player.fromSnapshot(documentSnapshot);
       return DataRow(cells: [
+        //Populating the rows of the datatable
         DataCell(Text(player.name.toString(),
             style: const TextStyle(
                 color: Colors.blueAccent, backgroundColor: Colors.white))),

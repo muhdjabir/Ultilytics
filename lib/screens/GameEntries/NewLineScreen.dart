@@ -24,7 +24,6 @@ class NewLineScreen extends StatefulWidget {
       {Key? key,
       required this.gameName,
       required this.numPlayers,
-      //required this.myPlayers,
       required this.uid,
       required this.newPointState,
       required this.myScore,
@@ -199,6 +198,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                         ))
                   ]),
                   StreamBuilder<QuerySnapshot>(
+                      // Creates List of the players available in team
                       stream: FirebaseFirestore.instance
                           .collection('users')
                           .doc(uid)
@@ -260,6 +260,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                     clipBehavior: Clip.none,
                     child: const Text('Done Selecting Lineup'),
                     onPressed: () async {
+                      // Updates the Firebase Collections
                       var playersInstance = FirebaseFirestore.instance
                           .collection('users')
                           .doc(uid)
