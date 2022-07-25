@@ -8,8 +8,6 @@
 	<string>com.googleusercontent.apps.939271587670-rkuh7j4sknm9g6bq55fbgkcqrsg1nc0q</string>
 	<key>GCM_SENDER_ID</key>
 	<string>939271587670</string>
-	<key>API_KEY</key>
-  	<string>AIzaSyAMJNb7vMgTgR9cnV0NDQyWQnoYVOsWMl4</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
