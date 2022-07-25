@@ -15,7 +15,7 @@ class NavigationBarScreen extends StatefulWidget {
 }
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  //CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int index;
   _NavigationBarScreenState({required this.index});
@@ -51,18 +51,22 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                 setState(() => this.index = index),
             destinations: const [
               NavigationDestination(
+                  key: ValueKey("historyTab"),
                   icon: Icon(Icons.history_outlined),
                   selectedIcon: Icon(Icons.history),
                   label: "History"),
               NavigationDestination(
+                  key: ValueKey("teamTab"),
                   icon: Icon(Icons.group_outlined),
                   selectedIcon: Icon(Icons.group),
                   label: "Teams"),
               NavigationDestination(
+                  key: ValueKey("gameTab"),
                   icon: Icon(Icons.library_add_outlined),
                   selectedIcon: Icon(Icons.library_add),
                   label: "New Game"),
               NavigationDestination(
+                  key: ValueKey("settingsTab"),
                   icon: Icon(Icons.settings_outlined),
                   selectedIcon: Icon(Icons.settings),
                   label: "Settings"),

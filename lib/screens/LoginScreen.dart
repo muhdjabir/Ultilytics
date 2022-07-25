@@ -66,12 +66,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Future errorMessage(String error) => showDialog(
       // Creates a popup alert when login fails
       context: context,
-      builder: (context) => AlertDialog(title: Text('${error}'), actions: [
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: okay,
-            )
-          ]));
+      builder: (context) => AlertDialog(
+              key: ValueKey("errorMessage"),
+              title: Text('${error}'),
+              actions: [
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: okay,
+                )
+              ]));
 
   void okay() {
     Navigator.of(context).pop();
@@ -105,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               //Creating the Textfields for the input of Email and Password
+              key: ValueKey("emailField"),
               style: const TextStyle(color: Colors.white),
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -121,6 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 26.0,
             ),
             TextField(
+              key: ValueKey("passwordField"),
               style: const TextStyle(color: Colors.white),
               controller: _passwordController,
               obscureText: true,
@@ -139,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
+                  key: ValueKey("register"),
                   child: const Text(
                     "Create new account!",
                     textAlign: TextAlign.left,

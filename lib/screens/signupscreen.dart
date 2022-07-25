@@ -11,9 +11,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final auth = FirebaseAuth.instance;
-  CollectionReference usersCollectionRef =
-      FirebaseFirestore.instance.collection('users');
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _email = '';
@@ -42,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 44.0,
             ),
             TextField(
+              key: ValueKey("emailField"),
               //Creating User Email field box
               onChanged: (val) {
                 setState(() => _email = val);
@@ -62,6 +60,7 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 26.0,
             ),
             TextFormField(
+              key: ValueKey("passwordField"),
               // Creating Password textbox
               onChanged: (val) {
                 setState(() => _password = val);
@@ -84,6 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
+                  key: ValueKey("backButton"),
                   child: const Text(
                     "Back to Login",
                     textAlign: TextAlign.left,
@@ -96,6 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 75.0,
             ),
             Container(
+              key: ValueKey("signUpButton"),
               width: double.infinity,
               child: RawMaterialButton(
                 fillColor: const Color(0xFF0069FE),
@@ -115,6 +116,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               FirebaseAuth.instance
                                   .authStateChanges()
                                   .listen((User? user) async {
+                                final auth = FirebaseAuth.instance;
+                                CollectionReference usersCollectionRef =
+                                    FirebaseFirestore.instance
+                                        .collection('users');
                                 if (user != null) {
                                   usersCollectionRef
                                       .doc(user.uid)

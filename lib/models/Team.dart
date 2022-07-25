@@ -8,7 +8,15 @@ class Team {
   late final int winRate;
   late final int draws;
 
-  Team();
+  Team(int loses, int wins, int noOfPlayers, String teamName, int winRate,
+      int draws) {
+    this.loses = loses;
+    this.wins = wins;
+    this.noOfPlayers = noOfPlayers;
+    this.teamName = teamName;
+    this.winRate = winRate;
+    this.draws = draws;
+  }
 
   Map<String, dynamic> toJson() => {
         "Loses": loses,

@@ -20,8 +20,10 @@ class _HistoryTabScreen extends State<HistoryTabScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               title: const Text("History"),
-              bottom: const TabBar(
-                  tabs: [const Tab(text: "Games"), const Tab(text: "Teams")]),
+              bottom: const TabBar(tabs: [
+                const Tab(key: ValueKey("gameHistory"), text: "Games"),
+                const Tab(key: ValueKey("teamHistory"), text: "Teams")
+              ]),
             ),
             body: TabBarView(
               children: [GameHistoryScreen(), TeamHistoryScreen()],
