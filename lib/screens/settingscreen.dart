@@ -14,6 +14,7 @@ class SettingsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            // Log Out Feature
             width: double.infinity,
             child: RawMaterialButton(
               fillColor: const Color(0xFF0069FE),

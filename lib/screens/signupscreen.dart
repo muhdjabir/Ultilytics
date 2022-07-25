@@ -11,9 +11,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final auth = FirebaseAuth.instance;
-  CollectionReference usersCollectionRef =
-      FirebaseFirestore.instance.collection('users');
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _email = '';
@@ -42,6 +39,8 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 44.0,
             ),
             TextField(
+              key: ValueKey("emailField"),
+              //Creating User Email field box
               onChanged: (val) {
                 setState(() => _email = val);
               },
@@ -61,6 +60,8 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 26.0,
             ),
             TextFormField(
+              key: ValueKey("passwordField"),
+              // Creating Password textbox
               onChanged: (val) {
                 setState(() => _password = val);
               },
@@ -77,9 +78,25 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
             const SizedBox(
-              height: 100.0,
+              height: 12.0,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                  key: ValueKey("backButton"),
+                  child: const Text(
+                    "Back to Login",
+                    textAlign: TextAlign.left,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+            ),
+            const SizedBox(
+              height: 75.0,
             ),
             Container(
+              key: ValueKey("signUpButton"),
               width: double.infinity,
               child: RawMaterialButton(
                 fillColor: const Color(0xFF0069FE),
@@ -88,6 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
+                  // Takes in textbox inputs to attempt sign up
                   try {
                     final credential = await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
@@ -98,43 +116,21 @@ class _SignupScreenState extends State<SignupScreen> {
                               FirebaseAuth.instance
                                   .authStateChanges()
                                   .listen((User? user) async {
+                                final auth = FirebaseAuth.instance;
+                                CollectionReference usersCollectionRef =
+                                    FirebaseFirestore.instance
+                                        .collection('users');
                                 if (user != null) {
-                                  //print(user.uid);
-                                  usersCollectionRef.doc(user.uid).set({
-                                    "email": _email,
-                                    "uid": user.uid
-                                  }); //this works very well
-                                  /*print(user.uid);
                                   usersCollectionRef
-                                  .add({"email": _email, "uid": user.uid});*/ //works kinda
-                                  //usersCollectionRef.doc(''+user.uid);
-                                  //String id= (await usersCollectionRef.doc(ID).toString) as String;
-
+                                      .doc(user.uid)
+                                      .set({"email": _email, "uid": user.uid});
                                 }
                               }),
                             });
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => NavigationBarScreen(index: 2)));
-                  }
-
-                  /*FirebaseAuth.instance
-                        .authStateChanges()
-                        .listen((User? user) {
-                      if (user == null)
-                        ;
-                      else
-                      String uid;
-                        CollectionReference users =
-                            FirebaseFirestore.instance.collection('users');
-                      DocumentReference<Map<String, dynamic>> users =
-                          FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(uid);
-                      users.set({'displayName': email, 'uid': uid});
-                      ;
-                    });
-                  }*/
-                  on FirebaseAuthException catch (e) {
+                  } on FirebaseAuthException catch (e) {
+                    // Alerts the user regarding failed registration
                     if (e.code == 'weak-password') {
                       errorMessage('Password is too weak');
                     } else if (e.code == 'email-already-in-use') {
@@ -143,14 +139,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   } catch (e) {
                     print(e);
                   }
-
-                  //print(user);
-                  //String uid = FirebaseAuth.instance.currentUser?.uid;
-
-                  //await _user.userSetup(_emailController.text,);
-                  //await users.add({'name': _email, });
-                  //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  //builder: (context) => NavigationBarScreen(index: 2)));
                 },
                 child: const Text(
                   "Sign-up",

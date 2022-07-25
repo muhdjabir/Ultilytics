@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orbital_ultylitics/models/Player.dart';
 import 'package:orbital_ultylitics/models/Team.dart';
-import 'package:orbital_ultylitics/screens/OffenseGameSummary.dart';
+import 'package:orbital_ultylitics/screens/Histories/OffenseGameSummary.dart';
 
 class DefenseTeamSummaryScreen extends StatefulWidget {
   final Team team;
@@ -19,7 +18,7 @@ class DefenseTeamSummaryScreen extends StatefulWidget {
 
   @override
   State<DefenseTeamSummaryScreen> createState() =>
-      _DefenseTeamSummaryScreenState(team: this.team, docID: this.docID);
+      _DefenseTeamSummaryScreenState(team: team, docID: docID);
 }
 
 class _DefenseTeamSummaryScreenState extends State<DefenseTeamSummaryScreen> {
@@ -28,8 +27,8 @@ class _DefenseTeamSummaryScreenState extends State<DefenseTeamSummaryScreen> {
   _DefenseTeamSummaryScreenState({required this.team, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
-    FirebaseAuth auth = FirebaseAuth
-        .instance; // Acquiring individual player statistics from this team
+    // Acquiring individual player statistics from this team
+    FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
     String uid = user!.uid;
     return FirebaseFirestore.instance

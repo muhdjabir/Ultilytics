@@ -11,7 +11,16 @@ class Game {
     return snapshot.
   }*/
 
-  Game();
+  Game(String gameDetails, String gameType, int myScore, String teamName,
+      String opponentName, String startingOn, int opponentScore) {
+    this.gameDetails = gameDetails;
+    this.gameType = gameType;
+    this.myScore = myScore;
+    this.teamName = teamName;
+    this.opponentName = opponentName;
+    this.startingOn = startingOn;
+    this.opponentScore = opponentScore;
+  }
 
   Map<String, dynamic> toJson() => {
         'Game Details': gameDetails,

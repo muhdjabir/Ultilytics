@@ -7,9 +7,6 @@ class NameWidget extends StatelessWidget {
   NameWidget({Key? key, this.inputText = 'name'}) : super(key: key);
   var editName = 'Edit name';
   var removePlayer = 'Remove player';
-  //List<String> items = ['Edit name', 'Remove player'];
-  //String? selectedItem = '';
-  //var names = ['Linus', 'Jabir', 'Ryan', 'Bolte', 'Cat', 'Cheryl', 'Jo'];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,62 +38,13 @@ class NameWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                /*onSelected: (/*input to the button from value*/String newValue){
-                      setState((){
-                        //do something
-                      });
-                    },*/
               ],
-              /*fillColor: const Color(0xFF0069FE),
-              elevation: 0.0,
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              //onPressed: () async {
-                
-                /*User? user = await loginUsingEmailPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    context: context);
-                print(user);
-                if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const ProfileScreen(index: 0)));
-                }
-              }*/
-              child: const Text(
-                "Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                ),
-              ),*/
             ),
           ),
           const SizedBox(
             height: 44.0,
           ),
         ]));
-    /*Column(
-      mainAxisSize: MainAxisSize.max,
-    children: List.generate(7, (index){
-      return Null;
-    },)),
-    );*/ //line 184
-    /*Container(
-      Column(
-        Container(
-          Column(
-            Text title,
-            Row subtitle,
-            text title)
-          Column(
-            Container(Row(Text), Row(Icon()))
-          )
-        )
-      )
-    )
-  }*/
   }
 }
 

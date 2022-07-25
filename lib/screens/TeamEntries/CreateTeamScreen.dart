@@ -4,7 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'NavigationBarScreen.dart';
+import '../NavigationBarScreen.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   final String newTeamName;
@@ -16,7 +16,10 @@ class CreateTeamScreen extends StatefulWidget {
 }
 
 Future<void> insertPlayerData(
-    final newTeamName, final newPlayerName, final uid) async {
+    //Creates Team Collection in Firebase
+    final newTeamName,
+    final newPlayerName,
+    final uid) async {
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
   usersCollectionRef.doc(uid).collection('teams').doc(newTeamName).set({
@@ -55,18 +58,13 @@ enum Menu { removePlayer, editName }
 class _CreateTeamScreenState extends State<CreateTeamScreen> {
   List<String> _playerList = [];
   String newTeamName;
-  //PlayersRecord playerName;
   _CreateTeamScreenState({required this.newTeamName});
   late TextEditingController controllerPlayerName;
   String _newPlayerName = "";
-  //late String newTeamName;
-  //late TextEditingController controllerTeamName;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  //String _selectedMenu = '';
   void initState() {
     super.initState();
-    //controllerTeamName = TextEditingController();
     controllerPlayerName = TextEditingController();
   }
 
@@ -131,15 +129,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     });
   }
 
-  //List<String> _playerList = [];
-// USE BELOW FOR WHEN EDITING AN EXISTING TEAM (To get back the list of players to be edited)
-  //Future<Map<String, dynamic>?> _playerList = FirebaseFirestore.instance.collection('users').doc(uid).collection('teams').doc(newTeamName).get().then((value) => value.data(););
-
-/*  getPlayerList(int teamSize, DocumentReference<Map<String, dynamic>> currTeam) async{
-    for (int i = 0; i < teamSize; i += 1){
-      _playerList.add(currTeam.collection('Players').doc().id);
-    }
-  }*/
   @override
   Widget build(BuildContext context) {
     final User? user = auth.currentUser;
@@ -156,16 +145,15 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               color: Color.fromARGB(255, 110, 148, 252),
               fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 36, 52),
+        backgroundColor: const Color.fromARGB(255, 4, 36, 52),
       ),
       backgroundColor: Colors.black45,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               StreamBuilder<QuerySnapshot>(
-                  //https://www.youtube.com/watch?v=HDy0RKCj40Q
                   stream: FirebaseFirestore.instance
                       .collection('users')
                       .doc(uid)
@@ -175,9 +163,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      //print("hasdata");
-                      //print(snapshot.data!.docs.length);
-
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -192,7 +177,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                     (documentSnapshot != null)
                                         ? (documentSnapshot["Player Name"])
                                         : "",
-                                    style: TextStyle(color: Colors.grey)),
+                                    style: const TextStyle(color: Colors.grey)),
                                 //color: ,
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
@@ -218,7 +203,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                 ));
                           }));
                     } else {
-                      return Text("something is wrong",
+                      return const Text("something is wrong",
                           style: TextStyle(color: Colors.amber));
                     }
                   }),
@@ -231,7 +216,8 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: TextFormField(
                           style: const TextStyle(
                               fontSize: 20.0,
@@ -277,7 +263,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       ),
                     ),
                     IconButton(
-                      color: Color.fromARGB(0, 198, 113, 113),
+                      color: const Color.fromARGB(0, 198, 113, 113),
                       splashRadius: 30,
                       //borderWidth: 1,
                       iconSize: 40,
@@ -290,8 +276,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       onPressed: () async {
                         final User? user = auth.currentUser;
                         final uid = user!.uid;
-                        //_playerList.add(_newPlayerName);
-                        //print(_playerList);
                         insertPlayerData(newTeamName, _newPlayerName, uid);
                         controllerPlayerName.clear();
                       },
@@ -300,19 +284,9 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                 ),
               ),
               ElevatedButton(
-                child: Text('Done'),
+                child: const Text('Done'),
                 onPressed: () async {
-                  getTeamSize(newTeamName,
-                      uid); /*.then(
-                    (value) {
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(uid)
-                          .collection('teams')
-                          .doc(newTeamName)
-                          .update({"Players": _playerList});*/
-                  //},
-                  //);
+                  getTeamSize(newTeamName, uid);
                   await Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

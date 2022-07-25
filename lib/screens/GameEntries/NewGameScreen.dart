@@ -10,12 +10,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-//import 'package:orbital_ultylitics/screens/NewLineScreen.dart';
-import 'package:orbital_ultylitics/screens/newLineScreen.dart';
+import 'package:orbital_ultylitics/screens/GameEntries/NewLineScreen.dart';
 
 class NewGameScreen extends StatefulWidget {
   const NewGameScreen({Key? key}) : super(key: key);
@@ -27,6 +23,7 @@ class NewGameScreen extends StatefulWidget {
 var numPlayers = 0;
 Future<void> insertPlayerData(
     final gameName, final newPlayerName, final uid) async {
+  // Creates a new player collection in Firebase
   CollectionReference usersCollectionRef =
       FirebaseFirestore.instance.collection('users');
   usersCollectionRef
@@ -73,6 +70,7 @@ Future<void> getNumPlayers(final uid, final myTeam) async {
 }
 
 Future<void> createGameData(
+    // Creates a new game collection in Firebase
     final uid,
     final gameName,
     final myTeam,
@@ -91,11 +89,7 @@ Future<void> createGameData(
     "Game Details": gameDetails,
     "Game Type": gameType
   });
-  /*usersCollectionRef.doc(uid).collection('teams').doc(myTeam).set({
-    "Teams": FieldValue.arrayUnion([newTeamName]), "My Score": 0, "Opponent Score": 0 
-  }, SetOptions(merge: true));*/
   List<String> myPlayers = [];
-  // = getPlayerNames(uid, myTeam, myPlayers);
   Future getPlayerNames(final uid, final myTeam) async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -118,9 +112,7 @@ Future<void> createGameData(
   });
 }
 
-// ignore: camel_case_types
 class _NewGameScreenState extends State<NewGameScreen> {
-  //final Globalkey<FormState> _formkeyValue=new
   late TextEditingController controllerOpponentName;
   String _opponentName = "";
   late TextEditingController controllerTournamentName;
@@ -128,8 +120,6 @@ class _NewGameScreenState extends State<NewGameScreen> {
   late TextEditingController controllerGameDetails;
   late TextEditingController controllerGameName;
   String _gameName = "";
-  //late List<DropdownMenuItem<String>>? offenseDefenceSelect = ['Offense', 'Defence'];
-  //var me = FirebaseFirestore.instance.collection('users').doc(uid);
   late var myTeams;
   String? myTeamSelect;
   String? myStartState;
@@ -142,7 +132,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
       context: context,
       builder: (context) => AlertDialog(title: Text('${error}'), actions: [
             TextButton(
-              child: Text('Okay'),
+              child: const Text('Okay'),
               onPressed: okay,
             )
           ]));
@@ -158,23 +148,10 @@ class _NewGameScreenState extends State<NewGameScreen> {
     controllerTournamentName = TextEditingController();
     controllerGameDetails = TextEditingController();
     controllerGameName = TextEditingController();
-    _opponentName = PageStorage.of(context)
-            ?.readState(context, identifier: ValueKey("storeOpponentName")) ??
+    _opponentName = PageStorage.of(context)?.readState(context,
+            identifier: const ValueKey("storeOpponentName")) ??
         "";
   }
-
-  /*Future getTeamDocs(String uid) async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
-        .instance
-        .collection('users')
-        .doc(uid)
-        .collection('teams')
-        .get();
-    setState(() {
-      myTeams =
-          List.from(querySnapshot.docs.map((doc) => doc.data()['Team Name']));
-    });
-  }*/
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
@@ -188,22 +165,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
   Widget build(BuildContext context) {
     final User? user = auth.currentUser;
     final uid = user!.uid;
-
-    //late var myTeams;
-    //var teamsData = getTeamDocs(uid);
-    /*(value) {
-      setState(() {
-        List<String> myTeams= List.from(value.data['Teams']);
-      });
-    });*/
-    //late var myTeams = FirebaseFirestore.instance.collection('users');
-    /*var teamsSnapshot = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('teams')
-        .snapshots();*/
     return Scaffold(
-      //backgroundColor: Colors.black,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -211,13 +173,8 @@ class _NewGameScreenState extends State<NewGameScreen> {
             alignment: Alignment.centerLeft,
             child: const Text("Create New Game")),
       ),
-      //elevation: 0,
-      body: //Form(
-          //key:_formkeyValue,
-          //autovalidateMode:true,
-          //child:
-          ListView(
-        key: PageStorageKey<String>('NewGameScreen'),
+      body: ListView(
+        key: const PageStorageKey<String>('NewGameScreen'),
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         children: <Widget>[
           Container(height: 15),
@@ -232,16 +189,17 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 size: 40,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText: "Enter Game Name",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
               labelText: "Game Name:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {
@@ -256,8 +214,9 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 color: Color.fromARGB(255, 46, 119, 179),
                 size: 40,
               ),
-              SizedBox(width: 17),
+              const SizedBox(width: 17),
               Expanded(
+                  // Dropdown view of list of all teams in user account
                   child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('users')
@@ -315,22 +274,23 @@ class _NewGameScreenState extends State<NewGameScreen> {
                 size: 40,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(const Radius.circular(15))),
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText: "Enter Opponents Name",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: const Color.fromARGB(255, 75, 75, 75)),
               labelText: "Opponents:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {
                 _opponentName = val;
                 PageStorage.of(context)?.writeState(context, _opponentName,
-                    identifier: ValueKey("storeOpponentName"));
+                    identifier: const ValueKey("storeOpponentName"));
               });
             },
           ),
@@ -339,13 +299,12 @@ class _NewGameScreenState extends State<NewGameScreen> {
               Transform.rotate(
                 angle: 90 * 3.141 / 180,
                 child: const Icon(
-                  Icons
-                      .compare_arrows, //flip_camera_android,//run_circle_outlined,
+                  Icons.compare_arrows,
                   color: Colors.grey,
                   size: 40,
                 ),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Expanded(
                 flex: 1,
                 child: DropdownButton<String>(
@@ -366,8 +325,9 @@ class _NewGameScreenState extends State<NewGameScreen> {
               Expanded(
                 flex: 1,
                 child: DropdownButton<String>(
+                    // Choosing Game Type
                     hint: const Text(
-                      "Game Stage", //gametype
+                      "Game Stage",
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
                     //isExpanded: true,
@@ -393,8 +353,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
           Row(
             children: [
               const Icon(
-                Icons
-                    .timer_outlined, //flip_camera_android,//run_circle_outlined,
+                Icons.timer_outlined,
                 color: Colors.grey,
                 size: 40,
               ),
@@ -459,11 +418,11 @@ class _NewGameScreenState extends State<NewGameScreen> {
             style: const TextStyle(color: Colors.limeAccent),
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.blue),
+                borderSide: const BorderSide(width: 2, color: Colors.blue),
                 borderRadius: BorderRadius.circular(15),
               ),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(const Radius.circular(15))),
               icon: const Icon(
                 Icons.format_list_bulleted_sharp,
                 color: Colors.grey,
@@ -472,9 +431,10 @@ class _NewGameScreenState extends State<NewGameScreen> {
               fillColor: const Color.fromRGBO(66, 165, 245, 1.0),
               hintText:
                   "Enter any game details (eg current weather, field conditions, wind direction)",
-              hintStyle: TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
+              hintStyle:
+                  const TextStyle(color: Color.fromARGB(255, 75, 75, 75)),
               labelText: "Comments:",
-              labelStyle: TextStyle(color: Colors.grey, fontSize: 20),
+              labelStyle: const TextStyle(color: Colors.grey, fontSize: 20),
             ),
             onChanged: (val) {
               setState(() {
@@ -485,9 +445,7 @@ class _NewGameScreenState extends State<NewGameScreen> {
           ElevatedButton(
             child: const Text('Create Game'),
             onPressed: () async {
-              //print(_opponentName);
-              //print(teamItems);
-              //print(myTeamSelect)
+              // Ensures the all data is provided before navigating to next widget
               if ((_gameName == null) ||
                   (numPlayers == null) ||
                   (myStartState == null) ||
@@ -500,8 +458,6 @@ class _NewGameScreenState extends State<NewGameScreen> {
 //INCLUDE THE BELOW 2 LINES TO SAVE GAME DATA
                 createGameData(uid, _gameName, myTeamSelect, _opponentName,
                     myStartState, _gameDetails, myGameType);
-                //numPlayers = snapshot.data!.docs.length;
-                //print("i have $numPlayers many players in the newgamescreen");
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -523,20 +479,6 @@ class _NewGameScreenState extends State<NewGameScreen> {
                   ),
                 );
               }
-
-              /*insertTeamData(newTeamName, uid, _playerList.length);
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(uid)
-                      .collection('teams')
-                      .doc(newTeamName)
-                      .update({"Players": _playerList});
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(index: 3),
-                    ),
-                  );*/
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith(
@@ -556,15 +498,3 @@ _dropdownItem(String item) {
       value: item,
       child: Text(item, style: const TextStyle(color: Colors.grey)));
 }
-/*{
-DropdownButton(
-  //isExpanded : true
-  items: items.map((itemsname){
-    value:itemsname,
-    child: Text(itemsname)
-    onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-  })
-)}*/

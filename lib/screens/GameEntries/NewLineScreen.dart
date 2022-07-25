@@ -1,12 +1,12 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:orbital_ultylitics/screens/GameEntries/StatTrackingScreen.dart';
 import 'package:orbital_ultylitics/screens/NavigationBarScreen.dart';
 //import 'package:orbital_ultylitics/screens/StatTrackingScreen.dart';
-import 'package:orbital_ultylitics/screens/stattrackingscreen.dart';
 
-import 'customWidget/RoundButtonTimerWidget.dart';
+import '../customWidget/RoundButtonTimerWidget.dart';
 
 class NewLineScreen extends StatefulWidget {
   //List<String> myPlayers;
@@ -24,7 +24,6 @@ class NewLineScreen extends StatefulWidget {
       {Key? key,
       required this.gameName,
       required this.numPlayers,
-      //required this.myPlayers,
       required this.uid,
       required this.newPointState,
       required this.myScore,
@@ -37,16 +36,16 @@ class NewLineScreen extends StatefulWidget {
 
   @override
   State<NewLineScreen> createState() => _NewLineScreenState(
-      numPlayers: this.numPlayers,
-      uid: this.uid,
-      gameName: this.gameName,
-      newPointState: this.newPointState,
-      myScore: this.myScore,
-      opponentScore: this.opponentScore,
-      myTeam: this.myTeam,
-      opponentTeam: this.opponentTeam,
-      timeLeft: this.timeLeft,
-      isPlaying: this.isPlaying);
+      numPlayers: numPlayers,
+      uid: uid,
+      gameName: gameName,
+      newPointState: newPointState,
+      myScore: myScore,
+      opponentScore: opponentScore,
+      myTeam: myTeam,
+      opponentTeam: opponentTeam,
+      timeLeft: timeLeft,
+      isPlaying: isPlaying);
 }
 
 class _NewLineScreenState extends State<NewLineScreen>
@@ -199,6 +198,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                         ))
                   ]),
                   StreamBuilder<QuerySnapshot>(
+                      // Creates List of the players available in team
                       stream: FirebaseFirestore.instance
                           .collection('users')
                           .doc(uid)
@@ -222,8 +222,8 @@ class _NewLineScreenState extends State<NewLineScreen>
                                     snapshot.data?.docs[index];
                                 //print('index $index');
                                 return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 2.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2.0),
                                     child: CheckboxListTile(
                                         controlAffinity:
                                             ListTileControlAffinity.trailing,
@@ -232,14 +232,14 @@ class _NewLineScreenState extends State<NewLineScreen>
                                                 ? (documentSnapshot[
                                                     "Player Name"])
                                                 : "",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color:
                                                     Colors.deepPurpleAccent)),
                                         value: isChecked[index],
                                         activeColor: Colors.orangeAccent,
                                         checkColor: Colors.limeAccent,
-                                        tileColor:
-                                            Color.fromARGB(255, 10, 52, 87),
+                                        tileColor: const Color.fromARGB(
+                                            255, 10, 52, 87),
                                         onChanged: (bool? value) {
                                           if (value != null) {
                                             setState(() {
@@ -252,7 +252,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                                         }));
                               }));
                         } else {
-                          return Text("something is wrong",
+                          return const Text("something is wrong",
                               style: TextStyle(color: Colors.amber));
                         }
                       }),
@@ -260,6 +260,7 @@ class _NewLineScreenState extends State<NewLineScreen>
                     clipBehavior: Clip.none,
                     child: const Text('Done Selecting Lineup'),
                     onPressed: () async {
+                      // Updates the Firebase Collections
                       var playersInstance = FirebaseFirestore.instance
                           .collection('users')
                           .doc(uid)
@@ -294,11 +295,12 @@ class _NewLineScreenState extends State<NewLineScreen>
                               myScore: myScore,
                               myTeam: myTeam,
                               opponentTeam: opponentTeam,
-                              timeLeft: controller.duration! *
-                                          controller.value ==
-                                      Duration(hours: 0, minutes: 0, seconds: 0)
-                                  ? timeLeft
-                                  : controller.duration! * controller.value,
+                              timeLeft:
+                                  controller.duration! * controller.value ==
+                                          const Duration(
+                                              hours: 0, minutes: 0, seconds: 0)
+                                      ? timeLeft
+                                      : controller.duration! * controller.value,
                               isPlaying: isPlaying,
                             ),
                           ),

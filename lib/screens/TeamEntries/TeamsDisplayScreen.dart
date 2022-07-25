@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:orbital_ultylitics/screens/CreateTeamScreen.dart';
+import 'package:orbital_ultylitics/screens/TeamEntries/CreateTeamScreen.dart';
 import 'package:orbital_ultylitics/screens/customWidget/TeamNameWidget.dart';
 
 class TeamsDisplayScreen extends StatefulWidget {
@@ -24,11 +24,10 @@ Future<void> insertTeamData(final uid, final _newTeamName) async {
     "Win Rate": 100,
     "Draws": 0,
   });
-  //DocumentSnapshot docSnap= await usersCollectionRef.doc().get();
-  //String teamDocID = docSnap.reference.documentID;
 }
 
 createAlertDialog(BuildContext context) {
+  //Creating dialog for text inputs
   String _newTeamName;
   TextEditingController controllerTeamName = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -62,6 +61,7 @@ createAlertDialog(BuildContext context) {
 }
 
 Future getDocs(String uid) async {
+  // Firebase Query for teams collection
   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
@@ -83,10 +83,7 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
         .doc(uid)
         .collection('teams')
         .snapshots();
-    //var teamsDataSnapshot = FirebaseFirestore.instance.collection('users').doc(uid).collection('teams').get();
     var teamsData = getDocs(uid);
-    //CollectionReference usersCollectionRef =
-    //FirebaseFirestore.instance.collection('teams');
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
@@ -111,9 +108,8 @@ class _TeamsDisplayScreenState extends State<TeamsDisplayScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //Expanded(child:
               StreamBuilder<QuerySnapshot>(
-                //https://www.youtube.com/watch?v=HDy0RKCj40Q
+                // Creating the list of all teams in user account
                 stream: FirebaseFirestore.instance
                     .collection('users')
                     .doc(uid)

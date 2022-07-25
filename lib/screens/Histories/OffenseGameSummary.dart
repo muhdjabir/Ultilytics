@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +20,7 @@ class OffenseGameSummaryScreen extends StatefulWidget {
 
   @override
   State<OffenseGameSummaryScreen> createState() =>
-      _OffenseGameSummaryScreenState(game: this.game, docID: this.docID);
+      _OffenseGameSummaryScreenState(game: game, docID: docID);
 }
 
 class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
@@ -27,8 +29,8 @@ class _OffenseGameSummaryScreenState extends State<OffenseGameSummaryScreen> {
   _OffenseGameSummaryScreenState({required this.game, required this.docID});
 
   Stream<QuerySnapshot> getPlayerStats() {
-    FirebaseAuth auth = FirebaseAuth
-        .instance; // Acquiring individual player statistics from this game
+    // Acquiring individual player statistics from this team
+    FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
     String uid = user!.uid;
     return FirebaseFirestore.instance

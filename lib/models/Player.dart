@@ -19,7 +19,24 @@ class Player {
   late final int touches;
   late final int pointsPlayed;
 
-  Player();
+  Player(
+      this.assists,
+      this.advantageousThrows,
+      this.catches,
+      this.totalThrows,
+      this.goalScored,
+      this.interception,
+      this.throwaways,
+      this.name,
+      this.noOfPulls,
+      this.plusMinus,
+      this.stalledOut,
+      this.averagePullTime,
+      this.obPulls,
+      this.averageDiscTime,
+      this.drops,
+      this.touches,
+      this.pointsPlayed);
 
   Map<String, dynamic> toJson() => {
         "Assists": assists,

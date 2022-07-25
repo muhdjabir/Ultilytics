@@ -1,8 +1,7 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 
 class PullerWidget extends StatefulWidget {
   PullerWidget(
@@ -22,12 +21,12 @@ class PullerWidget extends StatefulWidget {
   String myTeam;
   @override
   State<PullerWidget> createState() => _PullerWidgetState(
-      playerName: this.playerName,
-      playerStatus: this.playerStatus,
-      callbackFunction: this.callbackFunction,
-      uid: this.uid,
-      gameName: this.gameName,
-      myTeam: this.myTeam);
+      playerName: playerName,
+      playerStatus: playerStatus,
+      callbackFunction: callbackFunction,
+      uid: uid,
+      gameName: gameName,
+      myTeam: myTeam);
 }
 
 class _PullerWidgetState extends State<PullerWidget> {
@@ -64,13 +63,13 @@ class _PullerWidgetState extends State<PullerWidget> {
         height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 10, 52, 87),
+          color: const Color.fromARGB(255, 10, 52, 87),
         ),
         child: Row(
           children: [
             Container(
               width: 120,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(playerName,
                   style: const TextStyle(
                     fontSize: 30,
@@ -78,12 +77,12 @@ class _PullerWidgetState extends State<PullerWidget> {
                   )),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 9, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
                 child: Container(
                   child: ButtonBar(children: [
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("In Bounds"),
+                        child: const Text("In Bounds"),
                         onPressed: () {
                           playersInstance.doc(playerName).update(
                               {"Number of Pulls": FieldValue.increment(1)});
@@ -95,7 +94,7 @@ class _PullerWidgetState extends State<PullerWidget> {
                     ),
                     ButtonTheme(
                       child: ElevatedButton(
-                        child: Text("Out Bounds"),
+                        child: const Text("Out Bounds"),
                         onPressed: () {
                           playersInstance.doc(playerName).update({
                             "Number of Pulls": FieldValue.increment(1),
