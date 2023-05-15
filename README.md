@@ -1,12 +1,6 @@
 # Ultilytics-Orbital2022
-Team ID: 5226 
-Milestone I Submission
 
-Team Name:
-PSBros
-
-Proposed Level of Achievement:
-Apollo 11
+Complete Documentation: https://docs.google.com/document/d/1vF7ZHm-PJaHFip4XTaZXBizEDc7PjvtzyzqgfEZQNrQ/edit?usp=sharing
 
 Motivation
 As athletes, it is natural for Ultimate players to desire to improve their game and excel in the sport that they pour tons of hours and effort into. However, to actually track their improvement, objectivity is an important aspect of fully realising your potential and providing solid and constructive direction as to which direction an individual should move toward.
