@@ -22,10 +22,12 @@ As a coach I want to be able to efficiently keep track of game stats to be easil
 As a player/coach I would like to be able to track and view the records of my previous games from any mobile device.
 
 ## Tech Stack
-Flutter (Frontend)
-Firebase (Backend & Database)
-Stores data as one large JSON tree
-Dart (Programming Language)
+|Component| Choice|
+|---|---|
+|Frontend | Flutter|
+|Backend/Database | Firebase|
+|Tool | Android Studio|
+|Language | Dart |
 
 ## Justification for Tech Stack
 Flutter & Dart
